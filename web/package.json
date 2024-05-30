@@ -30,6 +30,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^5.2.1",
     "react-tooltip": "^5.26.4",
+    "recharts": "^2.12.7",
     "tippy.js": "^6.3.7",
     "validator": "^13.12.0"
   },
