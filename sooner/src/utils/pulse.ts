@@ -9,15 +9,11 @@ interface Props {
 export const sendPulse = async ({ api_key, payload }: Props) => {
   if (api_key) {
     try {
-      const { data } = await axios.post(
-        "http://localhost:1716/pulses",
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${api_key}`,
-          },
-        }
-      );
+      await axios.post("http://localhost:1716/v1/pulses", payload, {
+        headers: {
+          Authorization: `Bearer ${api_key}`,
+        },
+      });
     } catch (error) {
       console.error("Error sending pulse:", error);
     }
