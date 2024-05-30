@@ -88,6 +88,8 @@ export async function activate(context: vscode.ExtensionContext) {
         stopTracking();
         updateStatusBarText();
 
+        console.log({ path: getProjectPath() });
+
         const payload = {
           path: getFilePath(),
           time: totalCodingTime,
@@ -97,6 +99,7 @@ export async function activate(context: vscode.ExtensionContext) {
           os: os.type(),
           hostname: os.hostname(),
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          editor: "VS Code",
         };
 
         // eslint-disable-next-line @typescript-eslint/naming-convention
