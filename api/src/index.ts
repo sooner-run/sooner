@@ -21,7 +21,7 @@ app.get("/", (c) => {
 });
 
 app.use("/app/*", userAuthMiddleware);
-app.use("/pulse", authMiddleware);
+app.use("/*", authMiddleware);
 
 app.route("/", router);
 app.route("/auth", auth);
