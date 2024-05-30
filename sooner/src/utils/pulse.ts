@@ -10,7 +10,7 @@ export const sendPulse = async ({ api_key, payload }: Props) => {
   if (api_key) {
     try {
       const { data } = await axios.post(
-        "http://localhost:1716/pulse",
+        "http://localhost:1716/pulses",
         payload,
         {
           headers: {
