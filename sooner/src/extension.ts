@@ -99,6 +99,7 @@ export async function activate(context: vscode.ExtensionContext) {
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         };
 
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         sendPulse({ api_key: apiKey!, payload });
       }, debounceTime);
     }
