@@ -4,5 +4,5 @@ import { retrieve_all_pulses } from "./controllers/pulse/retrieve_all_pulses";
 
 export const router = new Hono();
 
-router.post("/pulse", create_pulse);
+router.post("/pulses", create_pulse);
 router.get("/pulses", retrieve_all_pulses);
