@@ -7,11 +7,10 @@ export const create_pulse = async (c: Context) => {
     const user_id = c.get("user_id");
     const body = await c.req.json();
 
-    console.log(body);
-
-    // await db.insert(pulses).values({
-    //   ...body,
-    // });
+    await db.insert(pulses).values({
+      user_id,
+      ...body,
+    });
     return c.json({ message: "Pulse created.", user_id }, 201);
   } catch (error) {
     return c.json({ message: "Something went wrong." }, 500);
