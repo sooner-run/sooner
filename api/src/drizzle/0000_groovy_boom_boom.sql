@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS "users" (
+	"id" text PRIMARY KEY DEFAULT '4e7fa268-8bd4-4929-8c53-64a93de519bd' NOT NULL,
+	"username" text,
+	"password" text,
+	"avatar" text,
+	"github" text,
+	"twitter" text,
+	"website" text,
+	"email" text NOT NULL,
+	"created_at" timestamp DEFAULT now(),
+	"updated_at" timestamp DEFAULT now(),
+	"otp" text,
+	"otp_expires_at" timestamp,
+	"display_name" text,
+	"is_profile_public" boolean DEFAULT false,
+	"display_codetime_publicly" boolean DEFAULT false,
+	CONSTRAINT "users_id_unique" UNIQUE("id"),
+	CONSTRAINT "users_username_unique" UNIQUE("username"),
+	CONSTRAINT "users_email_unique" UNIQUE("email")
+);
