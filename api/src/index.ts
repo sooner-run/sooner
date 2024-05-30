@@ -20,7 +20,7 @@ app.get("/", (c) => {
   return c.json({ message: "Yoo, bitches!!!!" });
 });
 
-app.use("/app", userAuthMiddleware);
+app.use("/app/*", userAuthMiddleware);
 app.use("/pulse", authMiddleware);
 
 app.route("/", router);
