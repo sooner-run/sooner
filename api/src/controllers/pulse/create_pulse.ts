@@ -5,7 +5,10 @@ import { db } from "../../db";
 export const create_pulse = async (c: Context) => {
   try {
     const user_id = c.get("user_id");
-    // const body = await c.req.json();
+    const body = await c.req.json();
+
+    console.log(body);
+
     // await db.insert(pulses).values({
     //   ...body,
     // });
