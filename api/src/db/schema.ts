@@ -32,7 +32,7 @@ export const users = pgTable("users", {
 
 export const pulses = pgTable("pulses", {
   id: uuid("id").primaryKey().defaultRandom(),
-  user_id: text("user_id").references(() => users.id),
+  user_id: uuid("user_id").references(() => users.id),
   time: integer("time").notNull(),
   project: text("project").default("unknown"),
   branch: text("branch"),
