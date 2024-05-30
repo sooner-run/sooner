@@ -8,7 +8,6 @@ interface Props {
 
 export const sendPulse = async ({ api_key, payload }: Props) => {
   if (api_key) {
-    console.log(payload);
     try {
       const { data } = await axios.post(
         "http://localhost:1716/pulse",
@@ -19,8 +18,6 @@ export const sendPulse = async ({ api_key, payload }: Props) => {
           },
         }
       );
-
-      console.log(data);
     } catch (error) {
       console.error("Error sending pulse:", error);
     }
