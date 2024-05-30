@@ -9,13 +9,15 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "*"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "sooner.helloWorld",
-        "title": "Hello World"
+        "title": "Sooner Delete API Key",
+        "command": "sooner.clearApiKey"
       }
     ]
   },
