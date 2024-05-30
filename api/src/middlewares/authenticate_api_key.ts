@@ -4,15 +4,14 @@ import { users } from "../db/schema";
 import { eq } from "drizzle-orm";
 
 export const authMiddleware: MiddlewareHandler = async (c: Context, next) => {
-  const authHeader = c.req.raw.headers.get("Authorization");
-
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return c.json({ message: "Unauthorized: No token provided" }, 401);
-  }
-
-  const token = authHeader.split(" ")[1];
-
   try {
+    const authHeader = c.req.raw.headers.get("Authorization");
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return c.json({ message: "Unauthorized: No token provided" }, 401);
+    }
+
+    const token = authHeader.split(" ")[1];
     const [user] = await db
       .select()
       .from(users)
