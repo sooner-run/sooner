@@ -10,6 +10,7 @@ let totalCodingTime = 0;
 let activityTimeout = null;
 let statusBar;
 let apiKey;
+let currentFilePath = null; // Track the current file path
 const debounceTime = 5 * 1000; // 5 seconds in milliseconds
 const startTracking = () => {
     if (!apiKey) {
@@ -37,16 +38,12 @@ const getProjectPath = () => {
         ? workspaceFolders[0].uri.fsPath
         : null;
 };
-const sendPulseData = async () => {
+const sendPulseData = async (path, duration) => {
     if (!apiKey)
         return;
-    const codingEndTime = Date.now();
-    const pulseTime = codingStartTime ? codingEndTime - codingStartTime : 0;
-    stopTracking();
-    updateStatusBarText();
     const payload = {
-        path: getFilePath(),
-        time: pulseTime,
+        path: path,
+        time: duration,
         branch: await (0, branch_1.getCurrentBranch)(getProjectPath()),
         project: vscode.workspace.name || null,
         language: vscode.window.activeTextEditor?.document.languageId || null,
@@ -82,6 +79,17 @@ async function activate(context) {
     statusBar.show();
     context.subscriptions.push(statusBar);
     const onDidChangeTextDocument = vscode.workspace.onDidChangeTextDocument(async () => {
+        const newFilePath = getFilePath();
+        if (currentFilePath && currentFilePath !== newFilePath) {
+            // If switching files, send the pulse for the previous file
+            if (codingStartTime) {
+                const codingEndTime = Date.now();
+                const pulseTime = codingEndTime - codingStartTime;
+                await sendPulseData(currentFilePath, pulseTime);
+            }
+            codingStartTime = Date.now(); // Reset the start time for the new file
+        }
+        currentFilePath = newFilePath; // Update the current file path
         startTracking();
         if (!apiKey) {
             return;
@@ -90,7 +98,11 @@ async function activate(context) {
             clearTimeout(activityTimeout);
         }
         activityTimeout = setTimeout(async () => {
-            await sendPulseData();
+            if (currentFilePath) {
+                await sendPulseData(currentFilePath, Date.now() - codingStartTime);
+                stopTracking(); // Reset tracking after sending pulse
+                updateStatusBarText();
+            }
         }, debounceTime);
     });
     const statusBarClick = vscode.commands.registerCommand("sooner.clickStatusBar", () => {
