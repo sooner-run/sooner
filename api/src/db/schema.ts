@@ -41,6 +41,6 @@ export const pulses = pgTable("pulses", {
   os: text("os").default("unknown"),
   hostname: text("hostname").default("unknown"),
   timezone: text("timezone"),
-  editor: text("editor").default("vs code"),
+  editor: text("editor").notNull(),
   created_at: date("created_at").defaultNow(),
 });
