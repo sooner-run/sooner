@@ -12,6 +12,78 @@ let apiKey: string | undefined;
 
 const debounceTime = 5 * 1000; // 5 seconds in milliseconds
 
+const startTracking = () => {
+  if (!apiKey) {
+    return;
+  }
+  if (!codingStartTime) {
+    codingStartTime = Date.now();
+  }
+};
+
+const stopTracking = () => {
+  if (codingStartTime) {
+    const codingEndTime = Date.now();
+    const codingDuration = codingEndTime - codingStartTime;
+    totalCodingTime += codingDuration;
+    codingStartTime = null;
+  }
+};
+
+const getFilePath = () => {
+  const activeEditor = vscode.window.activeTextEditor;
+  return activeEditor ? activeEditor.document.uri.fsPath : null;
+};
+
+const getProjectPath = () => {
+  const workspaceFolders = vscode.workspace.workspaceFolders;
+  return workspaceFolders && workspaceFolders.length > 0
+    ? workspaceFolders[0].uri.fsPath
+    : null;
+};
+
+const sendPulseData = async () => {
+  if (!apiKey) {
+    return;
+  }
+
+  stopTracking();
+  updateStatusBarText();
+
+  const payload = {
+    path: getFilePath(),
+    time: codingStartTime ? Date.now() - codingStartTime : 0,
+    branch: await getCurrentBranch(getProjectPath()!),
+    project: vscode.workspace.name || null,
+    language: vscode.window.activeTextEditor?.document.languageId || null,
+    os: os.type(),
+    hostname: os.hostname(),
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    editor: "VS Code",
+  };
+
+  try {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    await sendPulse({ api_key: apiKey, payload });
+  } catch (error) {
+    console.error("Error sending pulse:", error);
+  }
+};
+
+const updateStatusBarText = () => {
+  if (apiKey) {
+    const hours = Math.floor(totalCodingTime / 3600000);
+    const minutes = Math.floor((totalCodingTime % 3600000) / 60000);
+    const seconds = Math.floor((totalCodingTime % 60000) / 1000);
+
+    statusBar.text = `Coding time: ${hours}h ${minutes}m ${seconds}s`;
+    statusBar.tooltip = "";
+  } else {
+    statusBar.text = "Activate Sooner";
+    statusBar.tooltip = "Click to enter API key";
+  }
+};
+
 export async function activate(context: vscode.ExtensionContext) {
   statusBar = vscode.window.createStatusBarItem(
     vscode.StatusBarAlignment.Right,
@@ -20,57 +92,9 @@ export async function activate(context: vscode.ExtensionContext) {
 
   apiKey = context.workspaceState.get("apiKey");
 
-  const updateStatusBarText = () => {
-    if (apiKey) {
-      const hours = Math.floor(totalCodingTime / 3600000);
-      const minutes = Math.floor((totalCodingTime % 3600000) / 60000);
-      const seconds = Math.floor((totalCodingTime % 60000) / 1000);
-
-      statusBar.text = `Coding time: ${hours}h ${minutes}m ${seconds}s`;
-      statusBar.tooltip = "";
-    } else {
-      statusBar.text = "Activate Sooner";
-      statusBar.tooltip = "Click to enter API key";
-    }
-  };
-
   updateStatusBarText();
   statusBar.show();
   context.subscriptions.push(statusBar);
-
-  const startTracking = () => {
-    if (!apiKey) {
-      return;
-    }
-    if (!codingStartTime) {
-      codingStartTime = Date.now();
-    }
-  };
-
-  const stopTracking = () => {
-    if (codingStartTime) {
-      const codingEndTime = Date.now();
-      const codingDuration = codingEndTime - codingStartTime;
-      totalCodingTime += codingDuration;
-      codingStartTime = null;
-    }
-  };
-
-  const getFilePath = () => {
-    const activeEditor = vscode.window.activeTextEditor;
-    if (activeEditor) {
-      return activeEditor.document.uri.fsPath;
-    }
-    return null;
-  };
-
-  const getProjectPath = () => {
-    const workspaceFolders = vscode.workspace.workspaceFolders;
-    if (workspaceFolders && workspaceFolders.length > 0) {
-      return workspaceFolders[0].uri.fsPath;
-    }
-    return null;
-  };
 
   const onDidChangeTextDocument = vscode.workspace.onDidChangeTextDocument(
     async () => {
@@ -85,43 +109,8 @@ export async function activate(context: vscode.ExtensionContext) {
       }
 
       activityTimeout = setTimeout(async () => {
-        stopTracking();
-        updateStatusBarText();
-
-        const payload = {
-          path: getFilePath(),
-          time: totalCodingTime,
-          branch: await getCurrentBranch(getProjectPath()!),
-          project: vscode.workspace.name || null,
-          language: vscode.window.activeTextEditor?.document.languageId || null,
-          os: os.type(),
-          hostname: os.hostname(),
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          editor: "VS Code",
-        };
-
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        sendPulse({ api_key: apiKey!, payload });
+        await sendPulseData();
       }, debounceTime);
-    }
-  );
-
-  const startTrackingCommand = vscode.commands.registerCommand(
-    "sooner.startTracking",
-    () => {
-      vscode.window.showInformationMessage("Started tracking coding time.");
-      updateStatusBarText();
-    }
-  );
-
-  const stopTrackingCommand = vscode.commands.registerCommand(
-    "sooner.stopTracking",
-    () => {
-      stopTracking();
-      vscode.window.showInformationMessage(
-        `Total coding time: ${(totalCodingTime / 1000).toFixed(0)} seconds.`
-      );
-      updateStatusBarText();
     }
   );
 
@@ -165,17 +154,11 @@ export async function activate(context: vscode.ExtensionContext) {
 
   statusBar.command = "sooner.clickStatusBar";
 
-  context.subscriptions.push(startTrackingCommand);
-  context.subscriptions.push(stopTrackingCommand);
   context.subscriptions.push(onDidChangeTextDocument);
   context.subscriptions.push(statusBarClick);
   context.subscriptions.push(clearApiKeyCommand);
 }
 
 export function deactivate() {
-  if (codingStartTime) {
-    const codingEndTime = Date.now();
-    const codingDuration = codingEndTime - codingStartTime;
-    totalCodingTime += codingDuration;
-  }
+  stopTracking();
 }
