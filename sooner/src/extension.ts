@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import * as vscode from "vscode";
 import { getCurrentBranch } from "./utils/branch";
 import { sendPulse } from "./utils/pulse";
 import * as os from "os";
-import request from "./configs/axios";
+import { request } from "./configs/axios";
 
 let codingStartTime: number | null = null;
 let totalCodingTime: number = 0;
@@ -62,7 +63,7 @@ const sendPulseData = async (path: string, duration: number) => {
   };
 
   try {
-    await sendPulse({ payload });
+    await sendPulse({ payload, api_key: apiKey });
   } catch (error) {
     console.error("Error sending pulse:", error);
   }
@@ -90,6 +91,9 @@ const fetchCodingTime = async () => {
   try {
     const response = await request("/codetime-today");
     const { time } = response.data;
+    console.log("------------------------------------------------");
+    console.log(response);
+    console.log("------------------------------------------------");
     totalCodingTime = time;
     updateStatusBarText();
   } catch (error) {

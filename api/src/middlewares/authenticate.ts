@@ -21,7 +21,7 @@ export const authMiddleware: MiddlewareHandler = async (c: Context, next) => {
       .where(eq(users.api_key, token!));
 
     if (token && !user) {
-      return c.json({ message: "Invalid API key" });
+      return c.json({ message: "Invalid API key" }, 400);
     }
 
     let decoded;
