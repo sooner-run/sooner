@@ -88,8 +88,6 @@ export async function activate(context: vscode.ExtensionContext) {
         stopTracking();
         updateStatusBarText();
 
-        console.log({ path: getProjectPath() });
-
         const payload = {
           path: getFilePath(),
           time: totalCodingTime,
