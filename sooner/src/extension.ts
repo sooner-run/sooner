@@ -10,6 +10,8 @@ let activityTimeout: NodeJS.Timeout | null = null;
 let statusBar: vscode.StatusBarItem;
 let apiKey: string | undefined;
 
+let currentFilePath: string | null = null; // Track the current file path
+
 const debounceTime = 5 * 1000; // 5 seconds in milliseconds
 
 const startTracking = () => {
@@ -42,18 +44,12 @@ const getProjectPath = () => {
     : null;
 };
 
-const sendPulseData = async () => {
+const sendPulseData = async (path: string, duration: number) => {
   if (!apiKey) return;
 
-  const codingEndTime = Date.now();
-  const pulseTime = codingStartTime ? codingEndTime - codingStartTime : 0;
-
-  stopTracking();
-  updateStatusBarText();
-
   const payload = {
-    path: getFilePath(),
-    time: pulseTime,
+    path: path,
+    time: duration,
     branch: await getCurrentBranch(getProjectPath()!),
     project: vscode.workspace.name || null,
     language: vscode.window.activeTextEditor?.document.languageId || null,
@@ -98,6 +94,17 @@ export async function activate(context: vscode.ExtensionContext) {
 
   const onDidChangeTextDocument = vscode.workspace.onDidChangeTextDocument(
     async () => {
+      const newFilePath = getFilePath();
+      if (currentFilePath && currentFilePath !== newFilePath) {
+        // If switching files, send the pulse for the previous file
+        if (codingStartTime) {
+          const codingEndTime = Date.now();
+          const pulseTime = codingEndTime - codingStartTime;
+          await sendPulseData(currentFilePath, pulseTime);
+        }
+        codingStartTime = Date.now(); // Reset the start time for the new file
+      }
+      currentFilePath = newFilePath; // Update the current file path
       startTracking();
 
       if (!apiKey) {
@@ -109,7 +116,11 @@ export async function activate(context: vscode.ExtensionContext) {
       }
 
       activityTimeout = setTimeout(async () => {
-        await sendPulseData();
+        if (currentFilePath) {
+          await sendPulseData(currentFilePath, Date.now() - codingStartTime!);
+          stopTracking(); // Reset tracking after sending pulse
+          updateStatusBarText();
+        }
       }, debounceTime);
     }
   );
