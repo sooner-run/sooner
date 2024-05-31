@@ -10,7 +10,7 @@ export const create_pulse = async (c: Context) => {
     await db.insert(pulses).values({
       user_id,
       ...body,
-      path: body.path.replace("\\", "/"),
+      path: body.path.replaceAll("\\", "/"),
     });
     return c.json({ message: "Pulse created." }, 201);
   } catch (error) {
