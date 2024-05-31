@@ -20,6 +20,7 @@ export const retrieve_projects = async (c: Context) => {
       ...p,
       time: Number(p.time),
       time_human_readable: time_to_human(Number(p.time)),
+      url: `/projects/${p.project}`,
     }));
 
     return c.json(_projects, 200);
