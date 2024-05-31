@@ -38,14 +38,15 @@ const getProjectPath = () => {
         : null;
 };
 const sendPulseData = async () => {
-    if (!apiKey) {
+    if (!apiKey)
         return;
-    }
+    const codingEndTime = Date.now();
+    const pulseTime = codingStartTime ? codingEndTime - codingStartTime : 0;
     stopTracking();
     updateStatusBarText();
     const payload = {
         path: getFilePath(),
-        time: codingStartTime ? Date.now() - codingStartTime : 0,
+        time: pulseTime,
         branch: await (0, branch_1.getCurrentBranch)(getProjectPath()),
         project: vscode.workspace.name || null,
         language: vscode.window.activeTextEditor?.document.languageId || null,
@@ -55,7 +56,6 @@ const sendPulseData = async () => {
         editor: "VS Code",
     };
     try {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         await (0, pulse_1.sendPulse)({ api_key: apiKey, payload });
     }
     catch (error) {
