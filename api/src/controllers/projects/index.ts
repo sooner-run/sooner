@@ -26,9 +26,10 @@ export const retrieve_projects = async (c: Context) => {
     const _projects = projects.map((p) => ({
       ...p,
       time: Number(p.time),
+      time_human_readable: time_to_human(Number(p.time)),
     }));
 
-    return c.json([_projects], 200);
+    return c.json(_projects, 200);
   } catch (error) {
     console.log(error);
     return c.json({ message: "Something went wrong." }, 500);
