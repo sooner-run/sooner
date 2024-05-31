@@ -24,9 +24,13 @@ export const authMiddleware: MiddlewareHandler = async (c: Context, next) => {
       return c.json({ message: "Invalid API key" });
     }
 
-    const decoded = verify(auth_token!, process.env.JWT_SECRET!) as {
-      id: string;
-    };
+    let decoded;
+
+    if (!authHeader) {
+      decoded = verify(auth_token!, process.env.JWT_SECRET!) as {
+        id: string;
+      };
+    }
 
     c.set("user_id", user?.id || decoded?.id);
     await next();
