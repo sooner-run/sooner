@@ -1,6 +1,5 @@
 import {
   boolean,
-  date,
   integer,
   pgTable,
   text,
@@ -42,5 +41,5 @@ export const pulses = pgTable("pulses", {
   hostname: text("hostname").default("unknown"),
   timezone: text("timezone"),
   editor: text("editor").notNull(),
-  created_at: date("created_at").defaultNow(),
+  created_at: timestamp("created_at").defaultNow(),
 });
