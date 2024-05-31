@@ -43,16 +43,17 @@ const getProjectPath = () => {
 };
 
 const sendPulseData = async () => {
-  if (!apiKey) {
-    return;
-  }
+  if (!apiKey) return;
+
+  const codingEndTime = Date.now();
+  const pulseTime = codingStartTime ? codingEndTime - codingStartTime : 0;
 
   stopTracking();
   updateStatusBarText();
 
   const payload = {
     path: getFilePath(),
-    time: codingStartTime ? Date.now() - codingStartTime : 0,
+    time: pulseTime,
     branch: await getCurrentBranch(getProjectPath()!),
     project: vscode.workspace.name || null,
     language: vscode.window.activeTextEditor?.document.languageId || null,
@@ -63,7 +64,6 @@ const sendPulseData = async () => {
   };
 
   try {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     await sendPulse({ api_key: apiKey, payload });
   } catch (error) {
     console.error("Error sending pulse:", error);
