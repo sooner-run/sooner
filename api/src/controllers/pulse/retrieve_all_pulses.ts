@@ -8,7 +8,7 @@ export const retrieve_all_pulses = async (c: Context) => {
     const _pulses = await db
       .select()
       .from(pulses)
-      .where(eq(pulses.user_id, c.get("auth.user_id")));
+      .where(eq(pulses.user_id, c.get("user_id")));
 
     return c.json({ pulses: _pulses }, 200);
   } catch (error) {
