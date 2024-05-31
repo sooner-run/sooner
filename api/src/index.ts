@@ -6,8 +6,8 @@ import { router as auth } from "./routes.auth";
 import { router as app_routes } from "./routes.app";
 import { router } from "./routes";
 import env from "dotenv";
-import { authMiddleware } from "./middlewares/authenticate_api_key";
-import { userAuthMiddleware } from "./middlewares/authenticate_user";
+import { authMiddleware } from "./middlewares/authenticate";
+import { userAuthMiddleware } from "./middlewares/authenticate_app_user";
 
 env.config();
 
