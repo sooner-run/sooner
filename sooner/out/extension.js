@@ -5,12 +5,13 @@ const vscode = require("vscode");
 const branch_1 = require("./utils/branch");
 const pulse_1 = require("./utils/pulse");
 const os = require("os");
+const axios_1 = require("./configs/axios");
 let codingStartTime = null;
 let totalCodingTime = 0;
 let activityTimeout = null;
 let statusBar;
 let apiKey;
-let currentFilePath = null; // Track the current file path
+let currentFilePath = null;
 const debounceTime = 5 * 1000; // 5 seconds in milliseconds
 const startTracking = () => {
     if (!apiKey) {
@@ -39,8 +40,9 @@ const getProjectPath = () => {
         : null;
 };
 const sendPulseData = async (path, duration) => {
-    if (!apiKey)
+    if (!apiKey) {
         return;
+    }
     const payload = {
         path: path,
         time: duration,
@@ -53,7 +55,7 @@ const sendPulseData = async (path, duration) => {
         editor: "VS Code",
     };
     try {
-        await (0, pulse_1.sendPulse)({ api_key: apiKey, payload });
+        await (0, pulse_1.sendPulse)({ payload });
     }
     catch (error) {
         console.error("Error sending pulse:", error);
@@ -72,9 +74,26 @@ const updateStatusBarText = () => {
         statusBar.tooltip = "Click to enter API key";
     }
 };
+const fetchCodingTime = async () => {
+    if (!apiKey) {
+        return;
+    }
+    try {
+        const response = await (0, axios_1.default)("/codetime-today");
+        const { time } = response.data;
+        totalCodingTime = time;
+        updateStatusBarText();
+    }
+    catch (error) {
+        console.error("Error fetching coding time:", error);
+    }
+};
 async function activate(context) {
     statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
     apiKey = context.workspaceState.get("apiKey");
+    if (apiKey) {
+        await fetchCodingTime();
+    }
     updateStatusBarText();
     statusBar.show();
     context.subscriptions.push(statusBar);
@@ -107,7 +126,6 @@ async function activate(context) {
     });
     const statusBarClick = vscode.commands.registerCommand("sooner.clickStatusBar", () => {
         if (apiKey) {
-            // Open an external link using the stored API key
             vscode.env.openExternal(vscode.Uri.parse(`https://example.com?key=${apiKey}`));
         }
         else {
@@ -126,7 +144,6 @@ async function activate(context) {
         }
     });
     const clearApiKeyCommand = vscode.commands.registerCommand("sooner.clearApiKey", () => {
-        // Clear the API key from the workspace state
         context.workspaceState.update("apiKey", undefined);
         apiKey = undefined;
         vscode.window.showInformationMessage("API key deleted successfully.");
