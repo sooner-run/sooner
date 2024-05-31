@@ -71,7 +71,6 @@ async function activate(context) {
         activityTimeout = setTimeout(async () => {
             stopTracking();
             updateStatusBarText();
-            console.log({ path: getProjectPath() });
             const payload = {
                 path: getFilePath(),
                 time: totalCodingTime,
