@@ -3,6 +3,14 @@ import { db } from "../../db";
 import { pulses } from "../../db/schema";
 import { eq, max, sum } from "drizzle-orm";
 
+const time_to_human = (time: number) => {
+  const hours = Math.floor(time / 3600000);
+  const minutes = Math.floor((time % 3600000) / 60000);
+  const seconds = Math.floor((time % 60000) / 1000);
+
+  return `${hours}h ${minutes}m ${seconds}s`;
+};
+
 export const retrieve_projects = async (c: Context) => {
   try {
     const projects = await db
@@ -15,7 +23,12 @@ export const retrieve_projects = async (c: Context) => {
       .groupBy(pulses.project)
       .where(eq(pulses.user_id, c.get("user_id")));
 
-    return c.json(projects, 200);
+    const _projects = projects.map((p) => ({
+      ...p,
+      time: Number(p.time),
+    }));
+
+    return c.json([_projects], 200);
   } catch (error) {
     console.log(error);
     return c.json({ message: "Something went wrong." }, 500);
