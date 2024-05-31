@@ -2,14 +2,7 @@ import { Context } from "hono";
 import { db } from "../../db";
 import { pulses } from "../../db/schema";
 import { eq, max, sum } from "drizzle-orm";
-
-const time_to_human = (time: number) => {
-  const hours = Math.floor(time / 3600000);
-  const minutes = Math.floor((time % 3600000) / 60000);
-  const seconds = Math.floor((time % 60000) / 1000);
-
-  return `${hours}h ${minutes}m ${seconds}s`;
-};
+import { time_to_human } from "../../utils/time_to_human";
 
 export const retrieve_projects = async (c: Context) => {
   try {
