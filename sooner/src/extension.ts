@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import * as vscode from "vscode";
 import { getCurrentBranch } from "./utils/branch";
 import { sendPulse } from "./utils/pulse";
 import * as os from "os";
-import { request } from "./configs/axios";
 
 let codingStartTime: number | null = null;
 let totalCodingTime: number = 0;
@@ -11,7 +9,6 @@ let activityTimeout: NodeJS.Timeout | null = null;
 
 let statusBar: vscode.StatusBarItem;
 let apiKey: string | undefined;
-let currentFilePath: string | null = null;
 
 const debounceTime = 5 * 1000; // 5 seconds in milliseconds
 
@@ -45,14 +42,18 @@ const getProjectPath = () => {
     : null;
 };
 
-const sendPulseData = async (path: string, duration: number) => {
-  if (!apiKey) {
-    return;
-  }
+const sendPulseData = async () => {
+  if (!apiKey) return;
+
+  const codingEndTime = Date.now();
+  const pulseTime = codingStartTime ? codingEndTime - codingStartTime : 0;
+
+  stopTracking();
+  updateStatusBarText();
 
   const payload = {
-    path: path,
-    time: duration,
+    path: getFilePath(),
+    time: pulseTime,
     branch: await getCurrentBranch(getProjectPath()!),
     project: vscode.workspace.name || null,
     language: vscode.window.activeTextEditor?.document.languageId || null,
@@ -63,7 +64,7 @@ const sendPulseData = async (path: string, duration: number) => {
   };
 
   try {
-    await sendPulse({ payload, api_key: apiKey });
+    await sendPulse({ api_key: apiKey, payload });
   } catch (error) {
     console.error("Error sending pulse:", error);
   }
@@ -83,24 +84,6 @@ const updateStatusBarText = () => {
   }
 };
 
-const fetchCodingTime = async () => {
-  if (!apiKey) {
-    return;
-  }
-
-  try {
-    const response = await request("/codetime-today");
-    const { time } = response.data;
-    console.log("------------------------------------------------");
-    console.log(response);
-    console.log("------------------------------------------------");
-    totalCodingTime = time;
-    updateStatusBarText();
-  } catch (error) {
-    console.error("Error fetching coding time:", error);
-  }
-};
-
 export async function activate(context: vscode.ExtensionContext) {
   statusBar = vscode.window.createStatusBarItem(
     vscode.StatusBarAlignment.Right,
@@ -109,27 +92,12 @@ export async function activate(context: vscode.ExtensionContext) {
 
   apiKey = context.workspaceState.get("apiKey");
 
-  if (apiKey) {
-    await fetchCodingTime();
-  }
-
   updateStatusBarText();
   statusBar.show();
   context.subscriptions.push(statusBar);
 
   const onDidChangeTextDocument = vscode.workspace.onDidChangeTextDocument(
     async () => {
-      const newFilePath = getFilePath();
-      if (currentFilePath && currentFilePath !== newFilePath) {
-        // If switching files, send the pulse for the previous file
-        if (codingStartTime) {
-          const codingEndTime = Date.now();
-          const pulseTime = codingEndTime - codingStartTime;
-          await sendPulseData(currentFilePath, pulseTime);
-        }
-        codingStartTime = Date.now(); // Reset the start time for the new file
-      }
-      currentFilePath = newFilePath; // Update the current file path
       startTracking();
 
       if (!apiKey) {
@@ -141,11 +109,7 @@ export async function activate(context: vscode.ExtensionContext) {
       }
 
       activityTimeout = setTimeout(async () => {
-        if (currentFilePath) {
-          await sendPulseData(currentFilePath, Date.now() - codingStartTime!);
-          stopTracking(); // Reset tracking after sending pulse
-          updateStatusBarText();
-        }
+        await sendPulseData();
       }, debounceTime);
     }
   );
@@ -154,6 +118,7 @@ export async function activate(context: vscode.ExtensionContext) {
     "sooner.clickStatusBar",
     () => {
       if (apiKey) {
+        // Open an external link using the stored API key
         vscode.env.openExternal(
           vscode.Uri.parse(`https://example.com?key=${apiKey}`)
         );
@@ -179,6 +144,7 @@ export async function activate(context: vscode.ExtensionContext) {
   const clearApiKeyCommand = vscode.commands.registerCommand(
     "sooner.clearApiKey",
     () => {
+      // Clear the API key from the workspace state
       context.workspaceState.update("apiKey", undefined);
       apiKey = undefined;
       vscode.window.showInformationMessage("API key deleted successfully.");
