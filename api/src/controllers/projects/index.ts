@@ -15,6 +15,10 @@ export const retrieve_projects = async (c: Context) => {
       .groupBy(pulses.project)
       .where(eq(pulses.user_id, c.get("user_id")));
 
+    if (projects.length === 0) {
+      return c.json([], 200);
+    }
+
     const [top_language] = await db
       .select({ language: pulses.language })
       .from(pulses)
