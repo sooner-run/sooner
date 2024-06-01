@@ -8,9 +8,13 @@ import axios from "axios";
 export const sendPulseData = async ({
   apiKey,
   codingStartTime,
+  filePath,
+  language,
 }: {
   apiKey: string;
   codingStartTime: number;
+  filePath: string;
+  language: string;
 }) => {
   if (!apiKey || !codingStartTime) {
     return;
@@ -20,11 +24,11 @@ export const sendPulseData = async ({
   const pulseTime = codingEndTime - codingStartTime;
 
   const payload = {
-    path: getFilePath(),
+    path: filePath,
     time: pulseTime,
     branch: await getCurrentBranch(getProjectPath()!),
     project: vscode.workspace.name || null,
-    language: vscode.window.activeTextEditor?.document.languageId || null,
+    language: language,
     os: os.type(),
     hostname: os.hostname(),
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -37,7 +41,6 @@ export const sendPulseData = async ({
     console.error("Error sending pulse:", error);
   }
 };
-
 const getFilePath = () => {
   const activeEditor = vscode.window.activeTextEditor;
   return activeEditor ? activeEditor.document.uri.fsPath : null;
