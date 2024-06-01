@@ -2,16 +2,24 @@ import { Context } from "hono";
 import { pulses } from "../../db/schema";
 import { db } from "../../db";
 
+const extensions: { [key: string]: string } = {
+  ".kt": "kotlin",
+};
+
 export const create_pulse = async (c: Context) => {
   try {
     const user_id = c.get("user_id");
     const body = await c.req.json();
 
-    console.log(body);
+    const extension = Object.keys(extensions).find((ext) =>
+      body.path.endsWith(ext)
+    );
+    const language = extension ? extensions[extension] : body.language;
 
     await db.insert(pulses).values({
       user_id,
       ...body,
+      language,
       path: body.path.replaceAll("\\", "/"),
     });
     return c.json({ message: "Pulse created." }, 201);
