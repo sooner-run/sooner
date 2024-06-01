@@ -2,6 +2,7 @@ import { Context } from "hono";
 import { pulses } from "../../db/schema";
 import { db } from "../../db";
 
+// For some reason VS Code returns 'plaintext' as the language for kotlin, I figured this may happen for other languages too, so just in case, this object would be updated.
 const extensions: { [key: string]: string } = {
   ".kt": "kotlin",
 };
