@@ -9,11 +9,12 @@ interface Props {
 export const sendPulse = async ({ api_key, payload }: Props) => {
   if (api_key) {
     try {
-      await request.post("/pulses", payload, {
+      const { data } = await request.post("/pulses", payload, {
         headers: {
           Authorization: `Bearer ${api_key}`,
         },
       });
+      console.log(data);
     } catch (error) {
       console.error("Error sending pulse:", error);
     }
