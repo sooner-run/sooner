@@ -5,7 +5,10 @@ import { initializeStatusBar, updateStatusBarText } from "./status_bar";
 
 let codingStartTime: number | null = null;
 let totalCodingTime: number = 0;
-let activityTimeout: NodeJS.Timeout | null = null;
+const activityTimeouts: Map<
+  string,
+  { timeout: NodeJS.Timeout; path: string; language: string }
+> = new Map();
 
 let apiKey: string | undefined;
 
@@ -41,21 +44,34 @@ export async function activate(context: vscode.ExtensionContext) {
   }
 
   const onDidChangeTextDocument = vscode.workspace.onDidChangeTextDocument(
-    async () => {
+    async (event) => {
+      const documentUri = event.document.uri.toString();
+      const filePath = event.document.uri.fsPath;
+      const language = event.document.languageId;
+
       startTracking();
 
       if (!apiKey) return;
 
-      if (activityTimeout) clearTimeout(activityTimeout);
+      if (activityTimeouts.has(documentUri)) {
+        clearTimeout(activityTimeouts.get(documentUri)!.timeout);
+      }
 
-      activityTimeout = setTimeout(async () => {
-        await sendPulseData({
-          apiKey: apiKey!,
-          codingStartTime: codingStartTime!,
-        });
-        stopTracking();
-        updateStatusBarText(apiKey, totalCodingTime);
-      }, debounceTime);
+      activityTimeouts.set(documentUri, {
+        timeout: setTimeout(async () => {
+          await sendPulseData({
+            apiKey: apiKey!,
+            codingStartTime: codingStartTime!,
+            filePath: filePath,
+            language: language,
+          });
+          stopTracking();
+          updateStatusBarText(apiKey, totalCodingTime);
+          activityTimeouts.delete(documentUri);
+        }, debounceTime),
+        path: filePath,
+        language: language,
+      });
     }
   );
 
