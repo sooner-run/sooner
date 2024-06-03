@@ -12,7 +12,7 @@ import { Tooltip } from "react-tooltip";
 const DashboardLayout: FC<{
   children: ReactNode;
   title: string;
-  maintitle?: string;
+  maintitle?: ReactNode;
   sublinks?: ReactNode;
 }> = ({ children, title, sublinks, maintitle }) => {
   const sidebarlinks = [
