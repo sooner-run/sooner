@@ -13,22 +13,13 @@ const DashboardLayout: FC<{
   children: ReactNode;
   title: string;
   maintitle?: string;
-  sublinks?: {
-    index: {
-      href: string;
-      title: string;
-    };
-    links: {
-      href: string;
-      title: string;
-    }[];
-  };
+  sublinks?: ReactNode;
 }> = ({ children, title, sublinks, maintitle }) => {
   const sidebarlinks = [
     { icon: Home01Icon, href: "/dashboard", text: "Dashboard" },
     { icon: Folder01Icon, href: "/projects", text: "Projects" },
     { icon: ChartHistogramIcon, href: "/insights", text: "Insights" },
-    { icon: Settings01Icon, href: "/settings", text: "Settings" },
+    { icon: Settings01Icon, href: "/settings/profile", text: "Settings" },
   ];
 
   const location = useLocation();
@@ -58,34 +49,7 @@ const DashboardLayout: FC<{
           ))}
         </div>
       </div>
-      {sublinks && (
-        <div className="sticky top-0 flex flex-col w-64 px-3 border-r items-center border-l border-grey h-screen">
-          <div className="flex items-center h-16 w-full">
-            <h2 className="font-medium">{title}</h2>
-          </div>
-          <div className="w-full flex flex-col gap-y-3 text-sm">
-            <Link
-              to={sublinks.index.href}
-              className={`px-3 border w-full py-2 ${location.pathname === sublinks.index.href ? "bg-accent/5 rounded-full border-accent/50" : "hover:text-accent transition-colors border-transparent"}`}
-              unstable_viewTransition
-            >
-              {sublinks.index.title}
-            </Link>
-
-            {sublinks.links.map((_, i) => (
-              <Link
-                unstable_viewTransition
-                key={i}
-                to={_.href}
-                className={`flex items-center gap-x-2 px-3 border w-full py-2 rounded-full ${location.pathname === _.href ? "bg-accent/5 border-accent/50" : "hover:text-accent transition-colors border-transparent"}`}
-              >
-                <TbBolt size={18} />
-                {_.title}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
+      {sublinks && sublinks}
       <div className="w-full">
         <div className="sticky top-0 bg-black border-b border-grey px-10 flex items-center h-16 w-full">
           <h2 className="font-medium">{maintitle}</h2>
