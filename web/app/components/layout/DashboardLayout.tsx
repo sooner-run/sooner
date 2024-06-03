@@ -82,7 +82,7 @@ const DashboardLayout: FC<{
         <div className="sticky top-0 bg-black border-b border-grey px-10 flex items-center h-16 w-full">
           <h2 className="font-medium">{maintitle}</h2>
         </div>
-        <div className="py-4">{children}</div>
+        <div className="pt-4 pb-16">{children}</div>
       </div>
     </div>
   );
