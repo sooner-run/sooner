@@ -49,7 +49,7 @@ const SettingsLayout = ({ children }: { children: ReactNode }) => {
       }
       sublinks={<SubLinks />}
     >
-      <div className="w-full px-14">{children}</div>
+      <div className="w-full px-32">{children}</div>
     </DashboardLayout>
   );
 };
