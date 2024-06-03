@@ -44,7 +44,7 @@ const DashboardLayout: FC<{
           {sidebarlinks.map((link, i) => (
             <Link to={link.href} key={i} unstable_viewTransition>
               <link.icon
-                className={`${location.pathname === link.href ? "text-accent" : "text-grey-100"} hover:text-accent transition-colors`}
+                className={`${location.pathname.includes(link.href) ? "text-accent" : "text-grey-100"} hover:text-accent transition-colors`}
               />
             </Link>
           ))}
