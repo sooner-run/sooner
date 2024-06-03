@@ -1,5 +1,6 @@
 import { Link, useLocation } from "@remix-run/react";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
+import { IoChevronBack } from "react-icons/io5";
 import { TbBolt } from "react-icons/tb";
 import DashboardLayout from "~/components/layout/DashboardLayout";
 
@@ -62,7 +63,18 @@ const ProjectsLayout = ({ children }: { children: ReactNode }) => {
   return (
     <DashboardLayout
       title="Projects"
-      maintitle={location.pathname.split("/")[2] || "Projects"}
+      maintitle={
+        location.pathname !== "/projects" ? (
+          <div className="flex items-center gap-x-2">
+            <Link to="/projects" unstable_viewTransition>
+              <IoChevronBack size={20} />
+            </Link>
+            {location.pathname.split("/")[2]}
+          </div>
+        ) : (
+          "Projects"
+        )
+      }
       sublinks={<SubLinks />}
     >
       <div className="w-full px-14">{children}</div>
