@@ -19,7 +19,7 @@ const DashboardLayout: FC<{
     { icon: Home01Icon, href: "/dashboard", text: "Dashboard" },
     { icon: Folder01Icon, href: "/projects", text: "Projects" },
     { icon: ChartHistogramIcon, href: "/insights", text: "Insights" },
-    { icon: Settings01Icon, href: "/settings/profile", text: "Settings" },
+    { icon: Settings01Icon, href: "/settings", text: "Settings" },
   ];
 
   const location = useLocation();
