@@ -7,6 +7,7 @@ import {
 } from "hugeicons-react";
 import { FC, ReactNode } from "react";
 import { TbBolt } from "react-icons/tb";
+import { Tooltip } from "react-tooltip";
 
 const DashboardLayout: FC<{
   children: ReactNode;
@@ -34,6 +35,7 @@ const DashboardLayout: FC<{
 
   return (
     <div className="flex">
+      <Tooltip id="route" />
       <div className="sticky top-0 flex flex-col w-16 border-r items-center border-l border-grey h-screen">
         <div className="border-b border-grey h-16 w-full flex items-center justify-center">
           <div className="bg-accent size-10 rounded-3xl flex items-center justify-center font-black">
@@ -42,7 +44,13 @@ const DashboardLayout: FC<{
         </div>
         <div className="flex flex-col gap-y-7 mt-6 px-4">
           {sidebarlinks.map((link, i) => (
-            <Link to={link.href} key={i} unstable_viewTransition>
+            <Link
+              to={link.href}
+              key={i}
+              unstable_viewTransition
+              data-tooltip-id="route"
+              data-tooltip-content={link.text}
+            >
               <link.icon
                 className={`${location.pathname.includes(link.href) ? "text-accent" : "text-grey-100"} hover:text-accent transition-colors`}
               />
