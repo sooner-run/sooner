@@ -21,7 +21,7 @@ export const create_pulse = async (c: Context) => {
       user_id,
       ...body,
       language,
-      path: body.path.replaceAll("\\", "/"),
+      path: body.path.replaceAll("\\", "/").replaceAll("//", "/"),
     });
     return c.json({ message: "Pulse created." }, 201);
   } catch (error) {
