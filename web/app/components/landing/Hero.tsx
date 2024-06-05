@@ -1,7 +1,5 @@
-import React from "react";
 import DotPattern from "../magicui/dot-pattern";
 import { cn } from "~/lib/utils";
-import LinearGradient from "../magicui/linear-gradient";
 import AnimatedShinyText from "../magicui/animated-shiny-text";
 import { Link } from "@remix-run/react";
 import { SiGithub, SiVisualstudiocode } from "react-icons/si";
@@ -19,7 +17,6 @@ const Hero = () => {
           "[mask-image:linear-gradient(rgba(255,255,255,0.35),transparent)] z-10"
         )}
       />
-      <LinearGradient />
 
       <Link to="https://github.com/sooner-run/sooner" target="_blank">
         <p className="flex items-center gap-x-2 border border-zinc-300/10 py-2 px-4 w-fit rounded-full text-center mt-10 mb-5 hover:border-accent/50 hover:text-white/60 transition-colors duration-500">
