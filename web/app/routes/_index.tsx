@@ -1,4 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
+import Hero from "~/components/landing/Hero";
+import Navbar from "~/components/landing/Navbar";
 
 export const meta: MetaFunction = () => {
   return [
@@ -11,5 +13,10 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  return <div className="">Landing page</div>;
+  return (
+    <div className="text-zinc-400/80 text-sm">
+      <Navbar />
+      <Hero />
+    </div>
+  );
 }
