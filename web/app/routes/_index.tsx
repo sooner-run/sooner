@@ -4,6 +4,7 @@ import Features from "~/components/landing/Features";
 import Hero from "~/components/landing/Hero";
 import Navbar from "~/components/landing/Navbar";
 import Screenshot from "~/components/landing/Screenshot";
+import TeamFeatures from "~/components/landing/TeamFeatures";
 
 export const meta: MetaFunction = () => {
   return [
@@ -23,6 +24,7 @@ export default function Index() {
       <Screenshot />
       <Features />
       <ActivityChart />
+      <TeamFeatures />
     </div>
   );
 }
