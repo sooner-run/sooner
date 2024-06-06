@@ -1,8 +1,5 @@
 import { Link } from "@remix-run/react";
-import React from "react";
 import ShimmerButton from "../magicui/shimmer-button";
-import DotPattern from "../magicui/dot-pattern";
-import { cn } from "~/lib/utils";
 
 const Navbar = () => {
   const links = [
@@ -14,10 +11,10 @@ const Navbar = () => {
       href: "/pricing",
       title: "Pricing",
     },
-    {
-      href: "/blog",
-      title: "Blog",
-    },
+    // {
+    //   href: "/blog",
+    //   title: "Blog",
+    // },
     {
       href: "/promise",
       title: "Promise",
