@@ -25,7 +25,7 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="flex items-center justify-between py-5 px-20 z-50">
+    <div className="flex items-center justify-between py-5 px-20 sticky z-30 top-0 backdrop-blur-lg">
       <img src="/logo.png" alt="Sooner logo" className="w-28" />
       <div className="flex items-center gap-x-2 border border-zinc-300/10 p-1 rounded-full backdrop-blur-3xl">
         {links.map((link) => (
@@ -44,6 +44,7 @@ const Navbar = () => {
           Get started
         </ShimmerButton>
       </div>
+      <div className="h-[1px] w-full bg-gradient-to-r absolute right-0 bottom-0 from-transparent via-accent/20 to-transparent"></div>
     </div>
   );
 };
