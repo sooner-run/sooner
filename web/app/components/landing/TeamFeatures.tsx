@@ -1,6 +1,6 @@
-import { PiMagicWandBold } from "react-icons/pi";
+import { PiUsersThreeBold } from "react-icons/pi";
 import IconThing from "../IconThing";
-import { MdOutlineMultilineChart } from "react-icons/md";
+import { RiMedalLine } from "react-icons/ri";
 import LineChart from "../LineChart";
 import { LuGoal } from "react-icons/lu";
 import { TbCalendarSmile } from "react-icons/tb";
@@ -8,8 +8,8 @@ import { TbCalendarSmile } from "react-icons/tb";
 const TeamFeatures = () => {
   const feats = [
     {
-      title: "Stunning user interface",
-      icon: PiMagicWandBold,
+      title: "Workspaces",
+      icon: PiUsersThreeBold,
       bg: (
         <img
           src="/ui.png"
@@ -19,8 +19,8 @@ const TeamFeatures = () => {
       ),
     },
     {
-      title: "Powerful analytics",
-      icon: MdOutlineMultilineChart,
+      title: "Private Leaderboards",
+      icon: RiMedalLine,
       bg: (
         <LineChart
           data={[2, 5, 4, 6, 7]}
@@ -41,7 +41,7 @@ const TeamFeatures = () => {
 
   return (
     <div className="p-20">
-      <h1 className="text-6xl font-semibold">Everything you need</h1>
+      <h1 className="text-6xl font-semibold">For software teams</h1>
       <p className="text-lg">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto!
       </p>
