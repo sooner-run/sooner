@@ -36,28 +36,30 @@ const ActivityChart = () => {
           </p>
         </div>
 
-        <Tooltip id="codetime-tooltip" />
-        <ReactCalendarHeatmap
-          startDate={new Date("2023-12-31")}
-          endDate={new Date("2024-12-31")}
-          values={values}
-          gutterSize={2}
-          classForValue={(value) => {
-            if (!value) {
-              return "color-scale-0";
-            }
-            const { count } = value;
+        <div className="relative">
+          <Tooltip id="codetime-tooltip" />
+          <ReactCalendarHeatmap
+            startDate={new Date("2023-12-31")}
+            endDate={new Date("2024-12-31")}
+            values={values}
+            gutterSize={2}
+            classForValue={(value) => {
+              if (!value) {
+                return "color-scale-0";
+              }
+              const { count } = value;
 
-            return getClassByTime(count);
-          }}
-          tooltipDataAttrs={(value: { count: number; date: Date }) => {
-            const { count, date } = value;
-            return {
-              "data-tooltip-content": `${formatCount(count)} on ${new Date(date).toLocaleDateString()}`,
-              "data-tooltip-id": "codetime-tooltip",
-            };
-          }}
-        />
+              return getClassByTime(count);
+            }}
+            tooltipDataAttrs={(value: { count: number; date: Date }) => {
+              const { count, date } = value;
+              return {
+                "data-tooltip-content": `${formatCount(count)} on ${new Date(date).toLocaleDateString()}`,
+                "data-tooltip-id": "codetime-tooltip",
+              };
+            }}
+          />
+        </div>
       </div>
     </div>
   );
