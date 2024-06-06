@@ -5,29 +5,8 @@ import CalendarHeatmap from "react-calendar-heatmap";
 import { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 import { Tooltip } from "react-tooltip";
-import dayjs from "dayjs";
-import { CgOptions } from "react-icons/cg";
-
-const getClassByTime = (count: number): string => {
-  const hours = count / (1000 * 60 * 60);
-
-  switch (true) {
-    case hours < 1:
-      return "color-scale-1";
-    case hours >= 1 && hours <= 3:
-      return "color-scale-2";
-    case hours > 3 && hours <= 8:
-      return "color-scale-3";
-    case hours > 8 && hours <= 10:
-      return "color-scale-4";
-    case hours > 10 && hours <= 13:
-      return "color-scale-5";
-    case hours > 13:
-      return "color-scale-5";
-    default:
-      return "color-scale-0";
-  }
-};
+import { getClassByTime } from "~/utils/getClassByTime";
+import { formatCount } from "~/utils/formatCount";
 
 const Heatmap = () => {
   const [values, setValues] = useState<{ date: Date; count: number }[]>([]);
@@ -44,21 +23,6 @@ const Heatmap = () => {
     }
     setValues(data);
   }, []);
-
-  const formatCount = (count: number): string => {
-    const hours = Math.floor(count / (1000 * 60 * 60));
-    const minutes = Math.floor((count % (1000 * 60 * 60)) / (1000 * 60));
-
-    if (hours === 0 && minutes === 0) {
-      return "0 minutes";
-    } else if (hours === 0) {
-      return `${minutes} minutes`;
-    } else if (minutes === 0) {
-      return `${hours} hours`;
-    } else {
-      return `${hours} hours ${minutes} minutes`;
-    }
-  };
 
   const formatDate = (date: Date): string => {
     const options = { month: "long", day: "numeric", year: "numeric" };
