@@ -1,4 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
+import ActivityChart from "~/components/landing/ActivityChart";
 import Features from "~/components/landing/Features";
 import Hero from "~/components/landing/Hero";
 import Navbar from "~/components/landing/Navbar";
@@ -21,6 +22,7 @@ export default function Index() {
       <Hero />
       <Screenshot />
       <Features />
+      <ActivityChart />
     </div>
   );
 }
