@@ -1,9 +1,7 @@
-import React from "react";
 import { PiMagicWandBold } from "react-icons/pi";
 import IconThing from "../IconThing";
 import { MdOutlineMultilineChart } from "react-icons/md";
 import LineChart from "../LineChart";
-import { BorderBeam } from "../magicui/border-beam";
 import { LuGoal } from "react-icons/lu";
 import { TbCalendarSmile } from "react-icons/tb";
 
