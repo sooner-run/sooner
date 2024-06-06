@@ -59,6 +59,7 @@ const Features = () => {
                   "Thursday",
                   "Friday",
                 ]}
+                hideYaxisLabels
               />
             )}
             <div className="absolute pointer-events-none w-full h-full rounded-2xl bg-gradient-to-b from-transparent via-zinc-900/90 to-zinc-900 top-0 right-0 flex items-end p-5">
