@@ -9,6 +9,7 @@ const Features = () => {
   const feats = [
     {
       title: "Awesome user interface",
+      icon: PiMagicWandBold,
       bg: (
         <img
           src="/ui.png"
@@ -16,7 +17,6 @@ const Features = () => {
           alt=""
         />
       ),
-      icon: PiMagicWandBold,
     },
     {
       title: "Powerful analytics",
