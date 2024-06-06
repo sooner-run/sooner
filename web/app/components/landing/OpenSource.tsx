@@ -7,7 +7,7 @@ import { Link } from "@remix-run/react";
 
 const OpenSource = () => {
   return (
-    <div className="px-44">
+    <div className="px-44 pb-20">
       <div className="relative overflow-hidden border border-white/5 rounded-2xl py-10 flex items-center flex-col">
         <Ripple />
         <div className="size-14 bg-grey/50 rounded-2xl flex items-center justify-center relative">
