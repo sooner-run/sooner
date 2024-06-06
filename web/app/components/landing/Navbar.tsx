@@ -26,7 +26,7 @@ const Navbar = () => {
 
   return (
     <div className="flex items-center justify-between py-5 px-20 z-50">
-      <h3>Sooner</h3>
+      <img src="/logo.png" alt="Sooner logo" className="w-28" />
       <div className="flex items-center gap-x-2 border border-zinc-300/10 p-1 rounded-full backdrop-blur-3xl">
         {links.map((link) => (
           <Link
