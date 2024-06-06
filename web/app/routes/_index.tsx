@@ -3,6 +3,7 @@ import ActivityChart from "~/components/landing/ActivityChart";
 import Features from "~/components/landing/Features";
 import Hero from "~/components/landing/Hero";
 import Navbar from "~/components/landing/Navbar";
+import OpenSource from "~/components/landing/OpenSource";
 import Screenshot from "~/components/landing/Screenshot";
 import TeamFeatures from "~/components/landing/TeamFeatures";
 import TimeTracked from "~/components/landing/TimeTracked";
@@ -23,10 +24,11 @@ export default function Index() {
       <Navbar />
       <Hero />
       <Screenshot />
-      <TimeTracked/>
+      <TimeTracked />
       <Features />
       <ActivityChart />
       <TeamFeatures />
+      <OpenSource />
     </div>
   );
 }
