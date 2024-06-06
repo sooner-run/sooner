@@ -29,9 +29,7 @@ const DashboardLayout: FC<{
       <Tooltip id="route" />
       <div className="sticky top-0 flex flex-col w-16 border-r items-center border-l border-grey h-screen">
         <div className="border-b border-grey h-16 w-full flex items-center justify-center">
-          <div className="bg-accent size-10 rounded-3xl flex items-center justify-center font-black">
-            S.
-          </div>
+          <img src="/sooner-logo.svg" className="w-8" alt="" />
         </div>
         <div className="flex flex-col gap-y-7 mt-6 px-4">
           {sidebarlinks.map((link, i) => (
