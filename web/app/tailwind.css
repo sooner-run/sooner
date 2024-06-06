@@ -37,3 +37,8 @@ body {
   font-size: 10px;
   fill: #aaa;
 }
+
+.landing .react-calendar-heatmap text {
+  font-size: 7px;
+  fill: #aaa;
+}
