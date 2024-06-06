@@ -8,7 +8,7 @@ import { TbCalendarSmile } from "react-icons/tb";
 const Features = () => {
   const feats = [
     {
-      title: "Awesome user interface",
+      title: "Stunning user interface",
       icon: PiMagicWandBold,
       bg: (
         <img
