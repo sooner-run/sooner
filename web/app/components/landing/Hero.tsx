@@ -24,7 +24,7 @@ const Hero = () => {
           We're opensource. Star on GitHub
         </p>
       </Link>
-      <h1 className="text-7xl w-1/2 mx-auto text-center font-semibold bg-gradient-to-br from-accent to-white bg-clip-text">
+      <h1 className="text-7xl mx-auto text-center font-semibold bg-gradient-to-br from-accent to-white bg-clip-text">
         Time tracking for devs and software teams.
       </h1>
       <p className="text-lg mt-4 w-1/2 mx-auto text-center">
