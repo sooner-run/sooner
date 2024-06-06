@@ -11,12 +11,25 @@ const Features = () => {
   const feats = [
     {
       title: "Awesome user interface",
-      image: "/ui.png",
+      bg: (
+        <img
+          src="/ui.png"
+          className="w-full h-full object-cover rounded-2xl hover:scale-110 transition-all duration-700"
+          alt=""
+        />
+      ),
       icon: PiMagicWandBold,
     },
     {
       title: "Powerful analytics",
       icon: MdOutlineMultilineChart,
+      bg: (
+        <LineChart
+          data={[2, 5, 4, 6, 7]}
+          labels={["Monday", "Tuseday", "Wednesday", "Thursday", "Friday"]}
+          hideYaxisLabels
+        />
+      ),
     },
     {
       title: "Goal tracking",
@@ -41,27 +54,8 @@ const Features = () => {
             className="border border-white/5 rounded-2xl h-[400px] relative overflow-hidden"
             key={i}
           >
-            {/* <BorderBeam borderWidth={0.5} /> */}
-            {f.image && (
-              <img
-                src={f.image}
-                className="w-full h-full object-cover rounded-2xl hover:scale-110 transition-all duration-700"
-                alt=""
-              />
-            )}
-            {f.title === "Powerful analytics" && (
-              <LineChart
-                data={[2, 5, 4, 6, 7]}
-                labels={[
-                  "Monday",
-                  "Tuseday",
-                  "Wednesday",
-                  "Thursday",
-                  "Friday",
-                ]}
-                hideYaxisLabels
-              />
-            )}
+            {f.bg}
+
             <div className="absolute pointer-events-none w-full h-full rounded-2xl bg-gradient-to-b from-transparent via-zinc-900/90 to-zinc-900 top-0 right-0 flex items-end p-5">
               <div className="flex flex-col">
                 {f.icon && (
