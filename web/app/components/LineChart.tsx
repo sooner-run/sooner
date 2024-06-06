@@ -6,7 +6,15 @@ import { useEffect, useRef, useState } from "react";
 Chart.register(CategoryScale);
 Chart.defaults.plugins.legend.display = false;
 
-const LineChart = ({ labels, data }: { labels: string[]; data: number[] }) => {
+const LineChart = ({
+  labels,
+  data,
+  hideYaxisLabels = false,
+}: {
+  labels: string[];
+  data: number[];
+  hideYaxisLabels?: boolean;
+}) => {
   const chartRef = useRef(null);
   const [gradient, setGradient] = useState(null);
 
@@ -22,6 +30,7 @@ const LineChart = ({ labels, data }: { labels: string[]; data: number[] }) => {
       setGradient(gradient);
     }
   }, [chartRef]);
+
   return (
     <Line
       className="!w-full"
@@ -53,7 +62,7 @@ const LineChart = ({ labels, data }: { labels: string[]; data: number[] }) => {
             },
             ticks: {
               callback(tickValue, index, ticks) {
-                return `${tickValue}h`;
+                return hideYaxisLabels ? "" : `${tickValue}h`;
               },
             },
           },
