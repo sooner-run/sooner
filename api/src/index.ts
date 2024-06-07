@@ -14,7 +14,7 @@ env.config();
 const app = new Hono();
 
 app.use("*", prettyJSON());
-app.use("/*", cors());
+app.use("/*", cors({ origin: "*" }));
 
 app.get("/", (c) => {
   return c.json({ message: "Yoo, bitches!!!!" });
