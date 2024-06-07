@@ -1,6 +1,7 @@
-import { Link, useLocation } from "@remix-run/react";
 import React, { ReactNode } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const SettingsLayout = ({ children }: { children: ReactNode }) => {
   const routes = [
@@ -24,7 +25,7 @@ const SettingsLayout = ({ children }: { children: ReactNode }) => {
           {routes.map((_, i) => (
             <Link
               key={i}
-              to={_.href}
+              href={_.href}
               className={`flex items-center gap-x-2 px-3 border w-full py-2 rounded-full ${location.pathname === _.href ? "bg-accent/5 border-accent/50" : "hover:text-accent transition-colors border-transparent"}`}
             >
               {_.name}
@@ -39,7 +40,7 @@ const SettingsLayout = ({ children }: { children: ReactNode }) => {
     );
   };
 
-  const location = useLocation();
+  const location = useRouter();
   return (
     <DashboardLayout
       title="Settings"
