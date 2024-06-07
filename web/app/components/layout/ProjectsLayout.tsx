@@ -1,29 +1,19 @@
-import { Link, useLocation } from "@remix-run/react";
+import { LoaderFunctionArgs, json } from "@remix-run/node";
+import { Link, useLoaderData, useLocation } from "@remix-run/react";
 import { ReactNode } from "react";
 import { IoChevronBack } from "react-icons/io5";
 import { TbBolt } from "react-icons/tb";
 import DashboardLayout from "~/components/layout/DashboardLayout";
+import { fetchLoader } from "~/utils/loader";
+
+export async function loader(args: LoaderFunctionArgs) {
+  const projects_ = await fetchLoader(args, "/v1/projects");
+  return json({ projects: await projects_.json() });
+}
 
 const ProjectsLayout = ({ children }: { children: ReactNode }) => {
-  const pjs = [
-    {
-      name: "uploadfly",
-      time: "23h 44m 31s",
-      language: "typescript",
-    },
-    {
-      name: "logdrop",
-      time: "13h 14m 23s",
-      language: "elixir",
-    },
-    {
-      name: "vibrantt",
-      time: "11h 13m 49s",
-      language: "javascript",
-    },
-  ];
-
   const SubLinks = () => {
+    const { projects } = useLoaderData<typeof loader>();
     return (
       <div className="sticky top-0 flex flex-col w-64 px-3 border-r items-center border-l border-grey h-screen">
         <div className="flex items-center h-16 w-full">
@@ -37,23 +27,19 @@ const ProjectsLayout = ({ children }: { children: ReactNode }) => {
           >
             Overview
           </Link>
+          {JSON.stringify(projects)}
 
-          {pjs
-            .map((_) => ({
-              href: `/projects/${_.name.toLowerCase()}`,
-              title: _.name,
-            }))
-            .map((_, i) => (
-              <Link
-                unstable_viewTransition
-                key={i}
-                to={_.href}
-                className={`flex items-center gap-x-2 px-3 border w-full py-2 rounded-full ${location.pathname === _.href ? "bg-accent/5 border-accent/50" : "hover:text-accent transition-colors border-transparent"}`}
-              >
-                <TbBolt size={18} />
-                {_.title}
-              </Link>
-            ))}
+          {/* {projects?.map((_: any, i: number) => (
+            <Link
+              unstable_viewTransition
+              key={i}
+              to={_.url}
+              className={`flex items-center gap-x-2 px-3 border w-full py-2 rounded-full ${location.pathname === _.href ? "bg-accent/5 border-accent/50" : "hover:text-accent transition-colors border-transparent"}`}
+            >
+              <TbBolt size={18} />
+              {_.name}
+            </Link>
+          ))} */}
         </div>
       </div>
     );
