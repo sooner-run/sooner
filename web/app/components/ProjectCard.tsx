@@ -6,11 +6,13 @@ import { getColorForLanguage } from "~/utils/getColorForLanguage";
 const ProjectCard = ({
   name,
   time,
-  language,
+  top_language,
+  time_human_readable,
 }: {
   name: string;
   time: string;
-  language: string;
+  top_language: string;
+  time_human_readable: string;
 }) => {
   return (
     <Link
@@ -18,12 +20,12 @@ const ProjectCard = ({
       className="w-full"
       unstable_viewTransition
     >
-      <Card className="p-3 font-medium cursor-pointer hover:bg-grey-300/60 transition-colors">
+      <Card className="p-3 font-medium cursor-pointer hover:bg-grey-300/60 transition-colors max-w-72">
         <h2 className="text-grey-100">{name}</h2>
-        <h1 className="text-2xl my-5">{time}</h1>
+        <h1 className="text-2xl my-5">{time_human_readable}</h1>
         <div className="flex items-center gap-x-1">
-          <GoDotFill color={getColorForLanguage(language)!} size={30} />
-          <p className="text-grey-100">{language}</p>
+          <GoDotFill color={getColorForLanguage(top_language)!} size={30} />
+          <p className="text-grey-100">{top_language}</p>
         </div>
       </Card>
     </Link>
