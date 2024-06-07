@@ -1,19 +1,15 @@
-import { LoaderFunctionArgs, json } from "@remix-run/node";
-import { Link, useLoaderData, useLocation } from "@remix-run/react";
 import { ReactNode } from "react";
 import { IoChevronBack } from "react-icons/io5";
 import { TbBolt } from "react-icons/tb";
 import DashboardLayout from "@/components/layout/DashboardLayout";
-import { fetchLoader } from "@/utils/loader";
-
-export async function loader(args: LoaderFunctionArgs) {
-  const projects_ = await fetchLoader(args, "/v1/projects");
-  return json({ projects: await projects_.json() });
-}
-
+import useSWR from "swr";
+import { fetcher } from "@/utils/fetcher";
+import Link from "next/link";
+import { useRouter } from "next/router";
 const ProjectsLayout = ({ children }: { children: ReactNode }) => {
   const SubLinks = () => {
-    const { projects } = useLoaderData<typeof loader>();
+    const { data: projects } = useSWR("v1/projects", fetcher);
+
     return (
       <div className="sticky top-0 flex flex-col w-64 px-3 border-r items-center border-l border-grey h-screen">
         <div className="flex items-center h-16 w-full">
@@ -21,30 +17,28 @@ const ProjectsLayout = ({ children }: { children: ReactNode }) => {
         </div>
         <div className="w-full flex flex-col gap-y-1 text-sm">
           <Link
-            to={"/projects"}
+            href="/projects"
             className={`px-3 border w-full py-2 ${location.pathname === "/projects" ? "bg-accent/5 rounded-full border-accent/50" : "hover:text-accent transition-colors border-transparent"}`}
           >
             Overview
           </Link>
-          {JSON.stringify(projects)}
 
-          {/* {projects?.map((_: any, i: number) => (
+          {projects?.map((_: any, i: number) => (
             <Link
-              
               key={i}
-              to={_.url}
+              href={_.url}
               className={`flex items-center gap-x-2 px-3 border w-full py-2 rounded-full ${location.pathname === _.href ? "bg-accent/5 border-accent/50" : "hover:text-accent transition-colors border-transparent"}`}
             >
               <TbBolt size={18} />
               {_.name}
             </Link>
-          ))} */}
+          ))}
         </div>
       </div>
     );
   };
 
-  const location = useLocation();
+  const location = useRouter();
   return (
     <DashboardLayout
       title="Projects"
