@@ -1,29 +1,19 @@
-import React, { useState } from "react";
 import Card from "./ui/Card";
 import { IoIosFolderOpen } from "react-icons/io";
 import IconThing from "./IconThing";
-import { Link } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import ProjectCard from "./ProjectCard";
+import { LoaderFunctionArgs, json } from "@remix-run/node";
+import { fetchLoader } from "~/utils/loader";
+
+export async function loader(args: LoaderFunctionArgs) {
+  const projects_ = await fetchLoader(args, "/v1/projects");
+  return json({ projects: await projects_.json() });
+}
 
 const AllProjects = () => {
-  const [data] = useState([
-    {
-      name: "uploadfly",
-      time: "23h 44m 31s",
-      language: "typescript",
-    },
-    {
-      name: "logdrop",
-      time: "13h 14m 23s",
-      language: "elixir",
-    },
-    {
-      name: "vibrantt",
-      time: "11h 13m 49s",
-      language: "javascript",
-    },
-  ]);
+  const { projects } = useLoaderData<typeof loader>();
 
   return (
     <Card>
@@ -39,8 +29,8 @@ const AllProjects = () => {
         </div>
       </div>
       <div className="px-4 py-3 flex gap-3">
-        {data.map((project, i) => (
-          <ProjectCard {...project} key={i} />
+        {projects.map((project: any, i: number) => (
+          <ProjectCard key={i} {...project} />
         ))}
       </div>
     </Card>
