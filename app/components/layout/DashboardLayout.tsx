@@ -1,4 +1,4 @@
-import { Link, useLocation } from "@remix-run/react";
+import Link from "next/link";
 import {
   ChartHistogramIcon,
   Folder01Icon,
@@ -7,6 +7,7 @@ import {
 } from "hugeicons-react";
 import { FC, ReactNode } from "react";
 import { Tooltip } from "react-tooltip";
+import { useRouter } from "next/router";
 
 const DashboardLayout: FC<{
   children: ReactNode;
@@ -21,7 +22,7 @@ const DashboardLayout: FC<{
     { icon: Settings01Icon, href: "/settings", text: "Settings" },
   ];
 
-  const location = useLocation();
+  const location = useRouter();
 
   return (
     <div className="flex">
@@ -33,7 +34,7 @@ const DashboardLayout: FC<{
         <div className="flex flex-col gap-y-7 mt-6 px-4">
           {sidebarlinks.map((link, i) => (
             <Link
-              to={link.href}
+              href={link.href}
               key={i}
               data-tooltip-id="route"
               data-tooltip-content={link.text}
