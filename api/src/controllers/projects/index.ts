@@ -8,7 +8,7 @@ export const retrieve_projects = async (c: Context) => {
   try {
     const projects = await db
       .select({
-        project: pulses.project,
+        name: pulses.project,
         time: sum(pulses.time),
       })
       .from(pulses)
@@ -32,7 +32,7 @@ export const retrieve_projects = async (c: Context) => {
       top_language: top_language.language,
       time: Number(p.time),
       time_human_readable: time_to_human(Number(p.time)),
-      url: `/projects/${p.project}`,
+      url: `/projects/${p.name}`,
     }));
 
     return c.json(_projects, 200);
