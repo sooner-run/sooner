@@ -44,7 +44,7 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout title="Dashboard" maintitle="Dashboard">
-      <div className="flex items-center flex-col gap-y-3 w-full px-52">
+      <div className="flex items-center flex-col gap-y-3 w-full lg:px-52 px-5">
         <Card className="p-4 shrink-0 divide-x divide-grey grid grid-cols-2 items-center gap-x-5 gap-y-7 lg:grid-cols-4 first:pl-0 last:pr-0">
           {Object.keys(data).map((range, i) => (
             <div className="px-2" key={i}>
