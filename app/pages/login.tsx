@@ -1,5 +1,4 @@
-// import { axios } from "@/utils/axios";
-import axios from "axios";
+import { axiosPublic } from "@/utils/axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { InputHTMLAttributes, useState } from "react";
@@ -130,14 +129,10 @@ const Login = () => {
         onSubmit={async (e) => {
           e.preventDefault();
           try {
-            await axios.post(
-              `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`,
-              payload,
-              {
-                // setSubmitting(true)
-                //   signal: newAbortSignal(5000)
-              }
-            );
+            await axiosPublic.post("/auth/login", payload, {
+              // setSubmitting(true)
+              //   signal: newAbortSignal(5000)
+            });
             // router.push("/app");
           } catch (error: any) {
             console.log(error);
