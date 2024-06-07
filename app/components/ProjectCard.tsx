@@ -8,14 +8,16 @@ const ProjectCard = ({
   time,
   top_language,
   time_human_readable,
+  url,
 }: {
   name: string;
   time: string;
   top_language: string;
   time_human_readable: string;
+  url: string;
 }) => {
   return (
-    <Link to={`/projects/${name.toLowerCase()}`} className="w-full">
+    <Link href={url} className="w-full">
       <Card className="p-3 font-medium cursor-pointer hover:bg-grey-300/60 transition-colors max-w-72">
         <h2 className="text-grey-100">{name}</h2>
         <h1 className="text-2xl my-5">{time_human_readable}</h1>
