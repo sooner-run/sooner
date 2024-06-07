@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { ArrowDown01Icon, Clock01Icon } from "hugeicons-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GoDotFill } from "react-icons/go";
 import DonutChart from "@/components/DonutChart";
 import LineChart from "@/components/LineChart";
@@ -10,35 +10,52 @@ import { getColorForLanguage } from "@/utils/getColorForLanguage";
 import { time_to_human } from "@/utils/time_to_human";
 
 const Project = () => {
-  const [language] = useState(
-    faker.helpers.arrayElement([
-      "typescript",
-      "css",
-      "go",
-      "rust",
-      "javascript",
-      "c++",
-      "php",
-      "java",
-      "python",
-      "erlang",
-      "html",
-      "scss",
-    ])
-  );
+  const [language, setLanguage] = useState("");
 
-  const [files] = useState(
-    Array.from({ length: 43 }).map(() => ({
-      file: faker.system.fileName(),
-      time: faker.number.int({ min: 600_000, max: 100_000_000 }),
-    }))
-  );
-  const [branches] = useState(
-    Array.from({ length: 10 }).map(() => ({
-      branch: faker.git.branch(),
-      time: faker.number.int({ min: 600_000, max: 100_000_000 }),
-    }))
-  );
+  const [files, setFiles] = useState<
+    {
+      time: number;
+      file: string;
+    }[]
+  >([]);
+  const [branches, setBranches] = useState<
+    {
+      branch: string;
+      time: number;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    setLanguage(
+      faker.helpers.arrayElement([
+        "typescript",
+        "css",
+        "go",
+        "rust",
+        "javascript",
+        "c++",
+        "php",
+        "java",
+        "python",
+        "erlang",
+        "html",
+        "scss",
+      ])
+    );
+    setFiles(
+      Array.from({ length: 43 }).map(() => ({
+        file: faker.system.fileName(),
+        time: faker.number.int({ min: 600_000, max: 100_000_000 }),
+      }))
+    );
+
+    setBranches(
+      Array.from({ length: 10 }).map(() => ({
+        branch: faker.git.branch(),
+        time: faker.number.int({ min: 600_000, max: 100_000_000 }),
+      }))
+    );
+  }, []);
 
   return (
     <ProjectsLayout>
