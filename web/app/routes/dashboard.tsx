@@ -1,3 +1,5 @@
+import { LoaderFunctionArgs, json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import { ArrowRight01Icon, ArrowRight02Icon } from "hugeicons-react";
 import { IconType } from "react-icons";
 import { PiFireSimpleFill } from "react-icons/pi";
@@ -7,6 +9,12 @@ import IconThing from "~/components/IconThing";
 import AllProjects from "~/components/Projects";
 import DashboardLayout from "~/components/layout/DashboardLayout";
 import Card from "~/components/ui/Card";
+import { fetchLoader } from "~/utils/loader";
+
+export async function loader(args: LoaderFunctionArgs) {
+  const stats_ = await fetchLoader(args, "/v1/stats");
+  return json({ stats: await stats_.json() });
+}
 
 const Dashboard = () => {
   const data: {
@@ -37,8 +45,10 @@ const Dashboard = () => {
     },
   };
 
+  const { stats } = useLoaderData<typeof loader>();
+
   const extras: { [key: string]: { value: string; icon: IconType } } = {
-    Streak: { value: "476 days", icon: PiFireSimpleFill },
+    Streak: { value: `${stats.streak} days`, icon: PiFireSimpleFill },
     "Daily average": { value: "7h 33m", icon: TbClockFilled },
   };
 
