@@ -70,7 +70,7 @@ export const retrieve_single_project = async (c: Context) => {
 
     return c.json(
       {
-        project: project_name,
+        name: project_name,
         time: Number(project.total_time),
         time_human_readable: time_to_human(Number(project.total_time)),
         top_language: languages[0].language,
