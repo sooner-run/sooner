@@ -6,9 +6,28 @@ import ProjectCard from "./ProjectCard";
 import Link from "next/link";
 import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
+// import { useEffect } from "react";
+import { axios, axiosPublic } from "@/utils/axios";
 
 const AllProjects = () => {
   const { data: projects } = useSWR("/v1/projects", fetcher);
+
+  /*** Would need this in the future. */
+  // const fetchProjects = async () => {
+  //   try {
+  //     const { data } = await axios.get("/v1/projects");
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchProjects();
+  // }, []);
+
+  /*********************************/
+
   return (
     <Card>
       <div className="border-b border-grey">
@@ -23,7 +42,7 @@ const AllProjects = () => {
         </div>
       </div>
       <div className="px-4 py-3 flex gap-3">
-        {projects.map((project: any, i: number) => (
+        {projects?.map((project: any, i: number) => (
           <ProjectCard key={i} {...project} />
         ))}
       </div>
