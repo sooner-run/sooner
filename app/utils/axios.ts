@@ -5,11 +5,15 @@ const axiosReq = axios.create({
   withCredentials: true,
 });
 
-// export const newAbortSignal = (timeoutMs: number) => {
-//   const abortController = new AbortController();
-//   setTimeout(() => abortController.abort(), timeoutMs || 0);
+const axiosPublic = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+});
 
-//   return abortController.signal;
-// };
+const newAbortSignal = (timeoutMs: number) => {
+  const abortController = new AbortController();
+  setTimeout(() => abortController.abort(), timeoutMs || 0);
 
-export { axiosReq as axios };
+  return abortController.signal;
+};
+
+export { axiosReq as axios, axiosPublic, newAbortSignal };
