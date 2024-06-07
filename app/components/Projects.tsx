@@ -4,9 +4,11 @@ import IconThing from "./IconThing";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import ProjectCard from "./ProjectCard";
 import Link from "next/link";
+import useSWR from "swr";
+import { fetcher } from "@/utils/fetcher";
 
 const AllProjects = () => {
-  const projects: any = [];
+  const { data: projects } = useSWR("/v1/projects", fetcher);
   return (
     <Card>
       <div className="border-b border-grey">
