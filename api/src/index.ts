@@ -14,7 +14,19 @@ env.config();
 const app = new Hono();
 
 app.use("*", prettyJSON());
-app.use("/*", cors({ origin: "*" }));
+app.use("*", cors({ origin: process.env.FRONTEND_DOMAIN!, credentials: true }));
+
+//** Would come back to this when API access is shipped. **/
+// app.use("/v1/*", cors({ origin: "*" }));
+// app.use(
+//   "/auth/*",
+//   cors({ origin: process.env.FRONTEND_DOMAIN!, credentials: true })
+// );
+// app.use(
+//   "/app/*",
+//   cors({ origin: process.env.FRONTEND_DOMAIN!, credentials: true })
+// );
+/******************************************************************/
 
 app.get("/", (c) => {
   return c.json({ message: "Yoo, bitches!!!!" });
