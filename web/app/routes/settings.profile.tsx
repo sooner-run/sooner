@@ -3,8 +3,17 @@ import IconThing from "~/components/IconThing";
 import SettingsLayout from "~/components/layout/SettingsLayout";
 import Card from "~/components/ui/Card";
 import { TiUserOutline } from "react-icons/ti";
+import { fetchLoader } from "~/utils/loader";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+
+export async function loader(args: LoaderFunctionArgs) {
+  return fetchLoader(args, "/app/profile");
+}
 
 const ProfileSettings = () => {
+  const data = useLoaderData<typeof loader>();
+
   return (
     <SettingsLayout>
       <div className="flex gap-4 flex-col">
@@ -18,7 +27,7 @@ const ProfileSettings = () => {
             </div>
           </div>
           <div className="px-4 py-3 flex gap-3">
-            <p className="text-grey-100">akinkunmioye42@gmail.com</p>
+            <p className="text-grey-100">{data.email}</p>
           </div>
         </Card>
         <Card>
@@ -31,7 +40,7 @@ const ProfileSettings = () => {
             </div>
           </div>
           <div className="px-4 py-3 flex gap-3">
-            <p className="text-grey-100">@akinkunmi</p>
+            <p className="text-grey-100">@{data.username}</p>
           </div>
         </Card>
       </div>
