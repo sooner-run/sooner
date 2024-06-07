@@ -6,7 +6,10 @@ import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
 import Link from "next/link";
 import { useRouter } from "next/router";
+
 const ProjectsLayout = ({ children }: { children: ReactNode }) => {
+  const location = useRouter();
+
   const SubLinks = () => {
     const { data: projects } = useSWR("v1/projects", fetcher);
 
@@ -18,7 +21,7 @@ const ProjectsLayout = ({ children }: { children: ReactNode }) => {
         <div className="w-full flex flex-col gap-y-1 text-sm">
           <Link
             href="/projects"
-            className={`px-3 border w-full py-2 ${location.pathname === "/projects" ? "bg-accent/5 rounded-full border-accent/50" : "hover:text-accent transition-colors border-transparent"}`}
+            className={`px-3 border w-full py-2 ${location.asPath === "/projects" ? "bg-accent/5 rounded-full border-accent/50" : "hover:text-accent transition-colors border-transparent"}`}
           >
             Overview
           </Link>
@@ -27,7 +30,7 @@ const ProjectsLayout = ({ children }: { children: ReactNode }) => {
             <Link
               key={i}
               href={_.url}
-              className={`flex items-center gap-x-2 px-3 border w-full py-2 rounded-full ${location.pathname === _.href ? "bg-accent/5 border-accent/50" : "hover:text-accent transition-colors border-transparent"}`}
+              className={`flex items-center gap-x-2 px-3 border w-full py-2 rounded-full ${location.asPath === _.url ? "bg-accent/5 border-accent/50" : "hover:text-accent transition-colors border-transparent"}`}
             >
               <TbBolt size={18} />
               {_.name}
@@ -38,7 +41,6 @@ const ProjectsLayout = ({ children }: { children: ReactNode }) => {
     );
   };
 
-  const location = useRouter();
   return (
     <DashboardLayout
       title="Projects"
@@ -48,7 +50,7 @@ const ProjectsLayout = ({ children }: { children: ReactNode }) => {
             <Link href="/projects">
               <IoChevronBack size={20} />
             </Link>
-            {location.pathname.split("/")[2]}
+            {location.asPath.split("/")[2]}
           </div>
         ) : (
           "Projects"
