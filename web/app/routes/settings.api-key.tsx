@@ -3,14 +3,22 @@ import IconThing from "~/components/IconThing";
 import SettingsLayout from "~/components/layout/SettingsLayout";
 import Card from "~/components/ui/Card";
 import { VscKey } from "react-icons/vsc";
-import { faker } from "@faker-js/faker";
 import { LuCopy, LuCopyCheck } from "react-icons/lu";
 import { Tooltip } from "react-tooltip";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { fetchLoader } from "~/utils/loader";
+
+export async function loader(args: LoaderFunctionArgs) {
+  return fetchLoader(args, "/app/api-key");
+}
 
 const ApiKeySettings = () => {
   const [copied, setCopied] = useState(false);
 
   const [show, setShow] = useState(false);
+
+  const data = useLoaderData<typeof loader>();
 
   const handleCopy = () => {
     setCopied(true);
@@ -36,7 +44,7 @@ const ApiKeySettings = () => {
             className={`text-grey-100 ${show ? "blur-0" : "blur-md"} transition-all cursor-pointer`}
             onClick={() => setShow(!show)}
           >
-            {faker.string.uuid().replaceAll("-", "")}
+            {data.key}
           </p>
           <div className="flex gap-x-2">
             <button
