@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import Link from "next/link";
 import Card from "./ui/Card";
 import { GoDotFill } from "react-icons/go";
 import { getColorForLanguage } from "@/utils/getColorForLanguage";
@@ -15,11 +15,7 @@ const ProjectCard = ({
   time_human_readable: string;
 }) => {
   return (
-    <Link
-      to={`/projects/${name.toLowerCase()}`}
-      className="w-full"
-      unstable_viewTransition
-    >
+    <Link to={`/projects/${name.toLowerCase()}`} className="w-full">
       <Card className="p-3 font-medium cursor-pointer hover:bg-grey-300/60 transition-colors max-w-72">
         <h2 className="text-grey-100">{name}</h2>
         <h1 className="text-2xl my-5">{time_human_readable}</h1>

@@ -23,7 +23,6 @@ const SettingsLayout = ({ children }: { children: ReactNode }) => {
         <div className="w-full flex flex-col gap-y-1 text-sm">
           {routes.map((_, i) => (
             <Link
-              unstable_viewTransition
               key={i}
               to={_.href}
               className={`flex items-center gap-x-2 px-3 border w-full py-2 rounded-full ${location.pathname === _.href ? "bg-accent/5 border-accent/50" : "hover:text-accent transition-colors border-transparent"}`}

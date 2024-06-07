@@ -3,7 +3,7 @@ import { BorderBeam } from "../magicui/border-beam";
 import { TbBrandOpenSource } from "react-icons/tb";
 import Ripple from "../magicui/ripple";
 import Marquee from "../magicui/marquee";
-import { Link } from "@remix-run/react";
+import Link from "next/link";
 
 const OpenSource = () => {
   return (
@@ -18,7 +18,7 @@ const OpenSource = () => {
 
         <Marquee pauseOnHover>
           <Link
-            to="https://github.com/sooner-run/sooner"
+            href="https://github.com/sooner-run/sooner"
             className="text-6xl font-medium hover:text-white/70 transition-colors my-16"
             target="_blank"
           >

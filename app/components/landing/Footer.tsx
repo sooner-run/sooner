@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import Link from "next/link";
 import { SiGithub, SiTwitter } from "react-icons/si";
 
 const Footer = () => {
@@ -50,7 +50,7 @@ const Footer = () => {
             {links.map((l, i) => (
               <li key={i}>
                 <Link
-                  to={l.href}
+                  href={l.href}
                   className="hover:text-white transition-colors"
                 >
                   {l.title}
@@ -63,7 +63,7 @@ const Footer = () => {
           {socials.map((s, i) => (
             <li key={i}>
               <Link
-                to={s.href}
+                href={s.href}
                 className="hover:text-white transition-colors"
                 target="_blank"
               >

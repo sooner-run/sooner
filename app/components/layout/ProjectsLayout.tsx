@@ -23,7 +23,6 @@ const ProjectsLayout = ({ children }: { children: ReactNode }) => {
           <Link
             to={"/projects"}
             className={`px-3 border w-full py-2 ${location.pathname === "/projects" ? "bg-accent/5 rounded-full border-accent/50" : "hover:text-accent transition-colors border-transparent"}`}
-            unstable_viewTransition
           >
             Overview
           </Link>
@@ -31,7 +30,7 @@ const ProjectsLayout = ({ children }: { children: ReactNode }) => {
 
           {/* {projects?.map((_: any, i: number) => (
             <Link
-              unstable_viewTransition
+              
               key={i}
               to={_.url}
               className={`flex items-center gap-x-2 px-3 border w-full py-2 rounded-full ${location.pathname === _.href ? "bg-accent/5 border-accent/50" : "hover:text-accent transition-colors border-transparent"}`}
@@ -52,7 +51,7 @@ const ProjectsLayout = ({ children }: { children: ReactNode }) => {
       maintitle={
         location.pathname !== "/projects" ? (
           <div className="flex items-center gap-x-2">
-            <Link to="/projects" unstable_viewTransition>
+            <Link href="/projects">
               <IoChevronBack size={20} />
             </Link>
             {location.pathname.split("/")[2]}

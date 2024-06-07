@@ -1,20 +1,12 @@
 import Card from "./ui/Card";
 import { IoIosFolderOpen } from "react-icons/io";
 import IconThing from "./IconThing";
-import { Link, useLoaderData } from "@remix-run/react";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import ProjectCard from "./ProjectCard";
-import { LoaderFunctionArgs, json } from "@remix-run/node";
-import { fetchLoader } from "@/utils/loader";
-
-export async function loader(args: LoaderFunctionArgs) {
-  const projects_ = await fetchLoader(args, "/v1/projects");
-  return json({ projects: await projects_.json() });
-}
+import Link from "next/link";
 
 const AllProjects = () => {
-  const { projects } = useLoaderData<typeof loader>();
-
+  const projects: any = [];
   return (
     <Card>
       <div className="border-b border-grey">
@@ -23,7 +15,7 @@ const AllProjects = () => {
             <IconThing icon={IoIosFolderOpen} />
             <h2 className="font-medium">Projects</h2>
           </div>
-          <Link to="/projects" unstable_viewTransition>
+          <Link href="/projects">
             <IoArrowForwardOutline />
           </Link>
         </div>

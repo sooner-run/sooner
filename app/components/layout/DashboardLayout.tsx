@@ -35,7 +35,6 @@ const DashboardLayout: FC<{
             <Link
               to={link.href}
               key={i}
-              unstable_viewTransition
               data-tooltip-id="route"
               data-tooltip-content={link.text}
             >

@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import Link from "next/link";
 import ShimmerButton from "../magicui/shimmer-button";
 
 const Navbar = () => {
@@ -27,7 +27,7 @@ const Navbar = () => {
       <div className="flex items-center gap-x-2 border border-zinc-300/10 p-1 rounded-full backdrop-blur-3xl">
         {links.map((link) => (
           <Link
-            to={link.href}
+            href={link.href}
             key={link.href}
             className="border border-transparent hover:border-zinc-300/10 transition-colors duration-500 rounded-full px-4 py-2 hover:bg-accent/5 backdrop-blur-lg text-zinc-400"
           >
@@ -36,7 +36,7 @@ const Navbar = () => {
         ))}
       </div>
       <div className="flex font-medium gap-x-7 text-zinc-300 items-center">
-        <Link to="/login">Login</Link>
+        <Link href="/login">Login</Link>
         <ShimmerButton className="!text-zinc-300 !py-3">
           Get started
         </ShimmerButton>
