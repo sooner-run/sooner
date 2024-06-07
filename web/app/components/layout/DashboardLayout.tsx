@@ -6,7 +6,6 @@ import {
   Settings01Icon,
 } from "hugeicons-react";
 import { FC, ReactNode } from "react";
-import { TbBolt } from "react-icons/tb";
 import { Tooltip } from "react-tooltip";
 
 const DashboardLayout: FC<{
