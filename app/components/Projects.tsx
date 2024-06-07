@@ -5,7 +5,7 @@ import { Link, useLoaderData } from "@remix-run/react";
 import { IoArrowForwardOutline } from "react-icons/io5";
 import ProjectCard from "./ProjectCard";
 import { LoaderFunctionArgs, json } from "@remix-run/node";
-import { fetchLoader } from "~/utils/loader";
+import { fetchLoader } from "@/utils/loader";
 
 export async function loader(args: LoaderFunctionArgs) {
   const projects_ = await fetchLoader(args, "/v1/projects");

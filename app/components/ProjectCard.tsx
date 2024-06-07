@@ -1,7 +1,7 @@
 import { Link } from "@remix-run/react";
 import Card from "./ui/Card";
 import { GoDotFill } from "react-icons/go";
-import { getColorForLanguage } from "~/utils/getColorForLanguage";
+import { getColorForLanguage } from "@/utils/getColorForLanguage";
 
 const ProjectCard = ({
   name,

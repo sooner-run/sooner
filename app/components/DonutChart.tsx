@@ -2,7 +2,7 @@ import { Doughnut } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { useEffect, useRef, useState } from "react";
-import { getColorForLanguage } from "~/utils/getColorForLanguage";
+import { getColorForLanguage } from "@/utils/getColorForLanguage";
 
 Chart.register(CategoryScale);
 Chart.defaults.plugins.legend.display = false;

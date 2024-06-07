@@ -5,8 +5,8 @@ import CalendarHeatmap from "react-calendar-heatmap";
 import { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 import { Tooltip } from "react-tooltip";
-import { getClassByTime } from "~/utils/getClassByTime";
-import { formatCount } from "~/utils/formatCount";
+import { getClassByTime } from "@/utils/getClassByTime";
+import { formatCount } from "@/utils/formatCount";
 
 const Heatmap = () => {
   const [values, setValues] = useState<{ date: Date; count: number }[]>([]);

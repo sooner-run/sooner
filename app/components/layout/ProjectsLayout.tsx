@@ -3,8 +3,8 @@ import { Link, useLoaderData, useLocation } from "@remix-run/react";
 import { ReactNode } from "react";
 import { IoChevronBack } from "react-icons/io5";
 import { TbBolt } from "react-icons/tb";
-import DashboardLayout from "~/components/layout/DashboardLayout";
-import { fetchLoader } from "~/utils/loader";
+import DashboardLayout from "@/components/layout/DashboardLayout";
+import { fetchLoader } from "@/utils/loader";
 
 export async function loader(args: LoaderFunctionArgs) {
   const projects_ = await fetchLoader(args, "/v1/projects");

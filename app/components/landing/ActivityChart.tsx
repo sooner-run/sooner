@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Heatmap from "../Heatmap";
 import ReactCalendarHeatmap from "react-calendar-heatmap";
-import { getClassByTime } from "~/utils/getClassByTime";
-import { formatCount } from "~/utils/formatCount";
+import { getClassByTime } from "@/utils/getClassByTime";
+import { formatCount } from "@/utils/formatCount";
 import { faker } from "@faker-js/faker";
 import { Tooltip } from "react-tooltip";
 import AnimatedShinyText from "../magicui/animated-shiny-text";

@@ -1,5 +1,5 @@
 import DotPattern from "../magicui/dot-pattern";
-import { cn } from "~/lib/utils";
+import { cn } from "@/lib/utils";
 import AnimatedShinyText from "../magicui/animated-shiny-text";
 import { Link } from "@remix-run/react";
 import { SiGithub, SiVisualstudiocode } from "react-icons/si";

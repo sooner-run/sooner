@@ -2,7 +2,7 @@ import { Bar } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { useEffect, useRef, useState } from "react";
-import { time_to_human } from "~/utils/time_to_human";
+import { time_to_human } from "@/utils/time_to_human";
 
 Chart.register(CategoryScale);
 Chart.defaults.plugins.legend.display = false;

@@ -1,6 +1,6 @@
 import { Link, useLocation } from "@remix-run/react";
 import React, { ReactNode } from "react";
-import DashboardLayout from "~/components/layout/DashboardLayout";
+import DashboardLayout from "@/components/layout/DashboardLayout";
 
 const SettingsLayout = ({ children }: { children: ReactNode }) => {
   const routes = [
