@@ -6,7 +6,7 @@ import { SiGithub, SiVisualstudiocode } from "react-icons/si";
 
 const Hero = () => {
   return (
-    <div className="px-20 flex flex-col items-center">
+    <div className="lg:px-20 px-5 flex flex-col items-center">
       <DotPattern
         width={20}
         height={20}
@@ -27,7 +27,7 @@ const Hero = () => {
       <h1 className="text-7xl mx-auto text-center font-semibold bg-gradient-to-br from-accent to-white bg-clip-text">
         Time tracking for devs and software teams.
       </h1>
-      <p className="text-lg mt-4 w-1/2 mx-auto text-center">
+      <p className="text-lg mt-4 lg:w-1/2 mx-auto text-center">
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
         reiciendis delectus quaerat?{" "}
       </p>
