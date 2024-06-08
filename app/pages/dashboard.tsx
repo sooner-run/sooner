@@ -7,46 +7,28 @@ import IconThing from "@/components/IconThing";
 import AllProjects from "@/components/Projects";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import Card from "@/components/ui/Card";
+import useSWR from "swr";
+import { fetcher } from "@/utils/fetcher";
+import { CodeTimeKeys, StatsResponse } from "./types";
 
 const Dashboard = () => {
-  const data: {
-    [key: string]: {
-      time: string;
-      percentage: string;
-    };
-  } = {
-    Today: {
-      time: "5h 42m",
-      percentage: "-11%",
-    },
-    // Yesterday: {
-    //   time: "7 hrs 34 mins",
-    //   percentage: "+24%",
-    // },
-    "Last 7 days": {
-      time: "86h 52m",
-      percentage: "-2%",
-    },
-    "Last 30 days": {
-      time: "502h 16m",
-      percentage: "+211%",
-    },
-    "All time": {
-      time: "2,093h 19m",
-      percentage: "+41%",
-    },
-  };
+  const { data } = useSWR<StatsResponse>("/v1/stats", fetcher);
+
+  if (!data) return <></>;
 
   const extras: { [key: string]: { value: string; icon: IconType } } = {
-    Streak: { value: "200 days", icon: PiFireSimpleFill },
-    "Daily average": { value: "7h 33m", icon: TbClockFilled },
+    Streak: {
+      value: `${data.streak} day${data.streak !== 1 && "s"}`,
+      icon: PiFireSimpleFill,
+    },
+    "Daily average": { value: data.daily_average, icon: TbClockFilled },
   };
 
   return (
     <DashboardLayout title="Dashboard" maintitle="Dashboard">
       <div className="flex items-center flex-col gap-y-3 w-full lg:px-52 px-5">
         <Card className="p-4 shrink-0 divide-x divide-grey grid grid-cols-2 items-center gap-x-5 gap-y-7 lg:grid-cols-4 first:pl-0 last:pr-0">
-          {Object.keys(data).map((range, i) => (
+          {Object.keys(data?.codetime).map((range, i) => (
             <div className="px-2" key={i}>
               <div className="group cursor-pointer p-2">
                 <div className="flex items-center justify-between text-grey-100">
@@ -57,15 +39,15 @@ const Dashboard = () => {
                   />
                 </div>
                 <p className="font-medium flex items-center gap-x-2 text-sm mt-3">
-                  {data[range].time}
+                  {data.codetime[range as CodeTimeKeys].time}
 
-                  <ArrowRight02Icon size={15} className="text-grey-100" />
+                  {/* <ArrowRight02Icon size={15} className="text-grey-100" />
 
                   <span
                     className={`text-xs ${data[range].percentage.startsWith("+") ? "text-green-500" : "text-red-500"}`}
                   >
                     {data[range].percentage}
-                  </span>
+                  </span> */}
                 </p>
               </div>
             </div>
