@@ -35,8 +35,13 @@ interface CodeTime {
   "All time": TimePeriod;
 }
 
+export interface PulseData {
+  date: string;
+  count: number;
+}
 export interface StatsResponse {
   daily_average: string;
   codetime: CodeTime;
   streak: number;
+  activity: PulseData[];
 }
