@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Tooltip } from "react-tooltip";
 import { getClassByTime } from "@/utils/getClassByTime";
 import { formatCount } from "@/utils/formatCount";
-import { PulseData } from "@/pages/types";
+import { PulseData } from "@/types";
 import { time_to_human } from "@/utils/time_to_human";
 
 const Heatmap = ({ values }: { values: PulseData[] }) => {
