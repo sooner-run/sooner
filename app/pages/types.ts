@@ -21,3 +21,22 @@ export interface InsightsData {
   top_languages: Language[];
   top_projects: Project[];
 }
+
+interface TimePeriod {
+  time: string;
+}
+
+export type CodeTimeKeys = "Today" | "This week" | "This month" | "All time";
+
+interface CodeTime {
+  Today: TimePeriod;
+  "This week": TimePeriod;
+  "This month": TimePeriod;
+  "All time": TimePeriod;
+}
+
+export interface StatsResponse {
+  daily_average: string;
+  codetime: CodeTime;
+  streak: number;
+}
