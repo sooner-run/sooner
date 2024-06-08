@@ -1,13 +1,12 @@
 import colors from "../colors.json";
 
 const languageColors = Object.fromEntries(
-  Object.entries(colors).map(([key, value]) => [key.toLowerCase(), value])
+  Object.entries(colors).map(([key, value]) => [key, value])
 );
 
 export const getColorForLanguage = (language: string) => {
-  const lowerCaseLanguage = language.toLowerCase();
-  if (languageColors[lowerCaseLanguage]) {
-    return languageColors[lowerCaseLanguage].color;
+  if (languageColors[language]) {
+    return languageColors[language].color;
   }
   return "#000000";
 };
