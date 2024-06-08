@@ -9,7 +9,7 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import Card from "@/components/ui/Card";
 import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
-import { CodeTimeKeys, StatsResponse } from "./types";
+import { CodeTimeKeys, StatsResponse } from "@/types";
 
 const Dashboard = () => {
   const { data } = useSWR<StatsResponse>("/v1/stats", fetcher);
