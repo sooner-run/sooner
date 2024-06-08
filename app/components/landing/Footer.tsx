@@ -7,14 +7,14 @@ const Footer = () => {
       title: "FAQ",
       href: "/faq",
     },
-    {
-      title: "Terms",
-      href: "/terms",
-    },
-    {
-      title: "Privacy",
-      href: "/privacy",
-    },
+    // {
+    //   title: "Terms",
+    //   href: "/terms",
+    // },
+    // {
+    //   title: "Privacy",
+    //   href: "/privacy",
+    // },
     {
       title: "Support",
       href: "/support",
@@ -41,7 +41,7 @@ const Footer = () => {
   ];
 
   return (
-    <div className="px-20 relative">
+    <div className="lg:px-20 relative px-5">
       <div className="h-[1px] w-full bg-gradient-to-r absolute right-0 top-0 from-transparent via-accent/20 to-transparent"></div>
       <div className="py-5 flex items-center justify-between">
         <div className="flex items-center gap-x-10">
