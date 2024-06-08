@@ -2,6 +2,8 @@ export const getClassByTime = (count: number): string => {
   const hours = count / (1000 * 60 * 60);
 
   switch (true) {
+    case hours == 0:
+      return "color_scale-0";
     case hours < 1:
       return "color-scale-1";
     case hours >= 1 && hours <= 3:
