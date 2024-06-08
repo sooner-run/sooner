@@ -66,7 +66,7 @@ const Dashboard = () => {
             </Card>
           ))}
         </div>
-        <Heatmap />
+        <Heatmap values={data.activity} />
         <AllProjects />
       </div>
     </DashboardLayout>
