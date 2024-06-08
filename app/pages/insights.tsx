@@ -9,7 +9,7 @@ import { getColorForLanguage } from "@/utils/getColorForLanguage";
 import { time_to_human } from "@/utils/time_to_human";
 import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
-import { InsightsData } from "./types";
+import { InsightsData } from "@/types";
 
 const Insights = () => {
   const { data, isLoading } = useSWR<InsightsData>("/v1/insights", fetcher);
