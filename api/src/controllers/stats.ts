@@ -4,6 +4,7 @@ import { and, eq, gte, lte, sum, min } from "drizzle-orm";
 import { pulses } from "../db/schema";
 import dayjs from "dayjs";
 import { time_to_human } from "../utils/time_to_human";
+import { get_activity_chart_data } from "./activity-chart-data";
 
 export const stats = async (c: Context) => {
   try {
@@ -88,6 +89,8 @@ export const stats = async (c: Context) => {
       }
     }
 
+    const activity = await get_activity_chart_data(c);
+
     return c.json(
       {
         daily_average: time_to_human(Number(allTime.time) / daysAllTime),
@@ -106,6 +109,7 @@ export const stats = async (c: Context) => {
           },
         },
         streak: streak,
+        activity,
       },
       200
     );
