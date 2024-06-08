@@ -3,32 +3,18 @@ import IconThing from "./IconThing";
 import { BiSolidGridAlt } from "react-icons/bi";
 import CalendarHeatmap from "react-calendar-heatmap";
 import { useEffect, useState } from "react";
-import { faker } from "@faker-js/faker";
 import { Tooltip } from "react-tooltip";
 import { getClassByTime } from "@/utils/getClassByTime";
 import { formatCount } from "@/utils/formatCount";
+import { PulseData } from "@/pages/types";
+import { time_to_human } from "@/utils/time_to_human";
 
-const Heatmap = () => {
-  const [values, setValues] = useState<{ date: Date; count: number }[]>([]);
-
-  useEffect(() => {
-    const startDate = new Date("2024-01-01");
-    const endDate = new Date("2024-12-31");
-    const data = [];
-
-    for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
-      const date = new Date(d);
-      const count = faker.number.int({ min: 0, max: 50_400_000 });
-      data.push({ date, count });
-    }
-    setValues(data);
-  }, []);
-
+const Heatmap = ({ values }: { values: PulseData[] }) => {
   const formatDate = (date: Date): string => {
-    const options = { month: "long", day: "numeric", year: "numeric" };
-    const formattedDate = date.toLocaleDateString();
+    const formattedMonthYear = new Intl.DateTimeFormat("en-US", {
+      month: "long",
+    }).format(date);
 
-    // Adding ordinal suffix to the day
     const day = date.getDate();
     const ordinalSuffix = (n: number) => {
       if (n > 3 && n < 21) return "th";
@@ -45,7 +31,7 @@ const Heatmap = () => {
     };
 
     const dayWithSuffix = day + ordinalSuffix(day);
-    return formattedDate.replace(String(day), dayWithSuffix);
+    return `${dayWithSuffix} ${formattedMonthYear}`;
   };
 
   return (
@@ -76,7 +62,7 @@ const Heatmap = () => {
           tooltipDataAttrs={(value: { count: number; date: Date }) => {
             const { count, date } = value;
             return {
-              "data-tooltip-content": `${formatCount(count)} on ${new Date(date).toLocaleDateString()}`,
+              "data-tooltip-content": ` ${count === 0 ? "No activity" : `${time_to_human(count)}`} on ${formatDate(new Date(date))}`,
               "data-tooltip-id": "codetime-tooltip",
             };
           }}
