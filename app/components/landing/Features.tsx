@@ -40,13 +40,13 @@ const Features = () => {
   ];
 
   return (
-    <div className="p-20">
+    <div className="lg:p-20 p-5">
       <h1 className="text-6xl font-semibold">Everything you need</h1>
       <p className="text-lg">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto!
       </p>
 
-      <div className="grid grid-cols-2 gap-4 mt-10">
+      <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 mt-10">
         {feats.map((f, i) => (
           <div
             className="border border-white/5 rounded-2xl h-[400px] relative overflow-hidden"
