@@ -24,7 +24,7 @@ const ActivityChart = () => {
     setValues(data);
   }, []);
   return (
-    <div className="px-20 landing">
+    <div className="lg:px-20 px-5 landing mt-10">
       <div className="relative border border-white/5 rounded-2xl p-10">
         <BorderBeam duration={5} />
         <div className="mb-10">
