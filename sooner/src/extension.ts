@@ -12,7 +12,7 @@ const activityTimeouts: Map<
 
 let apiKey: string | undefined;
 
-const debounceTime = 5 * 1000; // 5 seconds in milliseconds
+const debounceTime = 900 * 1000; // 15 minutes in milliseconds
 
 const startTracking = () => {
   if (!apiKey) {
