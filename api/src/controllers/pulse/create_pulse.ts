@@ -1,10 +1,20 @@
 import { Context } from "hono";
 import { pulses } from "../../db/schema";
 import { db } from "../../db";
+import languageData from "../../../data/languages.json";
 
-// For some reason VS Code returns 'plaintext' as the language for kotlin, I figured this may happen for other languages too, so just in case, this object would be updated.
-const extensions: { [key: string]: string } = {
-  ".kt": "kotlin",
+// Function to get the language based on file extension
+const getLanguageFromPath = (path: string) => {
+  const extension = `.${path.split(".").pop()}`;
+  for (const language of languageData) {
+    if (
+      Array.isArray(language.extensions) &&
+      language.extensions.includes(extension)
+    ) {
+      return language.name;
+    }
+  }
+  return "Unknown";
 };
 
 export const create_pulse = async (c: Context) => {
@@ -12,10 +22,11 @@ export const create_pulse = async (c: Context) => {
     const user_id = c.get("user_id");
     const body = await c.req.json();
 
-    const extension = Object.keys(extensions).find((ext) =>
-      body.path.endsWith(ext)
-    );
-    const language = extension ? extensions[extension] : body.language;
+    // Log the path and file extension for debugging purposes
+    console.log("Path:", body.path);
+    console.log("File extension:", `.${body.path.split(".").pop()}`);
+
+    const language = getLanguageFromPath(body.path);
 
     await db.insert(pulses).values({
       user_id,
