@@ -27,13 +27,12 @@ const DashboardLayout: FC<{
   const location = useRouter();
 
   const variants = {
-    hidden: { opacity: 0, x: -100 },
-    enter: { opacity: 1, x: 0, transition: { duration: 0.5 } },
-    exit: { opacity: 0, x: -100, transition: { duration: 0.5 } },
+    hidden: { opacity: 0, x: 100 },
+    enter: { opacity: 1, x: 0, transition: { duration: 0.2 } },
   };
 
   return (
-    <div className="flex">
+    <div className="flex text-white">
       <Head>
         <title>{`${title} ~ Sooner`}</title>
       </Head>
