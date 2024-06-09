@@ -12,7 +12,7 @@ import { axios, axiosPublic } from "@/utils/axios";
 const AllProjects = () => {
   const { data: projects } = useSWR("/v1/projects", fetcher);
 
-  /*** Would need this in the future. */
+  /*** Would need this in the future. */ /***Coming back to this 2 days later, why tf did I think I would need it in the future??? I have no idea, I'll keep it anyway just in case, maybe there's actually a reason. */
   // const fetchProjects = async () => {
   //   try {
   //     const { data } = await axios.get("/v1/projects");
@@ -41,7 +41,7 @@ const AllProjects = () => {
           </Link>
         </div>
       </div>
-      <div className="px-4 py-3 flex gap-3">
+      <div className="px-4 py-3 grid gap-3 grid-cols-3">
         {projects?.map((project: any, i: number) => (
           <ProjectCard key={i} {...project} />
         ))}
