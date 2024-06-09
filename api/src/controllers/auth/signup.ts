@@ -6,7 +6,7 @@ import { generateAlphaNumeric } from "../../utils/generators";
 import { hashSync } from "bcryptjs";
 import dayjs from "dayjs";
 
-export const signup = async (c: Context) => {
+export const Signup = async (c: Context) => {
   const {
     username,
     email,
