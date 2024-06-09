@@ -20,7 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
     };
   }, [router.events]);
 
-  const dashboardRoutes = ["/dashboard", "/projects", "/settings"];
+  const dashboardRoutes = ["/dashboard", "/projects", "/settings", "/insights"];
   const isDashboardRoute = dashboardRoutes.includes(router.pathname);
 
   return (
