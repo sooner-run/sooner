@@ -18,7 +18,7 @@ const ProjectCard = ({
 }) => {
   return (
     <Link href={url} className="w-full">
-      <Card className="p-3 font-medium cursor-pointer hover:bg-grey-300/60 transition-colors max-w-72">
+      <Card className="p-3 font-medium cursor-pointer hover:bg-grey-300/60 transition-colors">
         <h2 className="text-grey-100">{name}</h2>
         <h1 className="text-2xl my-5">{time_human_readable}</h1>
         <div className="flex items-center gap-x-1">
