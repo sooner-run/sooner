@@ -1,7 +1,7 @@
 import { Hono } from "hono";
-import { api_key } from "./controllers/app/api_key";
-import { profile } from "./controllers/app/profile";
+import { ApiKey } from "./controllers/app/apiKey";
+import { Profile } from "./controllers/app/profile";
 export const router = new Hono();
 
-router.get("/api-key", api_key);
-router.get("/profile", profile);
+router.get("/api-key", ApiKey);
+router.get("/profile", Profile);
