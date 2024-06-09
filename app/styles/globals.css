@@ -12,6 +12,11 @@ input::-ms-clear {
 body {
   font-family: Inter;
   overflow-x: hidden;
+  background-color: #09090b;
+}
+
+#__next {
+  overflow-x: hidden;
 }
 
 .color-scale-1 {
