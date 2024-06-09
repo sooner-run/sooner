@@ -14,10 +14,10 @@ body {
   overflow-x: hidden;
   background-color: #09090b;
 }
-
+/* 
 #__next {
   overflow-x: hidden;
-}
+} */
 
 .color-scale-1 {
   fill: #e0d1f5;
