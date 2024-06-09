@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 
 const DashboardLayout: FC<{
   children: ReactNode;
-  title: string;
+  title?: string;
   maintitle?: ReactNode;
   sublinks?: ReactNode;
 }> = ({ children, title, sublinks, maintitle }) => {
