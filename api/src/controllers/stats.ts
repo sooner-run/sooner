@@ -5,6 +5,7 @@ import { pulses } from "../db/schema";
 import dayjs from "dayjs";
 import { time_to_human } from "../utils/time_to_human";
 import { GetActivityChartData } from "./activityChartData";
+import { CalculateStreak } from "./calculateStreak";
 
 export const Stats = async (c: Context) => {
   try {
@@ -65,31 +66,9 @@ export const Stats = async (c: Context) => {
 
     const daysAllTime = dayjs().diff(dayjs(firstEntry.created_at), "day") + 1;
 
-    let streak = 0;
-    let currentDay = dayjs().startOf("day");
-    while (true) {
-      const [dayPulse] = await db
-        .select({
-          time: sum(pulses.time),
-        })
-        .from(pulses)
-        .where(
-          and(
-            eq(pulses.user_id, userId),
-            gte(pulses.created_at, currentDay.toDate()),
-            lte(pulses.created_at, currentDay.endOf("day").toDate())
-          )
-        );
-
-      if (Number(dayPulse.time) > 0) {
-        streak++;
-        currentDay = currentDay.subtract(1, "day");
-      } else {
-        break;
-      }
-    }
-
     const activity = await GetActivityChartData(userId);
+
+    const streak = await CalculateStreak(userId);
 
     return c.json(
       {
@@ -108,7 +87,7 @@ export const Stats = async (c: Context) => {
             time: time_to_human(Number(allTime.time)),
           },
         },
-        streak: streak,
+        streak,
         activity,
       },
       200
