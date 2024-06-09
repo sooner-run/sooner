@@ -3,7 +3,7 @@ import { and, eq, gte, lte, sum } from "drizzle-orm";
 import { pulses } from "../db/schema";
 import dayjs from "dayjs";
 
-export const calculateStreak = async (userId: string): Promise<number> => {
+export const CalculateStreak = async (userId: string): Promise<number> => {
   let streak = 0;
   let currentDay = dayjs().startOf("day");
 
