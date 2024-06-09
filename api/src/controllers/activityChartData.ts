@@ -1,6 +1,5 @@
-import { Context } from "hono";
 import { db } from "../db";
-import { eq, and, gte, lte, sum } from "drizzle-orm";
+import { eq, and, gte, lte, sql } from "drizzle-orm";
 import { pulses } from "../db/schema";
 import dayjs from "dayjs";
 
@@ -9,10 +8,17 @@ export const GetActivityChartData = async (userId: string) => {
     const startDate = dayjs().startOf("year").toDate();
     const endDate = dayjs().endOf("year").toDate();
 
-    const pulseData = await db
+    type PulseData = {
+      date: string;
+      count: number;
+    };
+
+    const pulseData: PulseData[] = await db
       .select({
-        date: pulses.created_at,
-        count: sum(pulses.time),
+        date: sql<string>`DATE_TRUNC('day', ${pulses.created_at})::date`.as(
+          "date"
+        ),
+        count: sql<number>`SUM(${pulses.time})`.as("count"),
       })
       .from(pulses)
       .where(
@@ -22,11 +28,11 @@ export const GetActivityChartData = async (userId: string) => {
           lte(pulses.created_at, endDate)
         )
       )
-      .groupBy(pulses.created_at);
+      .groupBy(sql`DATE_TRUNC('day', ${pulses.created_at})`);
 
-    const pulseMap = new Map();
+    const pulseMap = new Map<string, number>();
     pulseData.forEach((item) => {
-      pulseMap.set(item.date?.toISOString().split("T")[0], Number(item.count));
+      pulseMap.set(item.date.split("T")[0], Number(item.count));
     });
 
     const result = [];
@@ -41,8 +47,10 @@ export const GetActivityChartData = async (userId: string) => {
       });
       currentDate = currentDate.add(1, "day");
     }
+
     return result;
-  } catch {
+  } catch (error) {
+    console.error("Error fetching activity chart data:", error);
     return null;
   }
 };
