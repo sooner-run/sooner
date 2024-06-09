@@ -14,7 +14,7 @@ const dayNames = [
   "Saturday",
 ];
 
-export const insights = async (c: Context) => {
+export const Insights = async (c: Context) => {
   try {
     const userId = c.get("user_id");
     const averageTimesByDay = dayNames.reduce((acc, day, index) => {
