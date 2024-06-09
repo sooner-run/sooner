@@ -4,9 +4,9 @@ import { and, eq, gte, lte, sum, min } from "drizzle-orm";
 import { pulses } from "../db/schema";
 import dayjs from "dayjs";
 import { time_to_human } from "../utils/time_to_human";
-import { get_activity_chart_data } from "./activity-chart-data";
+import { GetActivityChartData } from "./activityChartData";
 
-export const stats = async (c: Context) => {
+export const Stats = async (c: Context) => {
   try {
     const userId = c.get("user_id");
 
@@ -89,7 +89,7 @@ export const stats = async (c: Context) => {
       }
     }
 
-    const activity = await get_activity_chart_data(c);
+    const activity = await GetActivityChartData(userId);
 
     return c.json(
       {
