@@ -8,6 +8,8 @@ import {
 import { FC, ReactNode } from "react";
 import { Tooltip } from "react-tooltip";
 import { useRouter } from "next/router";
+import Head from "next/head";
+import { motion } from "framer-motion";
 
 const DashboardLayout: FC<{
   children: ReactNode;
@@ -24,8 +26,17 @@ const DashboardLayout: FC<{
 
   const location = useRouter();
 
+  const variants = {
+    hidden: { opacity: 0, x: -100 },
+    enter: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+    exit: { opacity: 0, x: -100, transition: { duration: 0.5 } },
+  };
+
   return (
     <div className="flex">
+      <Head>
+        <title>{`${title} ~ Sooner`}</title>
+      </Head>
       <Tooltip id="route" />
       <div className="sticky top-0 flex flex-col w-16 border-r items-center border-l border-grey h-screen">
         <div className="border-b border-grey h-16 w-full flex items-center justify-center">
@@ -40,7 +51,11 @@ const DashboardLayout: FC<{
               data-tooltip-content={link.text}
             >
               <link.icon
-                className={`${location.pathname.includes(link.href) ? "text-accent" : "text-grey-100"} hover:text-accent transition-colors`}
+                className={`${
+                  location.pathname.includes(link.href)
+                    ? "text-accent"
+                    : "text-grey-100"
+                } hover:text-accent transition-colors`}
               />
             </Link>
           ))}
@@ -51,7 +66,15 @@ const DashboardLayout: FC<{
         <div className="sticky top-0 bg-black border-b border-grey px-10 flex items-center h-16 w-full">
           <h2 className="font-medium">{maintitle}</h2>
         </div>
-        <div className="pt-4 pb-16">{children}</div>
+        <motion.div
+          initial="hidden"
+          animate="enter"
+          exit="exit"
+          variants={variants}
+          className="pt-4 pb-16"
+        >
+          {children}
+        </motion.div>
       </div>
     </div>
   );
