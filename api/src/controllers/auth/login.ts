@@ -8,7 +8,7 @@ import { setCookie } from "hono/cookie";
 import dayjs from "dayjs";
 import { isProd } from "../../../constants";
 
-export const login = async (c: Context) => {
+export const Login = async (c: Context) => {
   const { email, password }: { email: string; password: string } =
     await c.req.json();
   try {
