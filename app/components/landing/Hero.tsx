@@ -6,7 +6,7 @@ import { SiGithub, SiVisualstudiocode } from "react-icons/si";
 
 const Hero = () => {
   return (
-    <div className="lg:px-20 px-5 flex flex-col items-center">
+    <div className="lg:px-20 px-5 flex flex-col items-center z-30">
       <DotPattern
         width={20}
         height={20}
