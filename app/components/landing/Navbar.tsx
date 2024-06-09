@@ -22,7 +22,7 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="flex items-center justify-between py-5 lg:px-20 px-5 sticky z-30 top-0 backdrop-blur-lg">
+    <div className="text-sm flex items-center justify-between py-5 lg:px-20 px-5 sticky z-30 top-0 backdrop-blur-lg">
       <Link href="/">
         <img src="/logo.png" alt="Sooner logo" className="w-28" />
       </Link>
