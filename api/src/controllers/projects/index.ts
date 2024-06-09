@@ -4,7 +4,7 @@ import { pulses } from "../../db/schema";
 import { desc, eq, sum } from "drizzle-orm";
 import { time_to_human } from "../../utils/time_to_human";
 
-export const retrieve_projects = async (c: Context) => {
+export const RetrieveProjects = async (c: Context) => {
   try {
     const projects = await db
       .select({
