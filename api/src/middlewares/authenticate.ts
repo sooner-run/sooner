@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { getCookie } from "hono/cookie";
 import { verify } from "jsonwebtoken";
 
-export const authMiddleware: MiddlewareHandler = async (c: Context, next) => {
+export const AuthMiddleware: MiddlewareHandler = async (c: Context, next) => {
   try {
     const authHeader = c.req.raw.headers.get("Authorization");
     const auth_token = getCookie(c, "sooner.auth-token");
