@@ -1,18 +1,18 @@
 import { Hono } from "hono";
-import { create_pulse } from "./controllers/pulse/create_pulse";
-import { retrieve_all_pulses } from "./controllers/pulse/retrieve_all_pulses";
-import { retrieve_projects } from "./controllers/projects";
-import { retrieve_single_project } from "./controllers/projects/project";
-import { codetime_today } from "./controllers/codetime-today";
-import { insights } from "./controllers/insights";
-import { stats } from "./controllers/stats";
+import { RetrieveProjects } from "./controllers/projects";
+import { Insights } from "./controllers/insights";
+import { Stats } from "./controllers/stats";
+import { CreatePulse } from "./controllers/pulse/createPulse";
+import { RetrieveAllPulses } from "./controllers/pulse/retrieveAllPulses";
+import { CodetimeToday } from "./controllers/codetimeToday";
+import { RetrieveSingleProject } from "./controllers/projects/project";
 
 export const router = new Hono();
 
-router.post("/pulses", create_pulse);
-router.get("/pulses", retrieve_all_pulses);
-router.get("/projects", retrieve_projects);
-router.get("/projects/:project", retrieve_single_project);
-router.get("/codetime-today", codetime_today);
-router.get("/insights", insights);
-router.get("/stats", stats);
+router.post("/pulses", CreatePulse);
+router.get("/pulses", RetrieveAllPulses);
+router.get("/projects", RetrieveProjects);
+router.get("/projects/:project", RetrieveSingleProject);
+router.get("/codetime-today", CodetimeToday);
+router.get("/insights", Insights);
+router.get("/stats", Stats);
