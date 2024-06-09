@@ -8,6 +8,7 @@ import ProjectsLayout from "@/components/layout/ProjectsLayout";
 import Card from "@/components/ui/Card";
 import { getColorForLanguage } from "@/utils/getColorForLanguage";
 import { time_to_human } from "@/utils/time_to_human";
+import DotPattern from "@/components/magicui/dot-pattern";
 
 const Project = () => {
   const [language, setLanguage] = useState("");
@@ -111,7 +112,8 @@ const Project = () => {
             </div>
           </div>
         </Card>
-        <Card className="p-4">
+        <Card className="relative p-4">
+          <DotPattern className="rounded-2xl opacity-15 p-2 pb-7 pl-12" />
           <LineChart
             labels={[
               "May 22nd",
