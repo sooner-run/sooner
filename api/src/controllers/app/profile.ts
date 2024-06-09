@@ -3,7 +3,7 @@ import { db } from "../../db";
 import { users } from "../../db/schema";
 import { eq } from "drizzle-orm";
 
-export const profile = async (c: Context) => {
+export const Profile = async (c: Context) => {
   try {
     const [user] = await db
       .select({
