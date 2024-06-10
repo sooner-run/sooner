@@ -1,16 +1,47 @@
 import { Context } from "hono";
 import { db } from "../../db";
 import { pulses } from "../../db/schema";
-import { and, asc, desc, eq, max, sql, sum } from "drizzle-orm";
+import { and, desc, eq, sum, gte, lte, sql } from "drizzle-orm";
 import { time_to_human } from "../../utils/time_to_human";
+import dayjs from "dayjs";
 
 export const RetrieveSingleProject = async (c: Context) => {
   try {
     const project_name = c.req.param("project");
+    const start_date = new Date(c.req.query("start_date")!);
+    const end_date = new Date(c.req.query("end_date")!);
+
+    const projectLastXDays = await db
+      .select({
+        date: sql`DATE(pulses.created_at)`,
+        total_time: sum(pulses.time),
+      })
+      .from(pulses)
+      .where(
+        and(
+          eq(pulses.user_id, c.get("user_id")),
+          eq(pulses.project, project_name),
+          gte(pulses.created_at, start_date),
+          lte(pulses.created_at, end_date)
+        )
+      )
+      .groupBy(sql`DATE(pulses.created_at)`)
+      .orderBy(sql`DATE(pulses.created_at)`);
+
+    const [projectTotal] = await db
+      .select({
+        total_time: sum(pulses.time),
+      })
+      .from(pulses)
+      .where(
+        and(
+          eq(pulses.user_id, c.get("user_id")),
+          eq(pulses.project, project_name)
+        )
+      );
 
     const [project] = await db
       .select({
-        total_time: sum(pulses.time),
         project: pulses.project,
       })
       .from(pulses)
@@ -35,7 +66,9 @@ export const RetrieveSingleProject = async (c: Context) => {
       .where(
         and(
           eq(pulses.user_id, c.get("user_id")),
-          eq(pulses.project, project_name)
+          eq(pulses.project, project_name),
+          gte(pulses.created_at, start_date),
+          lte(pulses.created_at, end_date)
         )
       )
       .groupBy(pulses.path)
@@ -50,7 +83,9 @@ export const RetrieveSingleProject = async (c: Context) => {
       .where(
         and(
           eq(pulses.user_id, c.get("user_id")),
-          eq(pulses.project, project_name)
+          eq(pulses.project, project_name),
+          gte(pulses.created_at, start_date),
+          lte(pulses.created_at, end_date)
         )
       )
       .orderBy(desc(sum(pulses.time)))
@@ -62,18 +97,53 @@ export const RetrieveSingleProject = async (c: Context) => {
       .where(
         and(
           eq(pulses.user_id, c.get("user_id")),
-          eq(pulses.project, project_name)
+          eq(pulses.project, project_name),
+          gte(pulses.created_at, start_date),
+          lte(pulses.created_at, end_date)
         )
       )
       .orderBy(desc(sum(pulses.time)))
       .groupBy(pulses.branch);
 
+    const generateDateRange = (startDate: Date, endDate: Date) => {
+      const dates = [];
+      let currentDate = dayjs(startDate);
+      const lastDate = dayjs(endDate);
+
+      while (
+        currentDate.isBefore(lastDate) ||
+        currentDate.isSame(lastDate, "day")
+      ) {
+        dates.push(currentDate.format("YYYY-MM-DD"));
+        currentDate = currentDate.add(1, "day");
+      }
+
+      return dates;
+    };
+
+    const completeDates = generateDateRange(start_date, end_date);
+    const timeseries = completeDates.map((date) => {
+      const record = projectLastXDays.find((record) => record.date === date);
+      return {
+        date,
+        time: record ? Number(record.total_time) : 0,
+      };
+    });
+
     return c.json(
       {
-        name: project_name,
-        time: Number(project.total_time),
-        time_human_readable: time_to_human(Number(project.total_time)),
-        top_language: languages[0].language,
+        time: projectLastXDays.reduce(
+          (acc, curr) => acc + Number(curr.total_time),
+          0
+        ),
+        time_human_readable: time_to_human(
+          projectLastXDays.reduce(
+            (acc, curr) => acc + Number(curr.total_time),
+            0
+          )
+        ),
+        top_language: languages[0]?.language || "N/A",
+        all_time: time_to_human(Number(projectTotal.total_time)),
         files: path_records.map((record) => ({
           file: record.path?.split("/")[record.path.split("/").length - 1],
           path: record.path,
@@ -90,6 +160,7 @@ export const RetrieveSingleProject = async (c: Context) => {
           time: Number(b.time),
           time_human_readable: time_to_human(Number(b.time)),
         })),
+        timeseries,
       },
       200
     );
