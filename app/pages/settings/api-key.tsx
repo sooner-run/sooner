@@ -7,6 +7,7 @@ import { LuCopy, LuCopyCheck } from "react-icons/lu";
 import { Tooltip } from "react-tooltip";
 import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
+import { copyToClipboard } from "@/utils/copyToClipboard";
 
 const ApiKeySettings = () => {
   const { data, isLoading } = useSWR("/app/api-key", fetcher);
@@ -17,6 +18,7 @@ const ApiKeySettings = () => {
 
   const handleCopy = () => {
     setCopied(true);
+    copyToClipboard(data?.key);
     setTimeout(() => {
       setCopied(false);
     }, 2000);
