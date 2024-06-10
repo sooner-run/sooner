@@ -2,6 +2,7 @@ import { axios } from "@/utils/axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { InputHTMLAttributes, useState } from "react";
+import { CgSpinner } from "react-icons/cg";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
@@ -111,6 +112,8 @@ const Login = () => {
 
   const router = useRouter();
 
+  const [loading, setLoading] = useState(false);
+
   return (
     <div className="flex flex-col gap-y-8 items-center justify-center text-sm min-h-screen max-w-[360px] mx-auto">
       <div className="w-full">
@@ -129,6 +132,7 @@ const Login = () => {
         onSubmit={async (e) => {
           e.preventDefault();
           try {
+            setLoading(true);
             await axios.post("/auth/login", payload, {
               // setSubmitting(true)
               //   signal: newAbortSignal(5000)
@@ -137,6 +141,7 @@ const Login = () => {
           } catch (error: any) {
             console.log(error);
           } finally {
+            setLoading(false);
           }
         }}
       >
@@ -164,9 +169,10 @@ const Login = () => {
 
         <button
           type="submit"
-          className="py-3 bg-accent text-white rounded-2xl font-medium disabled:bg-gray-500 disabled:cursor-not-allowed"
+          className="bg-accent text-white rounded-2xl flex items-center justify-center h-11 font-medium disabled:bg-gray-500 disabled:cursor-not-allowed"
+          disabled={loading}
         >
-          Login
+          {loading ? <CgSpinner className="animate-spin" size={20} /> : "Login"}
         </button>
       </form>
     </div>
