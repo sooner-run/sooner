@@ -3,7 +3,13 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const SettingsLayout = ({ children }: { children: ReactNode }) => {
+const SettingsLayout = ({
+  children,
+  loading,
+}: {
+  children: ReactNode;
+  loading?: boolean;
+}) => {
   const routes = [
     {
       name: "Profile",
@@ -48,6 +54,7 @@ const SettingsLayout = ({ children }: { children: ReactNode }) => {
         routes.find((r) => r.href === location.pathname)?.name || "Settings"
       }
       sublinks={<SubLinks />}
+      loading={loading}
     >
       <div className="w-full px-32">{children}</div>
     </DashboardLayout>
