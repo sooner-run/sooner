@@ -49,7 +49,7 @@ const Pricing = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen text-white">
       <Navbar />
       <div className="lg:px-20 px-5 pb-20">
         <h1 className="text-5xl font-semibold mt-10 mb-6">Sooner Pricing</h1>
