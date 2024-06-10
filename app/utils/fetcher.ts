@@ -1,3 +1,10 @@
 import { axios } from "./axios";
 
-export const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+export const fetcher = async (url: string) => {
+  try {
+    const res = await axios.get(url);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
