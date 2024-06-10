@@ -1,35 +1,23 @@
 import { Context } from "hono";
-import { and, eq, gte, lte } from "drizzle-orm";
+import { and, eq, gte, lte, sum } from "drizzle-orm";
 import dayjs from "dayjs";
 import { db } from "../db";
 import { pulses } from "../db/schema";
 import { time_to_human } from "../utils/time_to_human";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
-
-const timeZone = "Africa/Lagos";
 
 export const CodetimeToday = async (c: Context) => {
   try {
     const userId = c.get("user_id");
 
-    const startOfToday = dayjs().tz(timeZone).startOf("day").toDate();
-    const endOfToday = dayjs().tz(timeZone).endOf("day").toDate();
-
-    console.log({
-      startOfToday: startOfToday.toISOString(),
-      endOfToday: endOfToday.toISOString(),
-    });
+    const startOfToday = dayjs().startOf("day").toDate();
+    const endOfToday = dayjs().endOf("day").toDate();
 
     const startOfTodayUTC = dayjs(startOfToday).utc().toDate();
     const endOfTodayUTC = dayjs(endOfToday).utc().toDate();
 
     const [record] = await db
       .select({
-        time: pulses.time,
+        time: sum(pulses.time),
       })
       .from(pulses)
       .where(
