@@ -2,6 +2,7 @@ import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { useEffect, useRef, useState } from "react";
+import { formatCount } from "@/utils/formatCount";
 
 Chart.register(CategoryScale);
 Chart.defaults.plugins.legend.display = false;
@@ -62,7 +63,9 @@ const LineChart = ({
             },
             ticks: {
               callback(tickValue, index, ticks) {
-                return hideYaxisLabels ? "" : `${tickValue}h`;
+                return hideYaxisLabels
+                  ? ""
+                  : `${formatCount(Number(tickValue), true)}`;
               },
             },
           },
@@ -81,7 +84,7 @@ const LineChart = ({
             callbacks: {
               //@ts-ignore
               label: (context) => {
-                return `${context.parsed.y} hours`;
+                return `${formatCount(context.parsed.y)}`;
               },
             },
           },
