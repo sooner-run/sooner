@@ -4,7 +4,7 @@ import React from "react";
 
 const Promise = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen text-white">
       <Navbar />
       <div className="lg:px-52 px-5 pb-20 text-lg">
         <h1 className="text-5xl font-semibold mt-10 mb-6">Forever Promise</h1>
