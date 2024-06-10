@@ -10,13 +10,16 @@ import { Tooltip } from "react-tooltip";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { motion } from "framer-motion";
+import { PiSpinner } from "react-icons/pi";
+import { CgSpinner } from "react-icons/cg";
 
 const DashboardLayout: FC<{
   children: ReactNode;
   title?: string;
   maintitle?: ReactNode;
   sublinks?: ReactNode;
-}> = ({ children, title, sublinks, maintitle }) => {
+  loading?: boolean;
+}> = ({ children, title, sublinks, maintitle, loading }) => {
   const sidebarlinks = [
     { icon: Home01Icon, href: "/dashboard", text: "Dashboard" },
     { icon: Folder01Icon, href: "/projects", text: "Projects" },
@@ -62,7 +65,7 @@ const DashboardLayout: FC<{
       </div>
       {sublinks && sublinks}
       <div className="w-full">
-        <div className="sticky top-0 bg-black border-b border-grey px-10 flex items-center h-16 w-full">
+        <div className="sticky top-0 bg-black border-b border-grey px-10 flex items-center h-16 w-full z-10">
           <h2 className="font-medium">{maintitle}</h2>
         </div>
         <motion.div
@@ -72,7 +75,13 @@ const DashboardLayout: FC<{
           variants={variants}
           className="pt-4 pb-16"
         >
-          {children}
+          {loading ? (
+            <div className="py-10 flex items-center justify-center">
+              <CgSpinner size={30} className="animate-spin" />
+            </div>
+          ) : (
+            children
+          )}
         </motion.div>
       </div>
     </div>
