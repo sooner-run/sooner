@@ -33,7 +33,7 @@ const DonutChart = ({ labels, data }: { labels: string[]; data: number[] }) => {
         datasets: [
           {
             data,
-            backgroundColor: labels.map((c) => getColorForLanguage(c)) as [],
+            backgroundColor: labels?.map((c) => getColorForLanguage(c)) as [],
           },
         ],
       }}
