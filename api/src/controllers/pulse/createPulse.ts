@@ -2,7 +2,6 @@ import { Context } from "hono";
 import { pulses } from "../../db/schema";
 import { db } from "../../db";
 import languageData from "../../../data/languages.json";
-import * as path from "path";
 
 const getLanguageFromPath = (path: string) => {
   const extension = `.${path.split(".").pop()}`;
