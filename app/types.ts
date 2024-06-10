@@ -45,3 +45,38 @@ export interface StatsResponse {
   streak: number;
   activity: PulseData[];
 }
+
+interface FileDetails {
+  file: string;
+  path: string;
+  time: number;
+  time_human_readable: string;
+}
+
+interface LanguageDetails {
+  language: string;
+  time: number;
+  time_human_readable: string;
+}
+
+interface BranchDetails {
+  branch: string;
+  time: number;
+  time_human_readable: string;
+}
+
+interface Timeseries {
+  date: string;
+  time: number;
+}
+
+export interface ProjectData {
+  all_time: string;
+  time: number;
+  time_human_readable: string;
+  top_language: string;
+  files: FileDetails[];
+  languages: LanguageDetails[];
+  branches: BranchDetails[];
+  timeseries: Timeseries[];
+}
