@@ -9,7 +9,7 @@ import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
 
 const ApiKeySettings = () => {
-  const { data } = useSWR("/app/api-key", fetcher);
+  const { data, isLoading } = useSWR("/app/api-key", fetcher);
 
   const [copied, setCopied] = useState(false);
 
@@ -23,7 +23,7 @@ const ApiKeySettings = () => {
   };
 
   return (
-    <SettingsLayout>
+    <SettingsLayout loading={isLoading}>
       <Tooltip id="api-key" />
       <Card>
         <div className="border-b border-grey">
