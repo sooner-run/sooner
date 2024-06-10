@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { axios } from "@/utils/axios";
 
 const SettingsLayout = ({
   children,
@@ -38,7 +39,13 @@ const SettingsLayout = ({
             </Link>
           ))}
 
-          <button className="px-3 w-full hover:text-accent transition-colors text-left rounded-full py-2">
+          <button
+            className="px-3 w-full hover:text-accent transition-colors text-left rounded-full py-2"
+            onClick={async () => {
+              await axios.post("/auth/logout");
+              location.push("/login");
+            }}
+          >
             Sign out
           </button>
         </div>
