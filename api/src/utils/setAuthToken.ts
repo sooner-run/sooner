@@ -7,7 +7,7 @@ export const SetAuthToken = (c: Context, token: string) => {
   setCookie(c, "sooner.auth-token", token, {
     domain: isProd ? ".sooner.run" : "localhost",
     secure: isProd,
-    sameSite: "strict",
+    sameSite: isProd ? "None" : "Strict",
     expires: dayjs().add(90, "days").toDate(),
     httpOnly: true,
   });
