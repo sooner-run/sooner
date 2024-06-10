@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const request = axios.create({
-  baseURL: "http://localhost:1716/v1",
+  baseURL: "https://api.sooner.run/v1",
 });
