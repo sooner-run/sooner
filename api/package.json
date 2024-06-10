@@ -2,7 +2,6 @@
   "scripts": {
     "start": "tsx src/index.ts",
     "dev": "nodemon src/index.ts",
-    "build": "tsx .",
     "db-push": "npx drizzle-kit push",
     "db": "npx drizzle-kit generate",
     "studio": "npx drizzle-kit studio"
