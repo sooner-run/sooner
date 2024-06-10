@@ -12,9 +12,6 @@ export const CodetimeToday = async (c: Context) => {
     const startOfToday = dayjs().startOf("day").toDate();
     const endOfToday = dayjs().endOf("day").toDate();
 
-    const startOfTodayUTC = dayjs(startOfToday).utc().toDate();
-    const endOfTodayUTC = dayjs(endOfToday).utc().toDate();
-
     const [record] = await db
       .select({
         time: sum(pulses.time),
@@ -23,8 +20,8 @@ export const CodetimeToday = async (c: Context) => {
       .where(
         and(
           eq(pulses.user_id, userId),
-          gte(pulses.created_at, startOfTodayUTC),
-          lte(pulses.created_at, endOfTodayUTC)
+          gte(pulses.created_at, startOfToday),
+          lte(pulses.created_at, endOfToday)
         )
       );
 
