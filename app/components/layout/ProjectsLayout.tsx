@@ -7,7 +7,13 @@ import { fetcher } from "@/utils/fetcher";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const ProjectsLayout = ({ children }: { children: ReactNode }) => {
+const ProjectsLayout = ({
+  children,
+  loading,
+}: {
+  children: ReactNode;
+  loading?: boolean;
+}) => {
   const location = useRouter();
 
   const SubLinks = () => {
@@ -44,6 +50,7 @@ const ProjectsLayout = ({ children }: { children: ReactNode }) => {
   return (
     <DashboardLayout
       title="Projects"
+      loading={loading}
       maintitle={
         location.pathname !== "/projects" ? (
           <div className="flex items-center gap-x-2">
