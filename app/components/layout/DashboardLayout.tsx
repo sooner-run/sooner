@@ -5,12 +5,11 @@ import {
   Home01Icon,
   Settings01Icon,
 } from "hugeicons-react";
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useEffect } from "react";
 import { Tooltip } from "react-tooltip";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { motion } from "framer-motion";
-import { PiSpinner } from "react-icons/pi";
 import { CgSpinner } from "react-icons/cg";
 
 const DashboardLayout: FC<{
@@ -19,7 +18,8 @@ const DashboardLayout: FC<{
   maintitle?: ReactNode;
   sublinks?: ReactNode;
   loading?: boolean;
-}> = ({ children, title, sublinks, maintitle, loading }) => {
+  error?: any;
+}> = ({ children, title, sublinks, maintitle, loading, error }) => {
   const sidebarlinks = [
     { icon: Home01Icon, href: "/dashboard", text: "Dashboard" },
     { icon: Folder01Icon, href: "/projects", text: "Projects" },
@@ -33,6 +33,10 @@ const DashboardLayout: FC<{
     hidden: { opacity: 0, x: 100 },
     enter: { opacity: 1, x: 0, transition: { duration: 0.2 } },
   };
+
+  useEffect(() => {
+    console.log(error);
+  }, []);
 
   return (
     <div className="flex text-white">
