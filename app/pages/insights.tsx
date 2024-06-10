@@ -1,6 +1,4 @@
-import { faker } from "@faker-js/faker";
 import { Clock01Icon } from "hugeicons-react";
-import { useEffect, useState } from "react";
 import { GoDotFill } from "react-icons/go";
 import BarChart from "@/components/BarChart";
 import DashboardLayout from "@/components/layout/DashboardLayout";
@@ -14,26 +12,23 @@ import { InsightsData } from "@/types";
 const Insights = () => {
   const { data, isLoading } = useSWR<InsightsData>("/v1/insights", fetcher);
 
-  if (!data) return <>Loading...</>;
-
-  const weekdayAverage = data.weekday_average;
-  const times = weekdayAverage.map((_) => _.time);
-  const labels = weekdayAverage.map((_) => _.day);
-
   return (
-    <DashboardLayout title="Insights" maintitle="Insights">
+    <DashboardLayout title="Insights" maintitle="Insights" loading={isLoading}>
       <div className="lg:px-52 px-5 flex flex-col gap-y-5">
         <Card className="p-4">
           <h3 className="font-medium text-grey-100">Weekday average</h3>
           <div className="my-4">
-            <BarChart data={times} labels={labels} />
+            <BarChart
+              data={data?.weekday_average.map((_) => _.time)!}
+              labels={data?.weekday_average.map((_) => _.day)!}
+            />
           </div>
         </Card>
 
         <div className="flex gap-5 lg:flex-nowrap flex-wrap">
           <Card className="p-4 lg:w-1/2">
             <h3 className="mb-4 text-grey-100 font-medium">Top languages</h3>
-            {data.top_languages
+            {data?.top_languages
               .sort((a, b) => b.time - a.time)
               .map((l, i) => (
                 <div
@@ -57,7 +52,7 @@ const Insights = () => {
           </Card>
           <Card className="p-4 lg:w-1/2">
             <h3 className="mb-4 text-grey-100 font-medium">Top projects</h3>
-            {data.top_projects
+            {data?.top_projects
               .sort((a, b) => b.time - a.time)
               .map((p, i) => (
                 <div
