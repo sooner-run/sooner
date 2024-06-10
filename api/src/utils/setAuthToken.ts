@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 
 export const SetAuthToken = (c: Context, token: string) => {
   setCookie(c, "sooner.auth-token", token, {
-    domain: "localhost",
+    domain: isProd ? ".sooner.run" : "localhost",
     secure: isProd,
     sameSite: "strict",
     expires: dayjs().add(90, "days").toDate(),
