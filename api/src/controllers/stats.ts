@@ -64,7 +64,23 @@ export const Stats = async (c: Context) => {
       .from(pulses)
       .where(eq(pulses.user_id, userId));
 
-    const daysAllTime = dayjs().diff(dayjs(firstEntry.created_at), "day") + 1;
+    const [last7Days] = await db
+      .select({
+        time: sum(pulses.time),
+      })
+      .from(pulses)
+      .where(
+        and(
+          eq(pulses.user_id, userId),
+          gte(
+            pulses.created_at,
+            dayjs().subtract(7, "day").startOf("day").toDate()
+          ),
+          lte(pulses.created_at, dayjs().endOf("day").toDate())
+        )
+      );
+
+    const dailyAverageLast7Days = Number(last7Days.time) / 7;
 
     const activity = await GetActivityChartData(userId);
 
@@ -72,7 +88,7 @@ export const Stats = async (c: Context) => {
 
     return c.json(
       {
-        daily_average: time_to_human(Number(allTime.time) / daysAllTime),
+        daily_average: time_to_human(dailyAverageLast7Days),
         codetime: {
           Today: {
             time: time_to_human(Number(today.time)),
