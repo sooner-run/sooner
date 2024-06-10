@@ -11,13 +11,17 @@ import { StatsResponse } from "@/types";
 import Stats from "@/components/Stats";
 
 const Dashboard = () => {
-  const { data, isLoading } = useSWR<StatsResponse>("/v1/stats", fetcher);
+  const { data, isLoading, error } = useSWR<StatsResponse>(
+    "/v1/stats",
+    fetcher
+  );
 
   return (
     <DashboardLayout
       title="Dashboard"
       maintitle="Dashboard"
       loading={isLoading}
+      error={error}
     >
       <div className="flex items-center flex-col gap-y-3 w-full lg:px-52 px-5">
         <Stats codetime={data?.codetime!} />
