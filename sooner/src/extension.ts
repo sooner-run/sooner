@@ -80,7 +80,7 @@ export async function activate(context: vscode.ExtensionContext) {
     () => {
       if (apiKey) {
         vscode.env.openExternal(
-          vscode.Uri.parse(`https://example.com?key=${apiKey}`)
+          vscode.Uri.parse(`https://www.sooner.run/dashboard`)
         );
       } else {
         vscode.window
