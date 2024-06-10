@@ -7,10 +7,10 @@ import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
 
 const ProfileSettings = () => {
-  const { data } = useSWR("/app/profile", fetcher);
+  const { data, isLoading } = useSWR("/app/profile", fetcher);
 
   return (
-    <SettingsLayout>
+    <SettingsLayout loading={isLoading}>
       <div className="flex gap-4 flex-col">
         <Card>
           <div className="border-b border-grey">
