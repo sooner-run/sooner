@@ -10,7 +10,7 @@ const Input: React.FC<InputProps> = (props) => {
     <input
       type="text"
       {...props}
-      className="w-full bg-transparent rounded-2xl border border-gray-600 pl-3 py-3 outline-none focus:border-accent transition-all"
+      className="w-full bg-transparent rounded-2xl border text-white border-gray-600 pl-3 py-3 outline-none focus:border-accent transition-all"
     />
   );
 };
@@ -114,7 +114,7 @@ const Login = () => {
   return (
     <div className="flex flex-col gap-y-8 items-center justify-center text-sm min-h-screen max-w-[360px] mx-auto">
       <div className="w-full">
-        <h1 className="font-semibold text-2xl">Sign in to Sooner</h1>
+        <h1 className="font-semibold text-2xl text-white">Sign in to Sooner</h1>
         <p className="text-gray-400">
           {`Don't have an account?`}{" "}
           <Link href="/signup" className="text-accent font-medium">
@@ -133,7 +133,7 @@ const Login = () => {
               // setSubmitting(true)
               //   signal: newAbortSignal(5000)
             });
-            // router.push("/app");
+            router.push("/dashboard");
           } catch (error: any) {
             console.log(error);
           } finally {
