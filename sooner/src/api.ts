@@ -66,3 +66,15 @@ export const fetchCodingTimeToday = async (apiKey: string) => {
     return null;
   }
 };
+
+export async function validateApiKey(key: string): Promise<boolean> {
+  try {
+    const response = await request.post("/activate-extension", {
+      key,
+    });
+
+    return response.status === 200;
+  } catch (error) {
+    return false;
+  }
+}
