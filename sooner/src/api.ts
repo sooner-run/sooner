@@ -3,7 +3,6 @@ import * as vscode from "vscode";
 import { getCurrentBranch } from "./utils/branch";
 import { sendPulse } from "./utils/pulse";
 import * as os from "os";
-import axios from "axios";
 import { request } from "./configs/axios";
 
 export const sendPulseData = async ({
@@ -56,13 +55,11 @@ const getProjectPath = () => {
 
 export const fetchCodingTimeToday = async (apiKey: string) => {
   try {
-    const response = await request.get("/codetime-today",
-      {
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-        },
-      }
-    );
+    const response = await request.get("/codetime-today", {
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching coding time today:", error);
