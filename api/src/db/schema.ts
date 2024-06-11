@@ -27,6 +27,7 @@ export const users = pgTable("users", {
   display_codetime_publicly: boolean("display_codetime_publicly").default(
     false
   ),
+  is_extension_activated: boolean("is_extension_activated").default(false),
 });
 
 export const pulses = pgTable("pulses", {
