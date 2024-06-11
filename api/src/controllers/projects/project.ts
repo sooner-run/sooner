@@ -8,8 +8,10 @@ import dayjs from "dayjs";
 export const RetrieveSingleProject = async (c: Context) => {
   try {
     const project_name = c.req.param("project");
-    const start_date = new Date(c.req.query("start_date")!);
-    const end_date = new Date(c.req.query("end_date")!);
+    const start_date =
+      new Date(c.req.query("start_date")!) ||
+      dayjs().subtract(6, "days").toDate();
+    const end_date = new Date(c.req.query("end_date")!) || dayjs().toDate();
 
     const projectLastXDays = await db
       .select({
