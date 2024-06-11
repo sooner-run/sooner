@@ -3,13 +3,21 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { InputHTMLAttributes, useState } from "react";
 import { CgSpinner } from "react-icons/cg";
+import { Field, FieldProps, Form, Formik } from "formik";
+import * as Yup from "yup";
+import { IoWarning } from "react-icons/io5";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
-const Input: React.FC<InputProps> = (props) => {
+const Input: React.FC<InputProps & FieldProps> = ({
+  field,
+  form,
+  ...props
+}) => {
   return (
     <input
-      type="text"
+      autoComplete="off"
+      {...field}
       {...props}
       className="w-full bg-transparent rounded-2xl border text-white border-gray-600 pl-3 py-3 outline-none focus:border-accent transition-all"
     />
@@ -24,95 +32,25 @@ const Error = ({
   children: React.ReactNode;
 }) => {
   return (
-    <p
-      className={`${show ? "opacity-100" : "opacity-0"} transition-colors text-xs mt-1 h-4 text-red-500`}
+    <div
+      className={`${show ? "opacity-100 h-4" : "opacity-0 h-0"} transition-all mt-1 text-xs text-red-500`}
     >
-      {children || "mamam"}
-    </p>
+      {children}
+    </div>
   );
 };
 
-// export async function action({ request }: ActionFunctionArgs) {
-//   const formData = await request.formData();
-//   const email = String(formData.get("email"));
-//   const password = String(formData.get("password"));
-
-//   const errors: {
-//     email: string;
-//     password: string;
-//     firstname: string;
-//     username: string;
-//     global: string;
-//   } = {
-//     email: "",
-//     password: "",
-//     firstname: "",
-//     username: "",
-//     global: "",
-//   };
-
-//   if (!email) {
-//     errors.email = "Email is required";
-//   }
-
-//   if (!email.includes("@")) {
-//     errors.email = "Invalid email address";
-//   }
-
-//   if (!password) {
-//     errors.password = "Password is required";
-//   }
-
-//   const hasErrors = Object.values(errors).some((error) => error !== "");
-
-//   if (hasErrors) {
-//     return json({ errors });
-//   } else {
-//     try {
-//       const { data } = await axios.post("http://localhost:1716/auth/login", {
-//         email,
-//         password,
-//       });
-
-//       const cookie = serialize("sooner.auth-token", data.token, {
-//         httpOnly: true,
-//         secure: process.env.NODE_ENV === "production",
-//         sameSite: "strict",
-//         path: "/",
-//         expires: dayjs().add(30, "days").toDate(),
-//       });
-
-//       return redirect("/dashboard", {
-//         headers: {
-//           "Set-Cookie": cookie,
-//         },
-//       });
-//     } catch (error: any) {
-//       return json({
-//         errors: { ...errors, global: error.response.data.message },
-//       });
-//     }
-//   }
-// }
-
 const Login = () => {
-  //   const actionData = useActionData<typeof action>();
-
-  //   const hasGlobalError =
-  //     actionData && "errors" in actionData && actionData.errors.global;
-  //   const emailError =
-  //     actionData && "errors" in actionData && actionData.errors.email;
-  //   const passwordError =
-  //     actionData && "errors" in actionData && actionData.errors.password;
-
-  const [payload, setPayload] = useState({
-    email: "",
-    password: "",
-  });
-
   const router = useRouter();
 
-  const [loading, setLoading] = useState(false);
+  const [globalError, setGlobalError] = useState("");
+
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    password: Yup.string().required("Password is required"),
+  });
 
   return (
     <div className="flex flex-col gap-y-8 items-center justify-center text-sm min-h-screen max-w-[360px] mx-auto">
@@ -122,59 +60,76 @@ const Login = () => {
           {`Don't have an account?`}{" "}
           <Link href="/signup" className="text-accent font-medium">
             Get started
-          </Link>{" "}
+          </Link>
         </p>
-
-        {/* <Error show={!!hasGlobalError}>{hasGlobalError}</Error> */}
       </div>
-      <form
-        className="flex flex-col gap-y-4 w-full"
-        onSubmit={async (e) => {
-          e.preventDefault();
+
+      <Formik
+        initialValues={{
+          email: "",
+          password: "",
+        }}
+        validationSchema={validationSchema}
+        onSubmit={async (values, { setSubmitting }) => {
           try {
-            setLoading(true);
-            await axios.post("/auth/login", payload, {
-              // setSubmitting(true)
-              //   signal: newAbortSignal(5000)
-            });
+            setGlobalError("");
+            await axios.post("/auth/login", values);
             router.push("/dashboard");
           } catch (error: any) {
-            console.log(error);
+            setGlobalError(
+              error?.response?.data.message ||
+                "Something went wrong. Please try again."
+            );
           } finally {
-            setLoading(false);
+            setSubmitting(false);
           }
         }}
       >
-        <div>
-          <Input
-            type="email"
-            name="email"
-            placeholder="Email"
-            onChange={(e) => setPayload({ ...payload, email: e.target.value })}
-          />
-          {/* <Error show={!!emailError}>{emailError}</Error> */}
-        </div>
+        {({ isSubmitting, errors, touched }) => (
+          <Form className="w-full flex flex-col gap-y-4">
+            <div>
+              <Field
+                component={Input}
+                type="email"
+                name="email"
+                placeholder="Email"
+              />
+              <Error show={!!errors.email && touched.email!}>
+                {errors.email}
+              </Error>
+            </div>
 
-        <div>
-          <Input
-            type="password"
-            name="password"
-            placeholder="Password"
-            onChange={(e) =>
-              setPayload({ ...payload, password: e.target.value })
-            }
-          />
-          {/* <Error show={!!passwordError}>{passwordError}</Error> */}
-        </div>
+            <div>
+              <Field
+                name="password"
+                type="password"
+                placeholder="Password"
+                component={Input}
+              />
+              <Error show={!!errors.password && touched.password!}>
+                {errors.password}
+              </Error>
+            </div>
 
-        <button
-          type="submit"
-          className="bg-accent text-white rounded-2xl flex items-center justify-center h-11 font-medium disabled:bg-gray-500 disabled:cursor-not-allowed"
-          disabled={loading}
-        >
-          {loading ? <CgSpinner className="animate-spin" size={20} /> : "Login"}
-        </button>
-      </form>
+            <button
+              type="submit"
+              className="bg-accent text-white rounded-2xl flex items-center justify-center h-11 font-medium disabled:bg-gray-500 disabled:cursor-not-allowed w-full"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <CgSpinner className="animate-spin" size={20} />
+              ) : (
+                "Login"
+              )}
+            </button>
+            <Error show={!!globalError}>
+              <div className="flex items-center gap-x-1">
+                <IoWarning /> {globalError}
+              </div>
+            </Error>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };
