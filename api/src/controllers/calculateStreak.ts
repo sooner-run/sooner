@@ -27,14 +27,6 @@ export const CalculateStreak = async (userId: string): Promise<number> => {
         .tz(timeZone, true)
         .toDate();
 
-      console.log("====================================");
-      console.log({
-        currentDay: currentDay.format(),
-        startOfDay,
-        endOfDay,
-      });
-      console.log("====================================");
-
       const [dayPulse] = await db
         .select({
           time: sum(pulses.time),
@@ -47,8 +39,6 @@ export const CalculateStreak = async (userId: string): Promise<number> => {
             lte(pulses.created_at, endOfDay)
           )
         );
-
-      console.log(`Day Pulse Time: ${Number(dayPulse.time)}`);
 
       if (Number(dayPulse.time) > 0) {
         streak++;
