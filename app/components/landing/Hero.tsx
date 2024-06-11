@@ -33,10 +33,14 @@ const Hero = () => {
       </p>
 
       <div className="flex gap-x-4 mt-5 items-center">
-        <button className="flex items-center gap-x-2 border-2 border-zinc-300/10 hover:border-accent transition-colors text-lg px-5 py-3 rounded-full duration-500">
+        <Link
+          href="https://marketplace.visualstudio.com/items?itemName=sooner.sooner"
+          target="_blank"
+          className="flex items-center gap-x-2 border-2 border-zinc-300/10 hover:border-accent transition-colors text-lg px-5 py-3 rounded-full duration-500"
+        >
           <SiVisualstudiocode />
           <AnimatedShinyText>Add to VS Code</AnimatedShinyText>
-        </button>
+        </Link>
       </div>
     </div>
   );
