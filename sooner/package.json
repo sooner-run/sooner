@@ -2,7 +2,7 @@
   "name": "Sooner",
   "description": "Opensource codetime tracking infrastructure.",
   "publisher": "Sooner",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "repository": "https://github.com/sooner-run/sooner",
   "engines": {
     "vscode": "^1.89.0"
