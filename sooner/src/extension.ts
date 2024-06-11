@@ -1,6 +1,6 @@
 /* eslint-disable curly */
 import * as vscode from "vscode";
-import { fetchCodingTimeToday, sendPulseData } from "./api";
+import { fetchCodingTimeToday, sendPulseData, validateApiKey } from "./api";
 import { initializeStatusBar, updateStatusBarText } from "./status_bar";
 
 let codingStartTime: number | null = null;
@@ -85,14 +85,21 @@ export async function activate(context: vscode.ExtensionContext) {
       } else {
         vscode.window
           .showInputBox({ prompt: "Enter your API key" })
-          .then((key: string | undefined) => {
+          .then(async (key: string | undefined) => {
             if (key) {
-              apiKey = key;
-              context.workspaceState.update("apiKey", key);
-              vscode.window.showInformationMessage(
-                "API key saved successfully."
-              );
-              updateStatusBarText(apiKey, totalCodingTime);
+              const isValid = await validateApiKey(key);
+              if (isValid) {
+                apiKey = key;
+                context.workspaceState.update("apiKey", key);
+                vscode.window.showInformationMessage(
+                  "Extension activated successfully."
+                );
+                updateStatusBarText(apiKey, totalCodingTime);
+              } else {
+                vscode.window.showErrorMessage(
+                  "Invalid API key. Please try again."
+                );
+              }
             }
           });
       }
