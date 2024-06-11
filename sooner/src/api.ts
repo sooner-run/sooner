@@ -4,6 +4,7 @@ import { getCurrentBranch } from "./utils/branch";
 import { sendPulse } from "./utils/pulse";
 import * as os from "os";
 import axios from "axios";
+import { request } from "./configs/axios";
 
 export const sendPulseData = async ({
   apiKey,
@@ -55,8 +56,7 @@ const getProjectPath = () => {
 
 export const fetchCodingTimeToday = async (apiKey: string) => {
   try {
-    const response = await axios.get(
-      "http://localhost:1716/v1/codetime-today",
+    const response = await request.get("/codetime-today",
       {
         headers: {
           Authorization: `Bearer ${apiKey}`,
