@@ -8,6 +8,7 @@ import { router } from "./routes";
 import env from "dotenv";
 import { AuthMiddleware } from "./middlewares/authenticate";
 import { AuthenticateAppUser } from "./middlewares/authenticateAppUser";
+import { ActivateExtension } from "./controllers/extension/activate";
 
 env.config();
 
@@ -39,6 +40,8 @@ app.use(
 app.get("/", (c) => {
   return c.json({ message: "Yoo, bitches!!!!" });
 });
+
+app.post("/v1/activate-extension", ActivateExtension);
 
 app.use("/app/*", AuthenticateAppUser);
 app.use("/v1/*", AuthMiddleware);
