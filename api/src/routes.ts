@@ -17,5 +17,3 @@ router.get("/projects/:project", RetrieveSingleProject);
 router.get("/codetime-today", CodetimeToday);
 router.get("/insights", Insights);
 router.get("/stats", Stats);
-
-router.post("/activate-extension", ActivateExtension);
