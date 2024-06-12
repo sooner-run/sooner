@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 export const ActivateExtension = async (c: Context) => {
   try {
     const { key }: { key: string } = await c.req.json();
+    console.log(key);
 
     if (!key) return c.json({ message: "API Key is not provided" }, 400);
 
