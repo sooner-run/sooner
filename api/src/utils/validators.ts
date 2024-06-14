@@ -35,7 +35,7 @@ export const validateUsername = async (username: string) => {
   ).flat()[0];
 
   if (user) {
-    return `${username} is already in use.`;
+    return `@${username} is already in use.`;
   }
 
   return null;
