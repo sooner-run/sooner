@@ -33,11 +33,13 @@ export const Signup = async (c: Context) => {
       return c.json({ message: "Password must be at least 8 characters." });
     }
 
+    const otp = generateAlphaNumeric();
+
     await db.insert(users).values({
       username,
       email,
       password: hashSync(password, 10),
-      otp: generateAlphaNumeric(),
+      otp,
       otp_expires_at: dayjs().add(30, "minutes").toDate(),
       api_key: generateAlphaNumeric(69),
     });
