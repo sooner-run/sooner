@@ -1,31 +1,10 @@
 import { Context } from "hono";
-import { and, eq, gte, lte, sum } from "drizzle-orm";
-import dayjs from "dayjs";
-import { db } from "../db";
-import { pulses } from "../db/schema";
 import { time_to_human } from "../utils/time_to_human";
+import { GetCodeTimeToday } from "../utils/getCodetimeToday";
 
 export const CodetimeToday = async (c: Context) => {
   try {
-    const userId = c.get("user_id");
-
-    const startOfToday = dayjs().startOf("day").toDate();
-    const endOfToday = dayjs().endOf("day").toDate();
-
-    const [record] = await db
-      .select({
-        time: sum(pulses.time),
-      })
-      .from(pulses)
-      .where(
-        and(
-          eq(pulses.user_id, userId),
-          gte(pulses.created_at, startOfToday),
-          lte(pulses.created_at, endOfToday)
-        )
-      );
-
-    const totalCodingTime = record?.time || 0;
+    const totalCodingTime = await GetCodeTimeToday(c.get("user_id"));
 
     return c.json(
       {
