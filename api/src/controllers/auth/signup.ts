@@ -5,6 +5,7 @@ import { users } from "../../db/schema";
 import { generateAlphaNumeric } from "../../utils/generators";
 import { hashSync } from "bcryptjs";
 import dayjs from "dayjs";
+import { logsnag } from "../../configs/logsnag";
 
 export const Signup = async (c: Context) => {
   const {
@@ -35,13 +36,25 @@ export const Signup = async (c: Context) => {
 
     const otp = generateAlphaNumeric();
 
-    await db.insert(users).values({
-      username,
-      email,
-      password: hashSync(password, 10),
-      otp,
-      otp_expires_at: dayjs().add(30, "minutes").toDate(),
-      api_key: generateAlphaNumeric(69),
+    const [newUser] = await db
+      .insert(users)
+      .values({
+        username,
+        email,
+        password: hashSync(password, 10),
+        otp,
+        otp_expires_at: dayjs().add(30, "minutes").toDate(),
+        api_key: generateAlphaNumeric(69),
+      })
+      .returning();
+
+    await logsnag.track({
+      channel: "users",
+      event: "New User",
+      user_id: newUser.id,
+      description: "2x 1TB SSD - Overnight Shipping",
+      icon: "🔥",
+      notify: true,
     });
 
     return c.json({ message: "User created." }, 201);
