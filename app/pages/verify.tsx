@@ -1,27 +1,8 @@
 import { axios } from "@/utils/axios";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { InputHTMLAttributes, useState } from "react";
+import React, { useState } from "react";
 import { CgSpinner } from "react-icons/cg";
-import { FieldProps } from "formik";
 import OTPInput from "react-otp-input";
-
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
-
-const Input: React.FC<InputProps & FieldProps> = ({
-  field,
-  form,
-  ...props
-}) => {
-  return (
-    <input
-      autoComplete="off"
-      {...field}
-      {...props}
-      className="w-full bg-transparent rounded-2xl border text-white border-gray-600 pl-3 py-3 outline-none focus:border-accent transition-all"
-    />
-  );
-};
 
 const Error = ({
   show,
@@ -42,7 +23,22 @@ const Error = ({
 const Verify = () => {
   const [isSubmitting, setSubmitting] = useState(false);
   const [otp, setOtp] = useState("");
+  const [error, setError] = useState("");
+
   const router = useRouter();
+
+  const handleVerify = async () => {
+    setSubmitting(true);
+    setError("");
+    try {
+      await axios.post("/auth/verify", { otp });
+      router.push("/onboarding");
+    } catch (error: any) {
+      setError(error.response.data.message || "Something went wrong");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-y-8 items-center justify-center text-sm min-h-screen max-w-[360px] mx-auto">
@@ -82,6 +78,7 @@ const Verify = () => {
           type="submit"
           className="bg-accent text-white rounded-2xl flex items-center justify-center h-11 font-medium disabled:bg-gray-500 disabled:cursor-not-allowed w-full"
           disabled={isSubmitting}
+          onClick={handleVerify}
         >
           {isSubmitting ? (
             <CgSpinner className="animate-spin" size={20} />
@@ -89,6 +86,7 @@ const Verify = () => {
             "Verify"
           )}
         </button>
+        <Error show={!!error}>{error}</Error>
       </div>
     </div>
   );
