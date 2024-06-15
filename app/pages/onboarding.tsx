@@ -4,7 +4,9 @@ import React from "react";
 const Onboarding = () => {
   return (
     <DashboardLayout title="Onboarding" maintitle="Get started with Sooner">
-      Onboarding
+      <div>
+        <h2>Onboarding</h2>
+      </div>
     </DashboardLayout>
   );
 };
