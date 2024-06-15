@@ -52,7 +52,6 @@ export const Signup = async (c: Context) => {
       channel: "users",
       event: "New User",
       user_id: newUser.id,
-      description: "2x 1TB SSD - Overnight Shipping",
       icon: "🔥",
       notify: true,
     });
