@@ -14,7 +14,7 @@ export const sendPulse = async ({ api_key, payload }: Props) => {
           Authorization: `Bearer ${api_key}`,
         },
       });
-      console.log(data);
+      return data;
     } catch (error) {
       console.error("Error sending pulse:", error);
     }
