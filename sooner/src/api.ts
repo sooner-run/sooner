@@ -36,7 +36,8 @@ export const sendPulseData = async ({
   };
 
   try {
-    await sendPulse({ api_key: apiKey, payload });
+    const { data } = await sendPulse({ api_key: apiKey, payload });
+    return data;
   } catch (error) {
     console.error("Error sending pulse:", error);
   }
@@ -72,8 +73,13 @@ export const validateApiKey = async (key: string) => {
     const response = await request.post("/activate-extension", {
       key,
     });
-    return response.status === 200;
+    return {
+      isValid: response.status === 200,
+      codetime_today: response.data.codetime_today,
+    };
   } catch (error) {
-    return false;
+    return {
+      isValid: false,
+    };
   }
 };
