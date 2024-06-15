@@ -22,6 +22,7 @@ export const users = pgTable("users", {
   updated_at: timestamp("updated_at").defaultNow(),
   otp: text("otp"),
   otp_expires_at: timestamp("otp_expires_at"),
+  is_verified: boolean("is_verified").default(false),
   display_name: text("display_name"),
   is_profile_public: boolean("is_profile_public").default(false),
   display_codetime_publicly: boolean("display_codetime_publicly").default(
