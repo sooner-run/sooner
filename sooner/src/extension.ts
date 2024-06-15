@@ -33,13 +33,13 @@ const stopTracking = () => {
 export async function activate(context: vscode.ExtensionContext) {
   apiKey = context.workspaceState.get("apiKey");
 
-  initializeStatusBar(context, apiKey);
+  initializeStatusBar(context);
 
   if (apiKey) {
     const codingTimeToday = await fetchCodingTimeToday(apiKey);
     if (codingTimeToday) {
       totalCodingTime = codingTimeToday.time;
-      updateStatusBarText(apiKey, totalCodingTime);
+      updateStatusBarText(totalCodingTime);
     }
   }
 
@@ -59,14 +59,14 @@ export async function activate(context: vscode.ExtensionContext) {
 
       activityTimeouts.set(documentUri, {
         timeout: setTimeout(async () => {
-          await sendPulseData({
+          const { data } = await sendPulseData({
             apiKey: apiKey!,
             codingStartTime: codingStartTime!,
             filePath: filePath,
             language: language,
           });
           stopTracking();
-          updateStatusBarText(apiKey, totalCodingTime);
+          updateStatusBarText(data.codetime_today);
           activityTimeouts.delete(documentUri);
         }, debounceTime),
         path: filePath,
@@ -85,21 +85,32 @@ export async function activate(context: vscode.ExtensionContext) {
       } else {
         vscode.window
           .showInputBox({ prompt: "Enter your API key" })
-          .then(async (key: string | undefined) => {
+          .then((key: string | undefined) => {
             if (key) {
-              const isValid = await validateApiKey(key);
-              if (isValid) {
-                apiKey = key;
-                context.workspaceState.update("apiKey", key);
-                vscode.window.showInformationMessage(
-                  "Extension activated successfully."
-                );
-                updateStatusBarText(apiKey, totalCodingTime);
-              } else {
-                vscode.window.showErrorMessage(
-                  "Invalid API key. Please try again."
-                );
-              }
+              vscode.window.withProgress(
+                {
+                  location: vscode.ProgressLocation.Notification,
+                  title: "Activating Sooner",
+                  cancellable: false,
+                },
+                async (progress) => {
+                  progress.report({ message: "Please wait..." });
+                  // eslint-disable-next-line @typescript-eslint/naming-convention
+                  const { isValid, codetime_today } = await validateApiKey(key);
+                  if (isValid) {
+                    apiKey = key;
+                    context.workspaceState.update("apiKey", key);
+                    updateStatusBarText(codetime_today);
+                    vscode.window.showInformationMessage(
+                      "Extension activated successfully."
+                    );
+                  } else {
+                    vscode.window.showErrorMessage(
+                      "Invalid API key. Please try again."
+                    );
+                  }
+                }
+              );
             }
           });
       }
@@ -112,7 +123,7 @@ export async function activate(context: vscode.ExtensionContext) {
       context.workspaceState.update("apiKey", undefined);
       apiKey = undefined;
       vscode.window.showInformationMessage("API key deleted successfully.");
-      updateStatusBarText(apiKey, totalCodingTime);
+      updateStatusBarText(totalCodingTime);
     }
   );
 
