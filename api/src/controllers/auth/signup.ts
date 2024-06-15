@@ -6,6 +6,7 @@ import { generateAlphaNumeric } from "../../utils/generators";
 import { hashSync } from "bcryptjs";
 import dayjs from "dayjs";
 import { logsnag } from "../../configs/logsnag";
+import { plunk } from "../../configs/plunk";
 
 export const Signup = async (c: Context) => {
   const {
@@ -47,6 +48,20 @@ export const Signup = async (c: Context) => {
         api_key: generateAlphaNumeric(69),
       })
       .returning();
+
+    await plunk.emails.send({
+      to: newUser.email,
+      subject: "Complete your signup",
+      body: `
+      <h2>You're almost done</h2>
+      <p>Use the OTP below to complete your signup</p>
+      <h1>${otp}</h1>
+      <br/>
+      Sooner,
+      Cheers.
+      `,
+      subscribed: true,
+    });
 
     await logsnag.track({
       channel: "users",
