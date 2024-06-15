@@ -59,14 +59,13 @@ export async function activate(context: vscode.ExtensionContext) {
 
       activityTimeouts.set(documentUri, {
         timeout: setTimeout(async () => {
-          const { data } = await sendPulseData({
+          await sendPulseData({
             apiKey: apiKey!,
             codingStartTime: codingStartTime!,
             filePath: filePath,
             language: language,
           });
           stopTracking();
-          updateStatusBarText(data.codetime_today);
           activityTimeouts.delete(documentUri);
         }, debounceTime),
         path: filePath,
