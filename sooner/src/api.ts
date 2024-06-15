@@ -36,8 +36,7 @@ export const sendPulseData = async ({
   };
 
   try {
-    const { data } = await sendPulse({ api_key: apiKey, payload });
-    return data;
+    await sendPulse({ api_key: apiKey, payload });
   } catch (error) {
     console.error("Error sending pulse:", error);
   }
