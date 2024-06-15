@@ -2,6 +2,7 @@ import { Context } from "hono";
 import { pulses } from "../../db/schema";
 import { db } from "../../db";
 import languageData from "../../../data/languages.json";
+import { GetCodeTimeToday } from "../../utils/getCodetimeToday";
 
 const getLanguageFromPath = (path: string) => {
   const extension = `.${path.split(".").pop()}`;
@@ -29,7 +30,13 @@ export const CreatePulse = async (c: Context) => {
       language,
       path: body.path.replaceAll("\\", "/").replaceAll("//", "/"),
     });
-    return c.json({ message: "Pulse created." }, 201);
+    return c.json(
+      {
+        message: "Pulse created.",
+        codetime_today: await GetCodeTimeToday(c.get("user_id")),
+      },
+      201
+    );
   } catch (error) {
     console.error(error);
     return c.json({ message: "Something went wrong." }, 500);
