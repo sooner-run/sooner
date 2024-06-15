@@ -13,6 +13,7 @@ const middleware = async (req: NextRequest) => {
       "/faq",
       "/changelog",
       "/signup",
+      "/verify",
     ];
 
     if (!allowedPaths.includes(req.nextUrl.pathname)) {
@@ -31,7 +32,7 @@ const middleware = async (req: NextRequest) => {
 
 export const config = {
   matcher: [
-    "/((?!api/|_next/|_proxy/|_static|_vercel|favicon.ico|sitemap.xml|robots.txt|logo.svg|grid-bg.png).*)",
+    "/((?!api/|_next/|_proxy/|_static|_vercel|favicon.ico|sitemap.xml|robots.txt|sooner-logo.svg|logo.png|screenshot.png|ss.png|ui.png|gorgeous.png).*)",
   ],
 };
 
