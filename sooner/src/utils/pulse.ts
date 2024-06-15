@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { request } from "../configs/axios";
+import { updateStatusBarText } from "../status_bar";
 
 interface Props {
   api_key: string;
@@ -14,7 +15,7 @@ export const sendPulse = async ({ api_key, payload }: Props) => {
           Authorization: `Bearer ${api_key}`,
         },
       });
-      return data;
+      updateStatusBarText(data.codetime_today);
     } catch (error) {
       console.error("Error sending pulse:", error);
     }
