@@ -9,6 +9,8 @@
   "packageManager": "pnpm@9.1.2",
   "dependencies": {
     "@hono/node-server": "^1.11.1",
+    "@logsnag/node": "^1.0.1",
+    "@plunk/node": "^3.0.2",
     "bcryptjs": "^2.4.3",
     "dayjs": "^1.11.11",
     "dotenv": "^16.4.5",
