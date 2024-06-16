@@ -4,7 +4,7 @@ import { copyToClipboard } from "@/utils/copyToClipboard";
 import { fetcher } from "@/utils/fetcher";
 import React, { useState } from "react";
 import { HiKey } from "react-icons/hi2";
-import { LuCopy, LuCopyCheck, LuKeyRound } from "react-icons/lu";
+import { LuCopy, LuCopyCheck } from "react-icons/lu";
 import { MdVerifiedUser } from "react-icons/md";
 import { VscVscode } from "react-icons/vsc";
 import { Tooltip } from "react-tooltip";
@@ -43,7 +43,7 @@ const Onboarding = () => {
             You need your API key to sync the Sooner VS Code extension with your
             dashboard.
           </p>
-          <div className="py-3 flex gap-3 justify-between items-center">
+          <div className="mt-3 flex gap-3 justify-between items-center">
             <p
               className={`text-grey-100 border py-1 px-2 border-grey-100/50 rounded-xl text-sm ${show ? "blur-0" : "blur-md"} transition-all cursor-pointer`}
               onClick={() => setShow(!show)}
