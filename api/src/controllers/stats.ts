@@ -1,11 +1,12 @@
 import { Context } from "hono";
 import { db } from "../db";
 import { and, eq, gte, lte, sum, min } from "drizzle-orm";
-import { pulses } from "../db/schema";
+import { pulses, users } from "../db/schema";
 import dayjs from "dayjs";
 import { time_to_human } from "../utils/time_to_human";
 import { GetActivityChartData } from "./activityChartData";
 import { CalculateStreak } from "./calculateStreak";
+import { logsnag } from "../configs/logsnag";
 
 export const Stats = async (c: Context) => {
   try {
@@ -85,6 +86,18 @@ export const Stats = async (c: Context) => {
     const activity = await GetActivityChartData(userId);
 
     const streak = await CalculateStreak(userId);
+
+    const [user] = await db.select().from(users).where(eq(users.id, userId));
+
+    /***Will be removed soon*/
+    await logsnag.identify({
+      user_id: user.id,
+      properties: {
+        username: user.username!,
+        email: user.email,
+      },
+    });
+    /********************/
 
     return c.json(
       {
