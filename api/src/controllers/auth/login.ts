@@ -5,6 +5,7 @@ import { compareSync } from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { sign } from "jsonwebtoken";
 import { SetAuthToken } from "../../utils/setAuthToken";
+import { logsnag } from "../../configs/logsnag";
 
 export const Login = async (c: Context) => {
   const { email, password }: { email: string; password: string } =
@@ -28,6 +29,13 @@ export const Login = async (c: Context) => {
     const token = sign({ id: user.id }, process.env.JWT_SECRET!);
 
     SetAuthToken(c, token);
+
+    await logsnag.track({
+      channel: "users",
+      event: "User Login",
+      user_id: user.id,
+      icon: "🔒",
+    });
 
     return c.json({ message: "Logged in" }, 200);
   } catch (error) {
