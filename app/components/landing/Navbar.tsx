@@ -26,7 +26,7 @@ const Navbar = () => {
       <Link href="/">
         <img src="/logo.png" alt="Sooner logo" className="w-28" />
       </Link>
-      <div className="lg:flex hidden items-center gap-x-2 border border-zinc-300/10 p-1 rounded-full backdrop-blur-3xl">
+      {/* <div className="lg:flex hidden items-center gap-x-2 border border-zinc-300/10 p-1 rounded-full backdrop-blur-3xl">
         {links.map((link) => (
           <Link
             href={link.href}
@@ -36,7 +36,7 @@ const Navbar = () => {
             {link.title}
           </Link>
         ))}
-      </div>
+      </div> */}
       <div className="lg:flex hidden font-medium gap-x-7 text-zinc-300 items-center">
         <Link href="/login">Login</Link>
         <ShimmerButton className="!text-zinc-300 !py-3">
