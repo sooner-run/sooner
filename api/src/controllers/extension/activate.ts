@@ -3,6 +3,8 @@ import { db } from "../../db";
 import { users } from "../../db/schema";
 import { eq } from "drizzle-orm";
 import { GetCodeTimeToday } from "../../utils/getCodetimeToday";
+import { logsnag } from "../../configs/logsnag";
+
 export const ActivateExtension = async (c: Context) => {
   try {
     const { key }: { key: string } = await c.req.json();
@@ -19,6 +21,15 @@ export const ActivateExtension = async (c: Context) => {
         is_extension_activated: true,
       })
       .where(eq(users.api_key, _key.api_key));
+
+await logsnag.track({
+      channel: "extension",
+      event: "User Activated Extension",
+      user_id: _key.id,
+      icon: "⚡",
+      notify: true,
+      description:_key.email
+    });
 
     return c.json(
       {
