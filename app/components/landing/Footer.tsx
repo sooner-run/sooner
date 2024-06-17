@@ -46,7 +46,7 @@ const Footer = () => {
       <div className="py-5 flex items-center justify-between">
         <div className="flex items-center gap-x-10">
           <img src="/sooner-logo.svg" alt="" className="w-10" />
-          <ul className="flex items-center gap-x-5">
+          {/* <ul className="flex items-center gap-x-5">
             {links.map((l, i) => (
               <li key={i}>
                 <Link
@@ -57,7 +57,7 @@ const Footer = () => {
                 </Link>
               </li>
             ))}
-          </ul>
+          </ul> */}
         </div>
         <ul className="flex items-center gap-x-5">
           {socials.map((s, i) => (
