@@ -75,7 +75,7 @@ export const Signup = async (c: Context) => {
     await logsnag.identify({
       user_id: newUser.id,
       properties: {
-        username: newUser.email,
+        username: newUser.username!,
         email: newUser.email,
       },
     });
