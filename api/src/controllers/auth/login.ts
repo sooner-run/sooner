@@ -38,7 +38,11 @@ export const Login = async (c: Context) => {
     });
 
     return c.json(
-      { message: "Logged in", activated: user.is_extension_activated },
+      {
+        message: "Logged in",
+        activated: user.is_extension_activated,
+        id: user.id,
+      },
       200
     );
   } catch (error) {
