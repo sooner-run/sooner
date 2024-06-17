@@ -6,6 +6,7 @@ import { CgSpinner } from "react-icons/cg";
 import { Field, FieldProps, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { IoWarning } from "react-icons/io5";
+import { useLogSnag } from "@logsnag/next";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
@@ -51,7 +52,7 @@ const Login = () => {
       .required("Email is required"),
     password: Yup.string().required("Password is required"),
   });
-
+  const { setUserId } = useLogSnag();
   return (
     <div className="flex flex-col gap-y-8 items-center justify-center text-sm min-h-screen max-w-[360px] mx-auto px-2">
       <div className="w-full">
@@ -75,6 +76,7 @@ const Login = () => {
           try {
             setGlobalError("");
             const { data } = await axios.post("/auth/login", values);
+            setUserId(data.id);
             router.push(!data.activated ? "/onboarding" : "/dashboard");
           } catch (error: any) {
             setGlobalError(
