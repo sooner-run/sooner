@@ -4,6 +4,7 @@ import { users } from "../../db/schema";
 import { eq } from "drizzle-orm";
 import { sign } from "jsonwebtoken";
 import { SetAuthToken } from "../../utils/setAuthToken";
+import { logsnag } from "../../configs/logsnag";
 
 export const Verify = async (c: Context) => {
   const { otp }: { otp: string } = await c.req.json();
@@ -26,6 +27,14 @@ export const Verify = async (c: Context) => {
         otp_expires_at: null,
       })
       .where(eq(users.id, user.id));
+
+    await logsnag.track({
+      channel: "users",
+      event: "User Verified Account",
+      user_id: user.id,
+      icon: "✅",
+      notify: true,
+    });
 
     const token = sign({ id: user.id }, process.env.JWT_SECRET!);
 
