@@ -28,8 +28,9 @@ const Hero = () => {
         Time tracking for devs and software teams.
       </h1>
       <p className="text-lg mt-4 lg:w-1/2 mx-auto text-center">
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
-        reiciendis delectus quaerat?{" "}
+        Gain valuable insights into coding time and productivity with Sooner,
+        empowering developers and managers with detailed metrics to enhance
+        performance and identify bottlenecks.
       </p>
 
       <div className="flex gap-x-4 mt-5 items-center">
