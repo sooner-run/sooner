@@ -69,7 +69,15 @@ export const Signup = async (c: Context) => {
       user_id: newUser.id,
       icon: "🔥",
       notify: true,
-      description: newUser.email
+      description: newUser.email,
+    });
+
+    await logsnag.identify({
+      user_id: newUser.id,
+      properties: {
+        username: newUser.email,
+        email: newUser.email,
+      },
     });
 
     return c.json({ message: "User created." }, 201);
