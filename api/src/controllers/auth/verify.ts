@@ -40,7 +40,7 @@ export const Verify = async (c: Context) => {
 
     SetAuthToken(c, token);
 
-    return c.json({ message: "Verified" }, 200);
+    return c.json({ message: "Verified", id: user.id }, 200);
   } catch (error) {
     console.log(error);
     return c.json({ message: "Something went wrong." }, 500);
