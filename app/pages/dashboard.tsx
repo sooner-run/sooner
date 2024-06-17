@@ -9,12 +9,17 @@ import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
 import { StatsResponse } from "@/types";
 import Stats from "@/components/Stats";
+import { useLogSnag } from "@logsnag/next";
 
 const Dashboard = () => {
   const { data, isLoading, error } = useSWR<StatsResponse>(
     "/v1/stats",
     fetcher
   );
+
+  const { setUserId } = useLogSnag();
+
+  setUserId(data?.id!);
 
   return (
     <DashboardLayout
