@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@logsnag/next": "^1.0.3",
     "@tippyjs/react": "^4.2.6",
     "@uiw/react-heat-map": "^2.2.2",
     "axios": "^1.7.2",

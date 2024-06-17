@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@logsnag/next':
+        specifier: ^1.0.3
+        version: 1.0.3(next@14.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tippyjs/react':
         specifier: ^4.2.6
         version: 4.2.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -215,6 +218,13 @@ packages:
 
   '@kurkle/color@0.3.2':
     resolution: {integrity: sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==}
+
+  '@logsnag/next@1.0.3':
+    resolution: {integrity: sha512-HcbZx2NlWK8qVVnsnTAxrWWts/eVZFI1hvHk5FgP/qXIqY5gRyYqwe/r3x6CnHZXw27s4BXW8jFT6zXusk0eYA==}
+    peerDependencies:
+      next: ^11.1.0 || ^12.0.0 || ^13.0.0 || ^14.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
 
   '@next/env@14.2.3':
     resolution: {integrity: sha512-W7fd7IbkfmeeY2gXrzJYDx8D2lWKbVoTIj1o1ScPHNzvp30s1AuoEFSdr39bC5sjxJaxTtq3OTCZboNp0lNWHA==}
@@ -2010,6 +2020,12 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.4.15
 
   '@kurkle/color@0.3.2': {}
+
+  '@logsnag/next@1.0.3(next@14.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      next: 14.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   '@next/env@14.2.3': {}
 
