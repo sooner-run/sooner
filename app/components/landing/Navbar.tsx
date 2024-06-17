@@ -37,12 +37,21 @@ const Navbar = () => {
           </Link>
         ))}
       </div> */}
-      <div className="lg:flex hidden font-medium gap-x-7 text-zinc-300 items-center">
-        <Link href="/login">Login</Link>
-        <ShimmerButton className="!text-zinc-300 !py-3">
-          Get started
-        </ShimmerButton>
+      <div className="flex font-medium gap-x-7 text-zinc-300 items-center">
+        <Link href="/signup">
+          <ShimmerButton className="!text-zinc-300 !py-3">
+            Get started
+          </ShimmerButton>
+        </Link>
       </div>
+      {/* <div className="lg:flex hidden font-medium gap-x-7 text-zinc-300 items-center">
+        <Link href="/login">Login</Link>
+        <Link href="/signup">
+          <ShimmerButton className="!text-zinc-300 !py-3">
+            Get started
+          </ShimmerButton>
+        </Link>
+      </div> */}
 
       <div className="h-[1px] w-full bg-gradient-to-r absolute right-0 bottom-0 from-transparent via-accent/20 to-transparent"></div>
     </div>
