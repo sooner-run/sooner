@@ -40,6 +40,7 @@ export interface PulseData {
   count: number;
 }
 export interface StatsResponse {
+  id: string;
   daily_average: string;
   codetime: CodeTime;
   streak: number;
