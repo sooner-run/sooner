@@ -53,7 +53,7 @@ const Login = () => {
   });
 
   return (
-    <div className="flex flex-col gap-y-8 items-center justify-center text-sm min-h-screen max-w-[360px] mx-auto">
+    <div className="flex flex-col gap-y-8 items-center justify-center text-sm min-h-screen max-w-[360px] mx-auto px-2">
       <div className="w-full">
         <img src="sooner-logo.svg" alt="Sooner logo" className="w-12 my-3" />
         <h1 className="font-semibold text-2xl text-white">Sign in to Sooner</h1>
