@@ -8,13 +8,19 @@ import { time_to_human } from "@/utils/time_to_human";
 import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
 import { InsightsData } from "@/types";
+import Warning from "@/components/Warning";
 
 const Insights = () => {
   const { data, isLoading } = useSWR<InsightsData>("/v1/insights", fetcher);
 
   return (
     <DashboardLayout title="Insights" maintitle="Insights" loading={isLoading}>
-      <div className="lg:px-52 px-5 flex flex-col gap-y-5">
+      <div className="lg:px-32 px-5 flex flex-col gap-y-5">
+        <Warning
+          text=" The data in the bar chart below is slightly inaccurate, I'm
+              working hard to fix this."
+        />
+
         <Card className="p-4">
           <h3 className="font-medium text-grey-100">Weekday average</h3>
           <div className="my-4">
