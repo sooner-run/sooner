@@ -1,4 +1,5 @@
 import { axios } from "@/utils/axios";
+import { useLogSnag } from "@logsnag/next";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { CgSpinner } from "react-icons/cg";
@@ -27,11 +28,14 @@ const Verify = () => {
 
   const router = useRouter();
 
+  const { setUserId } = useLogSnag();
+
   const handleVerify = async () => {
     setSubmitting(true);
     setError("");
     try {
-      await axios.post("/auth/verify", { otp });
+      const { data } = await axios.post("/auth/verify", { otp });
+      setUserId(data.id);
       router.push("/onboarding");
     } catch (error: any) {
       setError(error.response.data.message || "Something went wrong");
