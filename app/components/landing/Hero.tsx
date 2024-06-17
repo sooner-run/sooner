@@ -24,10 +24,10 @@ const Hero = () => {
           We're opensource. Star on GitHub
         </p>
       </Link>
-      <h1 className="text-7xl mx-auto text-center font-semibold bg-gradient-to-br from-accent to-white bg-clip-text">
+      <h1 className="lg:text-7xl text-5xl mx-auto text-center font-semibold bg-gradient-to-br from-accent to-white bg-clip-text">
         Time tracking for devs and software teams.
       </h1>
-      <p className="text-lg mt-4 lg:w-1/2 mx-auto text-center">
+      <p className="lg:text-lg mt-4 lg:w-1/2 mx-auto text-center">
         Gain valuable insights into coding time and productivity with Sooner,
         empowering developers and managers with detailed metrics to enhance
         performance and identify bottlenecks.
