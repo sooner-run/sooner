@@ -23,7 +23,7 @@ const Dashboard = () => {
       loading={isLoading}
       error={error}
     >
-      <div className="flex items-center flex-col gap-y-3 w-full lg:px-52 px-5">
+      <div className="flex items-center flex-col gap-y-3 w-full lg:px-32 md:px-20 px-5">
         <Stats codetime={data?.codetime!} />
         <div className="flex item-center gap-x-3 w-full">
           <Card className="p-4 flex items-center justify-between">
