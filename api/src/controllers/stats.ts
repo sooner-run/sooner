@@ -101,6 +101,7 @@ export const Stats = async (c: Context) => {
 
     return c.json(
       {
+        id: user.id,
         daily_average: time_to_human(dailyAverageLast7Days),
         codetime: {
           Today: {
