@@ -74,8 +74,8 @@ const Login = () => {
         onSubmit={async (values, { setSubmitting }) => {
           try {
             setGlobalError("");
-            await axios.post("/auth/login", values);
-            router.push("/dashboard");
+            const { data } = await axios.post("/auth/login", values);
+            router.push(!data.activated ? "/onboarding" : "/dashboard");
           } catch (error: any) {
             setGlobalError(
               error?.response?.data.message ||

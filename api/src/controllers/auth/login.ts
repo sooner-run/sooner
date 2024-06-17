@@ -37,7 +37,10 @@ export const Login = async (c: Context) => {
       icon: "🔒",
     });
 
-    return c.json({ message: "Logged in" }, 200);
+    return c.json(
+      { message: "Logged in", activated: user.is_extension_activated },
+      200
+    );
   } catch (error) {
     console.log(error);
     return c.json({ message: "Something went wrong." }, 500);
