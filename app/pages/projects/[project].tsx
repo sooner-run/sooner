@@ -15,6 +15,7 @@ import { fetcher } from "@/utils/fetcher";
 import { ProjectData } from "@/types";
 import dayjs from "dayjs";
 import { truncate } from "@/utils/truncate";
+import Warning from "@/components/Warning";
 
 const Project = () => {
   const router = useRouter();
@@ -36,7 +37,7 @@ const Project = () => {
   const { data, error, isLoading } = useSWR<ProjectData>(url, fetcher);
 
   return (
-    <ProjectsLayout loading={isLoading || !data}>
+    <ProjectsLayout loading={isLoading}>
       <div className="flex flex-col gap-y-5">
         <Card className="p-4 shrink-0 divide-x divide-grey grid grid-cols-2 items-center gap-x-5 gap-y-7 lg:grid-cols-4 first:pl-0 last:pr-0">
           <div className="px-2">
@@ -109,7 +110,26 @@ const Project = () => {
               />
             </div>
           </Card>
-          <Card className="p-4">...</Card>
+          <div className="w-full">
+            <Warning text="The card below will be populated with data in the coming days." />
+            <Card className="p-4 mt-2">
+              <p className="opacity-5">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor
+                placeat expedita nesciunt molestiae doloribus, vitae accusamus
+                tenetur ad natus eos pariatur saepe nihil porro, inventore at
+                ipsa consequuntur voluptate enim id! Distinctio molestias
+                blanditiis aliquid libero reprehenderit fugit quis alias
+                explicabo, aperiam animi eveniet quo! Temporibus, expedita
+                praesentium! Minus tempore nisi soluta ab eum amet inventore,
+                quam expedita placeat iure, labore laborum impedit eveniet nam
+                molestias quae sit provident, aperiam quis molestiae similique
+                aut delectus est? Aperiam cumque deleniti accusantium? Dolor
+                exercitationem ex ab esse cumque atque. Voluptates nulla id
+                laudantium, eaque, libero, earum aliquid blanditiis atque
+                aspernatur maiores dolore.
+              </p>
+            </Card>
+          </div>
         </div>
         <div className="flex items-start gap-x-4">
           <Card className="p-4">
