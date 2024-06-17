@@ -69,7 +69,7 @@ export const Signup = async (c: Context) => {
       user_id: newUser.id,
       icon: "🔥",
       notify: true,
-      description: newUser.id
+      description: newUser.email
     });
 
     return c.json({ message: "User created." }, 201);
