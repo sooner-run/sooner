@@ -2,6 +2,7 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import Card from "@/components/ui/Card";
 import { copyToClipboard } from "@/utils/copyToClipboard";
 import { fetcher } from "@/utils/fetcher";
+import { useLogSnag } from "@logsnag/next";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { CgSpinner } from "react-icons/cg";
@@ -71,6 +72,8 @@ const Onboarding = () => {
     setActivationStatus("Waiting for activation...");
     setActivated(false);
   };
+
+  const { track } = useLogSnag();
 
   return (
     <DashboardLayout
@@ -167,7 +170,17 @@ const Onboarding = () => {
             </button>
           )}
           {activationStatus === "Extension activated!" && (
-            <Link href="/dashboard">
+            <Link
+              href="/dashboard"
+              onClick={() => {
+                track({
+                  channel: "users",
+                  event: "Click 'Continue to dashboard' button",
+                  icon: "🫰🏼",
+                  notify: true,
+                });
+              }}
+            >
               <button className="mt-4 py-2 px-4 bg-accent text-xs text-white rounded-md flex items-center gap-x-2">
                 Continue to dashboard <HiMiniArrowLongRight size={20} />
               </button>
