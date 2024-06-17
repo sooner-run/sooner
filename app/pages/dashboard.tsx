@@ -10,6 +10,7 @@ import { fetcher } from "@/utils/fetcher";
 import { StatsResponse } from "@/types";
 import Stats from "@/components/Stats";
 import { useLogSnag } from "@logsnag/next";
+import { useEffect } from "react";
 
 const Dashboard = () => {
   const { data, isLoading, error } = useSWR<StatsResponse>(
@@ -17,9 +18,13 @@ const Dashboard = () => {
     fetcher
   );
 
+  /********Going to be removed*****/
   const { setUserId } = useLogSnag();
 
-  setUserId(data?.id!);
+  useEffect(() => {
+    setUserId(data?.id!);
+  }, [data]);
+  /*********************************/
 
   return (
     <DashboardLayout
