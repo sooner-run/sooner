@@ -15,5 +15,15 @@ const replaceLanguage = async () => {
     .where(eq(pulses.language, "css"));
 };
 
+const deleteMassiveShit = async () => {
+  await db
+    .delete(pulses)
+    .where(eq(pulses.path, ""))
+    .then(() => {
+      console.log("Deleted");
+    });
+};
+
+// deleteMassiveShit();
 // deleteAllPulses();
 // replaceLanguage();
