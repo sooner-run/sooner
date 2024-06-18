@@ -77,46 +77,46 @@ export async function activate(context: vscode.ExtensionContext) {
 
   const statusBarClick = vscode.commands.registerCommand(
     "sooner.clickStatusBar",
-    () => {
+    async () => {
+      const configuration = vscode.workspace.getConfiguration();
       if (apiKey) {
         vscode.env.openExternal(
           vscode.Uri.parse(`https://www.sooner.run/dashboard`)
         );
       } else {
-        vscode.window
-          .showInputBox({ prompt: "Enter your API key" })
-          .then((key: string | undefined) => {
-            if (key) {
-              vscode.window.withProgress(
-                {
-                  location: vscode.ProgressLocation.Notification,
-                  title: "Activating Sooner",
-                  cancellable: false,
-                },
-                async (progress) => {
-                  progress.report({ message: "Please wait..." });
-                  // eslint-disable-next-line @typescript-eslint/naming-convention
-                  const { isValid, codetime_today } = await validateApiKey(key);
-                  if (isValid) {
-                    apiKey = key;
-                    await configuration.update(
-                      "sooner.apiKey",
-                      key,
-                      vscode.ConfigurationTarget.Global
-                    );
-                    updateStatusBarText(codetime_today);
-                    vscode.window.showInformationMessage(
-                      "Extension activated successfully."
-                    );
-                  } else {
-                    vscode.window.showErrorMessage(
-                      "Invalid API key. Please try again."
-                    );
-                  }
-                }
-              );
+        const key = await vscode.window.showInputBox({
+          prompt: "Enter your API key",
+        });
+        if (key) {
+          await vscode.window.withProgress(
+            {
+              location: vscode.ProgressLocation.Notification,
+              title: "Activating Sooner",
+              cancellable: false,
+            },
+            async (progress) => {
+              progress.report({ message: "Please wait..." });
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              const { isValid, codetime_today } = await validateApiKey(key);
+              if (isValid) {
+                apiKey = key;
+                await configuration.update(
+                  "sooner.apiKey",
+                  key,
+                  vscode.ConfigurationTarget.Global
+                );
+                updateStatusBarText(codetime_today);
+                vscode.window.showInformationMessage(
+                  "Extension activated successfully."
+                );
+              } else {
+                vscode.window.showErrorMessage(
+                  "Invalid API key. Please try again."
+                );
+              }
             }
-          });
+          );
+        }
       }
     }
   );
@@ -124,6 +124,7 @@ export async function activate(context: vscode.ExtensionContext) {
   const clearApiKeyCommand = vscode.commands.registerCommand(
     "sooner.clearApiKey",
     async () => {
+      const configuration = vscode.workspace.getConfiguration();
       await configuration.update(
         "sooner.apiKey",
         undefined,
