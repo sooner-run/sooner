@@ -31,7 +31,8 @@ const stopTracking = () => {
 };
 
 export async function activate(context: vscode.ExtensionContext) {
-  apiKey = context.workspaceState.get("apiKey");
+  const configuration = vscode.workspace.getConfiguration();
+  apiKey = configuration.get<string>("sooner.apiKey");
 
   initializeStatusBar(context);
 
@@ -98,7 +99,11 @@ export async function activate(context: vscode.ExtensionContext) {
                   const { isValid, codetime_today } = await validateApiKey(key);
                   if (isValid) {
                     apiKey = key;
-                    context.workspaceState.update("apiKey", key);
+                    await configuration.update(
+                      "sooner.apiKey",
+                      key,
+                      vscode.ConfigurationTarget.Global
+                    );
                     updateStatusBarText(codetime_today);
                     vscode.window.showInformationMessage(
                       "Extension activated successfully."
@@ -118,8 +123,12 @@ export async function activate(context: vscode.ExtensionContext) {
 
   const clearApiKeyCommand = vscode.commands.registerCommand(
     "sooner.clearApiKey",
-    () => {
-      context.workspaceState.update("apiKey", undefined);
+    async () => {
+      await configuration.update(
+        "sooner.apiKey",
+        undefined,
+        vscode.ConfigurationTarget.Global
+      );
       apiKey = undefined;
       vscode.window.showInformationMessage("API key deleted successfully.");
       updateStatusBarText(totalCodingTime);
