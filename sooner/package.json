@@ -2,7 +2,7 @@
   "name": "Sooner",
   "description": "Opensource codetime tracking infrastructure.",
   "publisher": "Sooner",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "repository": "https://github.com/sooner-run/sooner",
   "engines": {
     "vscode": "^1.89.0"
@@ -21,7 +21,18 @@
         "title": "Sooner Delete API Key",
         "command": "sooner.clearApiKey"
       }
-    ]
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Sooner Extension",
+      "properties": {
+        "sooner.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "API key for Sooner."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
