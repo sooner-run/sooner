@@ -1,10 +1,8 @@
 import * as vscode from "vscode";
 
 let statusBar: vscode.StatusBarItem;
-let extensionContext: vscode.ExtensionContext;
 
 export const initializeStatusBar = (context: vscode.ExtensionContext) => {
-  extensionContext = context;
   statusBar = vscode.window.createStatusBarItem(
     vscode.StatusBarAlignment.Right,
     100
@@ -17,7 +15,8 @@ export const initializeStatusBar = (context: vscode.ExtensionContext) => {
 };
 
 export const updateStatusBarText = (totalCodingTime: number) => {
-  const apiKey = extensionContext.workspaceState.get("apiKey");
+  const configuration = vscode.workspace.getConfiguration();
+  const apiKey = configuration.get<string>("sooner.apiKey");
 
   if (apiKey) {
     const hours = Math.floor(totalCodingTime / 3600000);
