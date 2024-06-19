@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {
+  Bug02Icon,
   ChartHistogramIcon,
   Folder01Icon,
   Home01Icon,
@@ -25,6 +26,7 @@ const DashboardLayout: FC<{
     { icon: Folder01Icon, href: "/projects", text: "Projects" },
     { icon: ChartHistogramIcon, href: "/insights", text: "Insights" },
     { icon: Settings01Icon, href: "/settings", text: "Settings" },
+    { icon: Bug02Icon, href: "/bug-report", text: "Report a bug" },
   ];
 
   const location = useRouter();
