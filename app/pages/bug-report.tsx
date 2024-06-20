@@ -35,8 +35,8 @@ const BugReport = () => {
 
   return (
     <DashboardLayout maintitle="Report a bug" title="Bug Report">
-      <div className="max-w-[600px] mx-auto text-grey-100 px-5">
-        <p className="flex gap-x-2 border border-accent text-accent bg-accent/10 p-3 rounded-2xl mb-5">
+      <div className="max-w-[600px] mx-auto px-5 text-grey-100">
+        <p className="flex gap-x-2 border border-accent text-white text-sm bg-accent/10 p-3 rounded-2xl mb-5">
           <BiSolidInfoCircle size={30} />
           This is an early release of Sooner, incase you find a bug feel free to
           report, it will be fixed as soon as possible.
