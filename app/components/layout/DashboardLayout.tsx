@@ -81,13 +81,15 @@ const DashboardLayout: FC<{
           variants={variants}
           className="pt-4 pb-16"
         >
-          {loading ? (
-            <div className="py-10 flex items-center justify-center">
-              <CgSpinner size={30} className="animate-spin" />
-            </div>
-          ) : (
-            children
-          )}
+          <div className=" max-w-[900px] mx-auto px-5">
+            {loading ? (
+              <div className="py-10 flex items-center justify-center">
+                <CgSpinner size={30} className="animate-spin" />
+              </div>
+            ) : (
+              children
+            )}
+          </div>
         </motion.div>
       </div>
     </div>
