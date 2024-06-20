@@ -15,7 +15,7 @@ const Insights = () => {
 
   return (
     <DashboardLayout title="Insights" maintitle="Insights" loading={isLoading}>
-      <div className="lg:px-32 px-5 flex flex-col gap-y-5">
+      <div className="flex flex-col gap-y-5">
         <Warning
           text=" The data in the bar chart below is slightly inaccurate, I'm
               working hard to fix this."
