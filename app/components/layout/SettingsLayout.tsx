@@ -63,7 +63,7 @@ const SettingsLayout = ({
       sublinks={<SubLinks />}
       loading={loading}
     >
-      <div className="w-full px-32">{children}</div>
+      <div className="w-full">{children}</div>
     </DashboardLayout>
   );
 };
