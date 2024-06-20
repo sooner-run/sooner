@@ -65,7 +65,7 @@ const ProjectsLayout = ({
       }
       sublinks={<SubLinks />}
     >
-      <div className="w-full px-14">{children}</div>
+      <div className="w-full">{children}</div>
     </DashboardLayout>
   );
 };
