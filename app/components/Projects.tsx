@@ -41,7 +41,7 @@ const AllProjects = () => {
           </Link>
         </div>
       </div>
-      <div className="px-4 py-3 grid gap-3 grid-cols-3">
+      <div className="px-4 py-3 grid gap-3 lg:grid-cols-3 grid-cols-1 md:grid-cols-2">
         {projects?.map((project: any, i: number) => (
           <ProjectCard key={i} {...project} />
         ))}
