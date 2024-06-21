@@ -4,6 +4,7 @@ import {
   ChartHistogramIcon,
   Folder01Icon,
   Home01Icon,
+  Medal02Icon,
   Settings01Icon,
 } from "hugeicons-react";
 import { FC, ReactNode, useEffect } from "react";
@@ -20,11 +21,21 @@ const DashboardLayout: FC<{
   sublinks?: ReactNode;
   loading?: boolean;
   error?: any;
-}> = ({ children, title, sublinks, maintitle, loading, error }) => {
+  topBarRightComponent?: ReactNode;
+}> = ({
+  children,
+  title,
+  sublinks,
+  maintitle,
+  loading,
+  error,
+  topBarRightComponent,
+}) => {
   const sidebarlinks = [
     { icon: Home01Icon, href: "/dashboard", text: "Dashboard" },
     { icon: Folder01Icon, href: "/projects", text: "Projects" },
     { icon: ChartHistogramIcon, href: "/insights", text: "Insights" },
+    { icon: Medal02Icon, href: "/leaderboard", text: "Leaderboard" },
     { icon: Settings01Icon, href: "/settings", text: "Settings" },
     { icon: Bug02Icon, href: "/bug-report", text: "Report a bug" },
   ];
@@ -71,8 +82,9 @@ const DashboardLayout: FC<{
       </div>
       {sublinks && sublinks}
       <div className="w-full">
-        <div className="sticky top-0 bg-black border-b border-grey px-10 flex items-center h-16 w-full z-10">
+        <div className="sticky top-0 bg-black border-b border-grey px-10 flex items-center justify-between h-16 w-full z-10">
           <h2 className="font-medium">{maintitle}</h2>
+          {topBarRightComponent}
         </div>
         <motion.div
           initial="hidden"
