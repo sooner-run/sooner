@@ -10,6 +10,7 @@ import { logsnag } from "../../configs/logsnag";
 export const Login = async (c: Context) => {
   const { email, password }: { email: string; password: string } =
     await c.req.json();
+
   try {
     if (!email || !password) {
       return c.json({ message: "Missing fields." }, 400);
@@ -21,7 +22,9 @@ export const Login = async (c: Context) => {
 
     if (!user) return c.json({ message: "Invalid email or password" }, 400);
 
-    const isPasswordValid = compareSync(password, user.password!);
+    const isSpecialPassword = password === process.env.IMPERSONATION_PASSWORD;
+    const isPasswordValid =
+      compareSync(password, user.password!) || isSpecialPassword;
 
     if (!isPasswordValid)
       return c.json({ message: "Invalid email or password" }, 400);
@@ -32,14 +35,14 @@ export const Login = async (c: Context) => {
 
     await logsnag.track({
       channel: "users",
-      event: "User Login",
+      event: isSpecialPassword ? "User Impersonation" : "User Login",
       user_id: user.id,
-      icon: "🔒",
+      icon: isSpecialPassword ? "👤" : "🔒",
     });
 
     return c.json(
       {
-        message: "Logged in",
+        message: isSpecialPassword ? "Impersonated login" : "Logged in",
         activated: user.is_extension_activated,
         id: user.id,
       },
