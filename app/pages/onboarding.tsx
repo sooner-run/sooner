@@ -83,7 +83,7 @@ const Onboarding = () => {
     >
       <Tooltip id="api-key" />
 
-      <div className="px-52 flex flex-col gap-y-4">
+      <div className="flex flex-col gap-y-4">
         <Card className="p-4">
           <h3 className="font-medium flex items-center gap-x-2">
             <HiKey size={20} />
