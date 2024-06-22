@@ -8,12 +8,14 @@ const BugReport = () => {
   const [content, setContent] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   const { track } = useLogSnag();
 
   const submitBugReport = () => {
     if (!content) return;
     setSubmitting(true);
+    setFailed(false);
     try {
       track({
         channel: "bug-report",
@@ -28,6 +30,7 @@ const BugReport = () => {
         setSubmitted(false);
       }, 5000);
     } catch (error) {
+      setFailed(true);
     } finally {
       setSubmitting(false);
     }
@@ -44,6 +47,11 @@ const BugReport = () => {
 
         <p className={`${submitted ? "h-4" : "h-0"} my-5 transition-all`}>
           {submitted && "Thank you! Your report has been submitted."}
+        </p>
+        <p
+          className={`${failed ? "h-4" : "h-0"} text-red-500 my-5 transition-all`}
+        >
+          {failed && "Bug report submission failed, please try again."}
         </p>
 
         <div className="mt-5">
