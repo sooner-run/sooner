@@ -1,11 +1,13 @@
 import { Context } from "hono";
 import { db } from "../../db";
 import { pulses } from "../../db/schema";
-import { desc, eq, sum } from "drizzle-orm";
+import { desc, eq, max, sum } from "drizzle-orm";
 import { time_to_human } from "../../utils/time_to_human";
 
 export const RetrieveProjects = async (c: Context) => {
   try {
+    const limit = c.req.query("limit");
+
     const projects = await db
       .select({
         name: pulses.project,
@@ -13,7 +15,9 @@ export const RetrieveProjects = async (c: Context) => {
       })
       .from(pulses)
       .groupBy(pulses.project)
-      .where(eq(pulses.user_id, c.get("user_id")));
+      .where(eq(pulses.user_id, c.get("user_id")))
+      .orderBy(desc(max(pulses.created_at)))
+      .limit(Number(limit));
 
     if (projects.length === 0) {
       return c.json([], 200);
