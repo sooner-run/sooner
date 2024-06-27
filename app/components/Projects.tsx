@@ -6,13 +6,11 @@ import ProjectCard from "./ProjectCard";
 import Link from "next/link";
 import useSWR from "swr";
 import { fetcher } from "@/utils/fetcher";
-// import { useEffect } from "react";
-import { axios, axiosPublic } from "@/utils/axios";
 
-const AllProjects = () => {
-  const { data: projects } = useSWR("/v1/projects", fetcher);
+export const Projects = () => {
+  const { data: projects } = useSWR("/v1/projects?limit=6", fetcher);
 
-  /*** Would need this in the future. */ /***Coming back to this 2 days later, why tf did I think I would need it in the future??? I have no idea, I'll keep it anyway just in case, maybe there's actually a reason. */
+  /*** Would need this in the future. */ /***Coming back to this 2 days later, why tf did I think I would need it in the future??? I have no idea, I'll keep it anyway just in case, maybe there's actually a reason. */ /**2 weeks later, still can't figure out the reason. */
   // const fetchProjects = async () => {
   //   try {
   //     const { data } = await axios.get("/v1/projects");
@@ -49,5 +47,3 @@ const AllProjects = () => {
     </Card>
   );
 };
-
-export default AllProjects;
