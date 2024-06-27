@@ -2,7 +2,7 @@ import { PiFireSimpleFill } from "react-icons/pi";
 import { TbClockFilled } from "react-icons/tb";
 import Heatmap from "@/components/Heatmap";
 import IconThing from "@/components/IconThing";
-import AllProjects from "@/components/Projects";
+import { Projects } from "@/components/Projects";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import Card from "@/components/ui/Card";
 import useSWR from "swr";
@@ -56,7 +56,7 @@ const Dashboard = () => {
           </Card>
         </div>
         <Heatmap values={data?.activity!} />
-        <AllProjects />
+        <Projects />
       </div>
     </DashboardLayout>
   );
