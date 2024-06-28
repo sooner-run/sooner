@@ -25,7 +25,7 @@ app.use(
   })
 );
 
-//** Would come back to this when API access is shipped. **/
+//*** Would come back to this when API access is shipped. ***/
 // app.use("/v1/*", cors({ origin: "*" }));
 // app.use(
 //   "/auth/*",
