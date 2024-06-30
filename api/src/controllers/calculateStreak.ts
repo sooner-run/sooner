@@ -1,37 +1,36 @@
 import { db } from "../db";
-import { and, eq, gte, lte, sum } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import { pulses } from "../db/schema";
-import dayjs from "dayjs";
 
 export const CalculateStreak = async (userId: string): Promise<number> => {
   try {
-    let streak = 0;
-    let currentDay = dayjs().startOf("day");
+    const query = sql`
+      WITH distinct_pulse_dates AS (
+        SELECT DISTINCT
+          date_trunc('day', ${pulses.created_at}) AS pulse_date
+        FROM ${pulses}
+        WHERE ${pulses.user_id} = ${userId}
+      ),
+      consecutive_dates AS (
+        SELECT
+          pulse_date,
+          pulse_date - INTERVAL '1 day' * ROW_NUMBER() OVER (ORDER BY pulse_date) AS streak_group
+        FROM distinct_pulse_dates
+      ),
+      streak_groups AS (
+        SELECT
+          COUNT(*) AS streak_length,
+          MIN(pulse_date) AS streak_start,
+          MAX(pulse_date) AS streak_end
+        FROM consecutive_dates
+        GROUP BY streak_group
+      )
+      SELECT MAX(streak_length) AS streak_length
+      FROM streak_groups;
+    `;
 
-    while (true) {
-      const startOfDay = currentDay.startOf("day").add(1, "hour").toDate();
-      const endOfDay = currentDay.endOf("day").add(1, "hour").toDate();
-
-      const [dayPulse] = await db
-        .select({
-          time: sum(pulses.time),
-        })
-        .from(pulses)
-        .where(
-          and(
-            eq(pulses.user_id, userId),
-            gte(pulses.created_at, startOfDay),
-            lte(pulses.created_at, endOfDay)
-          )
-        );
-
-      if (Number(dayPulse.time) > 0) {
-        streak++;
-        currentDay = currentDay.subtract(1, "day");
-      } else {
-        break;
-      }
-    }
+    const result = await db.execute(query);
+    const streak = Number(result.rows[0]?.streak_length || 0);
 
     return streak;
   } catch (error) {
