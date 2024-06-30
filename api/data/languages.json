@@ -1542,6 +1542,11 @@
     "extensions": [".ps1", ".psd1", ".psm1"]
   },
   {
+    "name": "Prisma",
+    "type": "programming",
+    "extensions": [".prisma"]
+  },
+  {
     "name": "Processing",
     "type": "programming",
     "extensions": [".pde"]
